@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/trattention-new.iml" filepath="$PROJECT_DIR$/.idea/modules/trattention-new.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-java/trattention-new.app-java.iml" filepath="$PROJECT_DIR$/.idea/modules/app-java/trattention-new.app-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-kotlin/trattention-new.app-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/app-kotlin/trattention-new.app-kotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-rxjava/trattention-new.app-rxjava.iml" filepath="$PROJECT_DIR$/.idea/modules/app-rxjava/trattention-new.app-rxjava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app-rxkotlin/trattention-new.app-rxkotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/app-rxkotlin/trattention-new.app-rxkotlin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/trattention-new.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/trattention-new.library.iml" />
+    </modules>
+  </component>
+</project>
