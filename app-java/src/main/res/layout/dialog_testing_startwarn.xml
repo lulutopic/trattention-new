@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@color/blue"
+        android:paddingVertical="50dp"
+        android:letterSpacing="0.4"
+        android:text="測驗開始"
+        android:textSize="30dp"
+        android:textColor="@color/yellow"/>
+
+
+
+</LinearLayout>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Personal"
+    android:background="@color/background">
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="@color/blue"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/imagehome"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/header_home"
+            android:layout_marginRight="20dp"
+            />
+        <ImageView
+            android:id="@+id/imagesafari"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/header_safari"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="個人化設置"
+            android:textSize="60dp"
+            android:textColor="@color/blue"
+            android:layout_marginLeft="480dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:singleLine = "true"></TextView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <EditText
+            android:layout_width="217dp"
+            android:layout_height="217dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="130dp"
+            android:background="@drawable/personal_account"
+            android:gravity="center"
+            android:text="tty09183@gmail.com"
+            android:hint="清輸入帳號"
+            android:textColor="@color/darkgray"
+            android:inputType="textMultiLine"
+            android:textSize="20dp"
+            android:ellipsize="end"
+            android:paddingTop="30dp"/>
+
+        <EditText
+            android:layout_width="217dp"
+            android:layout_height="217dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/personal_password"
+            android:gravity="center"
+            android:text="清輸入密碼"
+            android:textColor="@color/darkgray"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            android:paddingTop="30dp"/>
+
+        <EditText
+            android:layout_width="217dp"
+            android:layout_height="217dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/personal_name"
+            android:text="李振維"
+            android:textColor="@color/darkgray"
+            android:gravity="center"
+            android:hint="請輸入姓名"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:paddingTop="30dp"/>
+
+        <ImageView
+            android:layout_width="217dp"
+            android:layout_height="217dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:gravity="center"
+            android:background="@drawable/personal_bgm" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_shape_round"
+            android:text="儲存"
+            android:textSize="20dp"
+            android:textColor="@color/white">
+        </Button>
+
+    </LinearLayout>
+
+
+</LinearLayout>

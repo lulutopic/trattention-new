@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Trattention</string>
+    <string name="connect">連接腦波儀</string>
+    <string name="disconnect">disconnect</string>
+    <string name="stop_monitoring">閱讀完畢</string>
+    <string name="start_monitoring">開始閱讀</string>
+    <string name="waiting_for_raw_signal">waiting for raw signal...</string>
+    <string name="waiting_for_blink_signal">waiting for blink signal...</string>
+    <string name="waiting_for_meditation_signal">等待冥想數值</string>
+    <string name="waiting_for_attention_signal">等待專注數值</string>
+    <string name="waiting_for_state">等待狀態</string>
+    <string name="article">
+    專注力是對腦力資源的控制能力，就如同我們訓練身體肌力與控制力一樣，心智的控制力也需要大量、循序漸進的專注經驗或練習。腦神經科學家認為遊戲是最好的認知功能訓練。當孩童控制自己的專注力，擁有自我成就感後，進而能激發他們維持專注力的動力。\n
+    而美國心理學家 Kenneth Rubin 也提倡「內在驅動」的概念，以玩樂的方式更能讓孩子投入專注，發展創造力、社交能力和同理心。兒童來說，專注力受個人興趣及情緒影響。因此，透過遊戲方式引導，更能激發孩童的興趣，使其在心情愉悅的狀態下，同時達到培養專注力的效果。
+    我們相信經由遊戲的方式，能夠讓孩童自主性的參與，達成良好的專注力體驗。\n有感於現今社會環境刺激太多，處處都是讓兒童專注力缺乏的誘因，而現有的專注力訓練系統多以純遊戲的方式進行，在成效的展示上也缺乏遊戲成績外的數據支持。兒童的專注力不足，不僅影響他們的學習狀況，也擴及到兒童的人際關係、心理狀態。另外，我們也從文獻當中了解，不管是過於困難或簡單的挑戰，抑或是強烈的聲光刺激和情緒，都不利於小朋友培養專注的過程。這使我們期望能夠發揮自身能力，設計一款可以讓兒童在無壓力、健康愉快的情況下提升專注力的系統。</string>
+
+    <string name="connect_intro">請正確配戴腦波儀，並確認腦波儀與裝置藍芽連結成功，\n完成後，請按下下方按鈕。</string>
+    <string-array name="gender">
+        <item>性別</item>
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+
+    <string-array name="age">
+        <item>年齡</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string name="title_activity_login">login</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="ForgetPassword">忘記密碼</string>
+    <string name="Registration">註冊</string>
+    <string name="title_activity_personal_setting">PersonalSetting</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".Hello">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="@color/blue"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/imagehome"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/header_home"
+            android:layout_marginRight="20dp"/>
+        <ImageView
+            android:id="@+id/imagesafari"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/header_safari"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="230dp"
+        android:paddingRight="230dp"
+        android:paddingTop="65dp">
+
+        <TextView android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:text="菜菜小朋友，今天是你第10天登入摟，未來也請繼續保持!加油!努力提升專注力!!"
+            android:textSize="30dp"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:elevation="5dp"
+            android:paddingLeft="50dp"
+            android:letterSpacing="0.4"
+            android:textColor="@color/blue"
+            android:radius="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/test"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="560dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_shape_round"
+            android:text="進入主頁面"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Registration"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:layout_weight="0">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="註冊"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textSize="50dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="0">
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="150dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="信箱"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="180dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="密碼"/>
+
+        <EditText
+            android:id="@+id/pConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="180dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="確認密碼"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="0">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="150dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="姓名" />
+
+        <Spinner
+            android:id="@+id/gender"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="180dp"
+            android:ems="10"
+            android:background="@drawable/registration_spinner_back"
+            />
+
+        <Spinner
+            android:id="@+id/age"
+            android:layout_width="210dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="180dp"
+            android:ems="10"
+            android:background="@drawable/registration_spinner_back"
+            />
+    </LinearLayout>
+<!--    我覺得要設一個立即登入，前端幫我改！我模擬器顯示不出來-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:id="@+id/sign"
+            android:layout_width="337dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="560dp"
+            android:layout_marginTop="50dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="已有帳號立即登入" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="0">
+
+        <Button
+            android:id="@+id/registration"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="註冊"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="570dp"
+            android:background="@drawable/button_shape_round"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

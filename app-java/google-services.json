@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "741051354198",
+    "firebase_url": "https://trattention-f3daa.firebaseio.com",
+    "project_id": "trattention-f3daa",
+    "storage_bucket": "trattention-f3daa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741051354198:android:23a3c1def267b0031d7ff7",
+        "android_client_info": {
+          "package_name": "com.example.trattention"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741051354198-a8sp3od031008dtc1p70ibt6mfobtrlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXdSic3fCDn42O2KzVbCQ-NLq7dQAVjdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741051354198-a8sp3od031008dtc1p70ibt6mfobtrlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741051354198:android:38a0620e184895471d7ff7",
+        "android_client_info": {
+          "package_name": "com.github.pwittchen.neurosky.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741051354198-a8sp3od031008dtc1p70ibt6mfobtrlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXdSic3fCDn42O2KzVbCQ-NLq7dQAVjdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741051354198-a8sp3od031008dtc1p70ibt6mfobtrlv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
