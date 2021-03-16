@@ -26,6 +26,7 @@ public class MemoryGamePro extends AppCompatActivity {
     private Handler handler = new Handler();
     private ImageView temp;
     private ImageView collect;
+    private int moved=1;
     ImageView iv_11,iv_12,iv_13,iv_14,
             iv_21,iv_22,iv_23,iv_24,
             iv_31,iv_32,iv_33,iv_34,
@@ -155,6 +156,8 @@ public class MemoryGamePro extends AppCompatActivity {
         right_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
                 if(i==15) {
@@ -195,6 +198,8 @@ public class MemoryGamePro extends AppCompatActivity {
         left_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
                 if(i==0) {
@@ -232,6 +237,8 @@ public class MemoryGamePro extends AppCompatActivity {
         up_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
                     i = i+12;
@@ -264,8 +271,11 @@ public class MemoryGamePro extends AppCompatActivity {
         });
 
         down_arrow.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view){
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
                 int j=i;
 
                 if(i==12 ||i==13||i==14||i==15) {
@@ -297,22 +307,26 @@ public class MemoryGamePro extends AppCompatActivity {
 
         });
 
+        ok.setVisibility(View.VISIBLE);
         ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)temp.getTag());
-                //如果當前選取的不是已經選取過的
-                if (temp != collect){
-//                    temp.setImageResource(R.drawable.memorybackground);
-                    if (cardNumber == 1){
-                        collect = temp;
-                    }else{
-                        collect = null;
+                if (moved==1) {
+                    int theCard = Integer.parseInt((String) temp.getTag());
+                    //如果當前選取的不是已經選取過的
+                    if (temp != collect) {
+                        temp.setImageResource(R.drawable.memorybackground);
+                        if (cardNumber == 1) {
+                            collect = temp;
+                        } else {
+                            collect = null;
+                        }
+                        doStuff(temp, theCard);
                     }
-                    doStuff(temp,theCard);
+                    moved=0;
+                    ok.setVisibility(View.INVISIBLE);
                 }
 
-                temp = imageArray[0];
             }
         });
 
