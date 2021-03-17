@@ -14,11 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainWatchActivity">
-        </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        //mad gaze watch 手錶畫面
+        <activity
+            android:name=".MainWatchActivity"
+            android:screenOrientation="landscape"/>
+        //mad gaze watch 平板畫面
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape"/>
         //圖形配對
         <activity
             android:name=".ImagePair"
@@ -28,6 +31,7 @@
         <activity
             android:name=".Registration"
             android:screenOrientation="landscape">
+
         </activity>
         //登入
         <activity
@@ -69,7 +73,6 @@
         <activity
             android:name=".MemoryGameEasy"
             android:screenOrientation="landscape" >
-
         </activity>
         //記憶力遊戲中等
         <activity
@@ -79,12 +82,7 @@
         <activity
             android:name=".MemoryGamePro"
             android:screenOrientation="landscape">
-            <!-- 初始畫面加上這段 --><intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         //舒爾特方格簡單
         <activity
@@ -101,7 +99,15 @@
         //個人化設置
         <activity
             android:name=".Personal"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+            <!-- 初始畫面加上這段 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         //招呼頁面
         <activity
             android:name=".Hello"
@@ -110,13 +116,24 @@
         <activity
             android:name=".Home"
             android:screenOrientation="landscape">
-
         </activity>
 
         //指南首頁
         <activity
             android:name=".InstructionHome"
             android:screenOrientation="landscape" />
+
+        //
+        <activity
+            android:name=".TrainRecord"
+            android:screenOrientation="landscape">
+        <!-- 初始畫面加上這段 --><intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
+        </activity>
     </application>
 
 </manifest>
