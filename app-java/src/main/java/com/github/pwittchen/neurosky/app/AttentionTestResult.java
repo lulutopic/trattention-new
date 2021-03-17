@@ -1,16 +1,34 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class AttentionTestResult extends AppCompatActivity {
+    public static final String TAG = "TAG";
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +68,24 @@ public class AttentionTestResult extends AppCompatActivity {
         String attention_value = intent.getStringExtra("attention");
         TextView attention_result=(TextView) findViewById(R.id.cur_attention);
         attention_result.setText(attention_value);
+//        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("mindwave_record").document(userID);
+        DocumentReference documentReference = fStore.collection("mindwave_record").document("MELJmK6vYxeoKCrWhvJyy4Xfriq2");
+        Map<String,Object> user = new HashMap<>();
+        user.put("attention_result",attention_value);
+        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "成功");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "失敗：" + e.toString());
+            }
+        });
+
 
     }
 
