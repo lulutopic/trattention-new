@@ -26,26 +26,21 @@ public class SchulteGridMed extends AppCompatActivity {
 
 
     //圖片的id設定的變數
-    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen;
+    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
+    seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive;
 
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
-            ,R.drawable.grid15,R.drawable.grid16};
-
-
-
-
-    //array for the images
-
-
+            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
+            ,R.drawable.grid23,R.drawable.grid24,R.drawable.grid25};
 
     int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schulte_grid);
+        setContentView(R.layout.activity_schulte_grid1);
         //設定隱藏標題
         getSupportActionBar().hide();
         timer = (Chronometer) findViewById(R.id.timer);
@@ -113,10 +108,21 @@ public class SchulteGridMed extends AppCompatActivity {
         fourteen=(ImageView)findViewById(R.id.fourteen);
         fifteen=(ImageView)findViewById(R.id.fifteen);
         sixteen=(ImageView)findViewById(R.id.sixteen);
+        seventeen=(ImageView)findViewById(R.id.seventeen);
+        eighteen=(ImageView)findViewById(R.id.eighteen);
+        nineteen=(ImageView)findViewById(R.id.nineteen);
+        twenty=(ImageView)findViewById(R.id.twenty);
+        twentyone=(ImageView)findViewById(R.id.twentyone);
+        twentytwo=(ImageView)findViewById(R.id.twentytwo);
+        twentythree=(ImageView)findViewById(R.id.twentythree);
+        twentyfour=(ImageView)findViewById(R.id.twentyfour);
+        twentyfive=(ImageView)findViewById(R.id.twentyfive);
 
 
 
-        ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
+
+        ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
+                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
 
         //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
@@ -246,7 +252,69 @@ public class SchulteGridMed extends AppCompatActivity {
                 doStuff(sixteen,theCard);
             }
         });
-
+        seventeen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(seventeen,theCard);
+            }
+        });
+        eighteen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(eighteen,theCard);
+            }
+        });
+        nineteen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(nineteen,theCard);
+            }
+        });
+        twenty.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twenty,theCard);
+            }
+        });
+        twentyone.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyone,theCard);
+            }
+        });
+        twentytwo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentytwo,theCard);
+            }
+        });
+        twentythree.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentythree,theCard);
+            }
+        });
+        twentyfour.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyfour,theCard);
+            }
+        });
+        twentyfive.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyfive,theCard);
+            }
+        });
 
     }
 
@@ -262,7 +330,7 @@ public class SchulteGridMed extends AppCompatActivity {
     }
 
     private void checkEnd() {
-        if (count == 16) {
+        if (count == 25) {
             //頁面跳轉
             Intent intent = new Intent();
             intent.setClass(SchulteGridMed.this, SchulteGridPro.class);

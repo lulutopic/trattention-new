@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Chronometer;
@@ -23,23 +24,28 @@ public class SchulteGridPro extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
 
+
+
     //圖片的id設定的變數
-    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen;
+    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
+            seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive;
+
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
-            ,R.drawable.grid15,R.drawable.grid16};
+            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
+            ,R.drawable.grid23,R.drawable.grid24,R.drawable.grid25};
 
     int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schulte_grid);
+        setContentView(R.layout.activity_schulte_grid2);
         //設定隱藏標題
         getSupportActionBar().hide();
         timer = (Chronometer) findViewById(R.id.timer);
-        //取得目前時間
+        //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
         //設定計時器的執行緒結束
         handler.removeCallbacks(updateTimer);
@@ -86,6 +92,7 @@ public class SchulteGridPro extends AppCompatActivity {
             }
         });
 
+
         one=(ImageView)findViewById(R.id.one);
         two=(ImageView)findViewById(R.id.two);
         three=(ImageView)findViewById(R.id.three);
@@ -102,8 +109,20 @@ public class SchulteGridPro extends AppCompatActivity {
         fourteen=(ImageView)findViewById(R.id.fourteen);
         fifteen=(ImageView)findViewById(R.id.fifteen);
         sixteen=(ImageView)findViewById(R.id.sixteen);
+        seventeen=(ImageView)findViewById(R.id.seventeen);
+        eighteen=(ImageView)findViewById(R.id.eighteen);
+        nineteen=(ImageView)findViewById(R.id.nineteen);
+        twenty=(ImageView)findViewById(R.id.twenty);
+        twentyone=(ImageView)findViewById(R.id.twentyone);
+        twentytwo=(ImageView)findViewById(R.id.twentytwo);
+        twentythree=(ImageView)findViewById(R.id.twentythree);
+        twentyfour=(ImageView)findViewById(R.id.twentyfour);
+        twentyfive=(ImageView)findViewById(R.id.twentyfive);
 
-        ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
+        ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
+                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+
+        //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
 
         for(int i = 0; i < ImageArray.length; i++){
@@ -111,6 +130,11 @@ public class SchulteGridPro extends AppCompatActivity {
             String s = String.valueOf(i);
             NumArray[i].setTag(s);
         }
+
+
+        //Listener 等待使用者點擊此事件
+        //override 覆蓋掉原本android studio 上層物件
+
 
         one.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -225,14 +249,82 @@ public class SchulteGridPro extends AppCompatActivity {
                 doStuff(sixteen,theCard);
             }
         });
-
+        seventeen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(seventeen,theCard);
+            }
+        });
+        eighteen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(eighteen,theCard);
+            }
+        });
+        nineteen.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(nineteen,theCard);
+            }
+        });
+        twenty.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twenty,theCard);
+            }
+        });
+        twentyone.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyone,theCard);
+            }
+        });
+        twentytwo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentytwo,theCard);
+            }
+        });
+        twentythree.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentythree,theCard);
+            }
+        });
+        twentyfour.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyfour,theCard);
+            }
+        });
+        twentyfive.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                int theCard = Integer.parseInt((String)view.getTag());
+                doStuff(twentyfive,theCard);
+            }
+        });
 
     }
 
     private void doStuff(ImageView iv, int card){
         if(count == card){
-            iv.setVisibility(View.INVISIBLE);
-            count++;
+            if(count == 24){
+                iv.setVisibility(View.INVISIBLE);
+                count = 1;
+            }
+            else{
+                iv.setVisibility(View.INVISIBLE);
+                count = count + 2;
+            }
         }
         else{
             iv.setVisibility(View.VISIBLE);
@@ -241,7 +333,7 @@ public class SchulteGridPro extends AppCompatActivity {
     }
 
     private void checkEnd() {
-        if (count == 16) {
+        if (count == 25) {
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
             alertDialogBuilder
@@ -273,6 +365,7 @@ public class SchulteGridPro extends AppCompatActivity {
 
 
 
+
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {
         public void run() {
@@ -281,7 +374,7 @@ public class SchulteGridPro extends AppCompatActivity {
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = (spentTime/1000)/60;
+            Long minius = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
             Long seconds = (spentTime/1000) % 60;
             String formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
@@ -289,13 +382,4 @@ public class SchulteGridPro extends AppCompatActivity {
             handler.postDelayed(this, 1000);
         }
     };
-
-
-
-    public void btnClick(View view) {
-        timer.setBase(SystemClock.elapsedRealtime());//計時器清零
-        int hour = (int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 1000 / 60);
-        timer.setFormat("0"+ String.valueOf(hour)+":%s");
-    }
-
 }

@@ -69,7 +69,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/sixteen"
+                    android:id="@+id/one"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -83,26 +83,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
                 <ImageView
-                    android:id="@+id/ten"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"/>
-                <ImageView
-                    android:id="@+id/fifteen"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/one"
+                    android:id="@+id/three"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -115,27 +96,13 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
-                <ImageView
-                    android:id="@+id/seven"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"/>
-                <ImageView
-                    android:id="@+id/fourteen"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/thirteen"
+                    android:id="@+id/five"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -149,14 +116,14 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
                 <ImageView
-                    android:id="@+id/eleven"
+                    android:id="@+id/seven"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
                 <ImageView
-                    android:id="@+id/three"
+                    android:id="@+id/eight"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -175,7 +142,14 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
                 <ImageView
-                    android:id="@+id/five"
+                    android:id="@+id/ten"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/eleven"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
@@ -188,8 +162,34 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
                 <ImageView
-                    android:id="@+id/eight"
+                    android:id="@+id/thirteen"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/fourteen"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/fifteen"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"/>
+                <ImageView
+                    android:id="@+id/sixteen"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
