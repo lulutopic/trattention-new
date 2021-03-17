@@ -38,7 +38,7 @@ public class MainActivity extends MobileActivity {
             WatchGesture.THUMBTAP_INDEX_MIDDLE,
             //拇指食指捏捏
             WatchGesture.THUMBTAP_INDEX,
-            //指頭:不靈 拿掉
+            //指頭
             WatchGesture.JOINTTAP_LOWER_THUMB,
             WatchGesture.JOINTTAP_UPPER_THUMB,
             WatchGesture.JOINTTAP_MIDDLE_INDEX,

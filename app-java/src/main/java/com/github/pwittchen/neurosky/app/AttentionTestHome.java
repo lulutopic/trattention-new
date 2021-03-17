@@ -105,7 +105,6 @@ public class AttentionTestHome extends AppCompatActivity {
     private void text_all(ArrayList<Entry> values1) {
         LineDataSet set1;//設定線數資料的方式
         set1=new LineDataSet(values1,"專注力數值");
-
         set1.setMode(LineDataSet.Mode.LINEAR);//LINEAR是立方曲線
         set1.setColor(Yellow);//線的顏色
         set1.setLineWidth(2);
@@ -136,7 +135,7 @@ public class AttentionTestHome extends AppCompatActivity {
 
         lineChart.setBackgroundColor(Blue);//顯示整個圖表背景顏色 (預設灰底)
         lineChart.setScaleEnabled(false);
-        lineChart.setDrawBorders(false);
+        lineChart.setBorderWidth(0f);
 
 
     }
@@ -157,6 +156,7 @@ public class AttentionTestHome extends AppCompatActivity {
     private void initY() {
         YAxis rightAxis = lineChart.getAxisRight();//獲取右側的軸線
         rightAxis.setEnabled(false);//不顯示右側Y軸
+
         YAxis leftAxis = lineChart.getAxisLeft();//獲取左側的軸線
 
         leftAxis.setTextColor(Yellow);//Y軸標籤顏色
