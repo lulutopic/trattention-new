@@ -61,12 +61,12 @@ public class Home extends AppCompatActivity {
 
 
         //頁面跳轉->訓練記錄
-        ImageView btn_record = findViewById(R.id.focus);
+        ImageView btn_record = findViewById(R.id.record);
         btn_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(Home.this, AttentionTestHome.class);
+                intent.setClass(Home.this, TrainRecord.class);
                 startActivity(intent);
             }
         });
