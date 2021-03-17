@@ -21,16 +21,38 @@ public class MainActivity extends MobileActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
             WatchGesture.FINGER_SNAP,
-            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //手臂
             WatchGesture.FOREARM_LEFT,
-            WatchGesture.FOREARM_LEFT_2,
             WatchGesture.FOREARM_RIGHT,
+            //手背
             WatchGesture.HANDBACK_UP,
-            WatchGesture.THUMBTAP_INDEX,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
             WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
             WatchGesture.THUMBTAP_MIDDLE,
-            WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭:不靈 拿掉
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
     };
 
 
