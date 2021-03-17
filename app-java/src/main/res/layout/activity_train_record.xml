@@ -104,14 +104,20 @@
                 />
 
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_blue_shape_round"
+                android:orientation="vertical"
+                android:padding="20dp">
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/chart_bar"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:background="@drawable/button_blue_shape_round"
                 />
 
-
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -131,10 +137,18 @@
                 android:textSize="20dp"
                 android:letterSpacing="0.1"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_blue_shape_round"
+                android:orientation="vertical"
+                android:padding="20dp">
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart_line"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="300dp"
+                />
+                </LinearLayout>
 
 
         </LinearLayout>

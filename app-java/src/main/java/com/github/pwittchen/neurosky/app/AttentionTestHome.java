@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class AttentionTestHome extends AppCompatActivity {
     LineChart lineChart;
     int Blue=Color.parseColor("#244F98");
-    int Yellow=Color.parseColor("#FED900");
+    int Yellow=Color.parseColor("#fff5b8");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

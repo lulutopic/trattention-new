@@ -35,6 +35,7 @@ public class TrainRecord extends AppCompatActivity {
     int Blue=Color.parseColor("#244F98");
     int Yellow=Color.parseColor("#FED900");
     int Yellow_light=Color.parseColor("#ffe445");
+    int White =Color.parseColor("#ffffff");
     TextView text_pair;
     TextView text_schulte;
     TextView text_memory;
@@ -270,11 +271,13 @@ public class TrainRecord extends AppCompatActivity {
     }
 
     private void text_all_bar(ArrayList<BarEntry> values1,ArrayList<BarEntry> values2) {
-        BarDataSet bardataset1=new BarDataSet(values1,"別人的");
+        BarDataSet bardataset1=new BarDataSet(values1,"其他使用者");
         bardataset1.setColor(Yellow);//设置第一组数据颜色
+        bardataset1.setDrawValues(false);
 
-        BarDataSet bardataset2=new BarDataSet(values2,"我的");
+        BarDataSet bardataset2=new BarDataSet(values2,"我的最佳秒數");
         bardataset2.setColor(Yellow_light);//设置第一组数据颜色
+        bardataset2.setDrawValues(false);
 
         //右下方description label：設置圖表資訊
         Description description = barChart.getDescription();
