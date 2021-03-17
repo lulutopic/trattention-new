@@ -63,7 +63,7 @@ public class Registration extends AppCompatActivity {
         //mLoginBtn = findViewById(R.id.login);
         mSignUpBtn = findViewById(R.id.registration);
         forgotTextLink = findViewById(R.id.ForgetPassword);
-
+        Log.i("Document", mEmail.toString());
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 

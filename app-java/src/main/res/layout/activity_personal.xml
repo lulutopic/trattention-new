@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1">
         <EditText
+            android:id="@+id/email"
             android:layout_width="217dp"
             android:layout_height="217dp"
             android:layout_gravity="center"
@@ -72,19 +73,21 @@
             android:paddingTop="30dp"/>
 
         <EditText
+            android:id="@+id/age"
             android:layout_width="217dp"
             android:layout_height="217dp"
             android:layout_gravity="center"
             android:layout_marginLeft="50dp"
-            android:background="@drawable/personal_password"
+            android:background="@drawable/personal_age"
             android:gravity="center"
-            android:text="清輸入密碼"
+            android:text=""
             android:textColor="@color/darkgray"
-            android:inputType="textPassword"
+            android:inputType="textMultiLine"
             android:textSize="20dp"
             android:paddingTop="30dp"/>
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="217dp"
             android:layout_height="217dp"
             android:layout_gravity="center"
