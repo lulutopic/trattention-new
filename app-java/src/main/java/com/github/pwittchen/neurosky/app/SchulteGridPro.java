@@ -12,24 +12,38 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 public class SchulteGridPro extends AppCompatActivity {
     private Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
-
-
+    public static final String TAG = "TAG";
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String createdAt, a;
 
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
             seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive;
-
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
@@ -41,6 +55,8 @@ public class SchulteGridPro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_schulte_grid2);
         //設定隱藏標題
         getSupportActionBar().hide();
@@ -51,6 +67,32 @@ public class SchulteGridPro extends AppCompatActivity {
         handler.removeCallbacks(updateTimer);
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
+        //計算當前時間
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
+        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
+
+        //        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
+        //自動產生 document id
+        DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+        Map<String,Object> gameresult = new HashMap<>();
+//        user.put("user", userID);
+//        gameresult.put("record", updateTimer);
+        gameresult.put("createdAt", createdAt);
+        documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "成功");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "失敗：" + e.toString());
+            }
+        });
 
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
@@ -92,7 +134,6 @@ public class SchulteGridPro extends AppCompatActivity {
             }
         });
 
-
         one=(ImageView)findViewById(R.id.one);
         two=(ImageView)findViewById(R.id.two);
         three=(ImageView)findViewById(R.id.three);
@@ -131,11 +172,8 @@ public class SchulteGridPro extends AppCompatActivity {
             NumArray[i].setTag(s);
         }
 
-
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
-
-
         one.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -316,15 +354,13 @@ public class SchulteGridPro extends AppCompatActivity {
     }
 
     private void doStuff(ImageView iv, int card){
-        if(count == card){
-            if(count == 24){
-                iv.setVisibility(View.INVISIBLE);
-                count = 1;
-            }
-            else{
-                iv.setVisibility(View.INVISIBLE);
-                count = count + 2;
-            }
+        if(count == card && count != 24){
+            iv.setVisibility(View.INVISIBLE);
+            count = count + 2;
+        }
+        else if(count == card && count == 24){
+            iv.setVisibility(View.INVISIBLE);
+            count = 1;
         }
         else{
             iv.setVisibility(View.VISIBLE);
@@ -359,15 +395,11 @@ public class SchulteGridPro extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-
         }
     }
 
-
-
-
     //固定要執行的方法
-    private Runnable updateTimer = new Runnable() {
+    public Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             Long spentTime = System.currentTimeMillis() - startTime;
