@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -18,10 +19,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class ImagePair extends AppCompatActivity {
 
@@ -29,6 +41,10 @@ public class ImagePair extends AppCompatActivity {
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
     private String formattedTime;
+    public static final String TAG = "TAG";
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String createdAt, a;
 
 
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
@@ -48,10 +64,11 @@ public class ImagePair extends AppCompatActivity {
 
     int count = 0; //計算遊戲答對題數
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_image_pair);
         //設定隱藏標題
         getSupportActionBar().hide();
@@ -61,12 +78,38 @@ public class ImagePair extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
+        //計算當前時間
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
+        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
+
         //呼叫函式
         populateBothArraylists();
         getRandomColor();
         deter();
         setupViewsAndListeners();
 
+        //        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
+        //自動產生 document id
+        DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+        Map<String,Object> gameresult = new HashMap<>();
+//        user.put("user", userID);
+        gameresult.put("record", formattedTime);
+        gameresult.put("createdAt", createdAt);
+        documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "成功");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "失敗：" + e.toString());
+            }
+        });
     }
 
     //監聽事件的函式
