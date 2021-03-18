@@ -17,22 +17,32 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 
 public class AttentionTestResult extends AppCompatActivity {
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
+    String createdAt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -68,13 +78,24 @@ public class AttentionTestResult extends AppCompatActivity {
         String attention_value = intent.getStringExtra("attention");
         TextView attention_result=(TextView) findViewById(R.id.cur_attention);
         attention_result.setText(attention_value);
+
+        //計算當前時間
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
+        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
+
 //        先寫死，後期在統一改 UID
 //        userID = fAuth.getCurrentUser().getUid();
 //        DocumentReference documentReference = fStore.collection("mindwave_record").document(userID);
-        DocumentReference documentReference = fStore.collection("mindwave_record").document("MELJmK6vYxeoKCrWhvJyy4Xfriq2");
-        Map<String,Object> user = new HashMap<>();
-        user.put("attention_result",attention_value);
-        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //自動產生 document id
+        DocumentReference documentReference = fStore.collection("mindwave_record").document();
+        Map<String,Object> mindwave = new HashMap<>();
+//        user.put("user", userID);
+        mindwave.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq2");
+        mindwave.put("attention_result", attention_value);
+        mindwave.put("createdAt", createdAt);
+        documentReference.set(mindwave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "成功");
