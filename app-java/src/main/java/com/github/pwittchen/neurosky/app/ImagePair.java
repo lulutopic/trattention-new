@@ -53,12 +53,9 @@ public class ImagePair extends AppCompatActivity {
         setContentView(R.layout.activity_image_pair);
         //設定隱藏標題
         getSupportActionBar().hide();
-        //計時器
-        timer = (Chronometer) findViewById(R.id.timer);
+
         //取得目前時間
         startTime = System.currentTimeMillis();
-        //計時器執行緒停止
-        handler.removeCallbacks(updateTimer);
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
@@ -153,9 +150,9 @@ public class ImagePair extends AppCompatActivity {
     }
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
-        if(count == 10){
-            handler.removeCallbacks(updateTimer);//停止計時器的執行緒
-
+        if(count == 1){
+            //停止計時器的執行緒
+            handler.removeCallbacks(updateTimer);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePair.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")

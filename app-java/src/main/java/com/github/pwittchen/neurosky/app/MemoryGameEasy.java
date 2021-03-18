@@ -47,6 +47,12 @@ public class MemoryGameEasy extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_game_easy);
+        //設定隱藏標題
+        getSupportActionBar().hide();
+        //取得目前時間
+        startTime = System.currentTimeMillis();
+        //設定Delay的時間
+        handler.postDelayed(updateTimer, 10);
 
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
@@ -86,14 +92,7 @@ public class MemoryGameEasy extends AppCompatActivity {
 
 
 
-        //設定隱藏標題
-        getSupportActionBar().hide();
-        timer = (Chronometer) findViewById(R.id.timer);
-        //取得目前時間
-        startTime = System.currentTimeMillis();
 
-        //設定Delay的時間
-        handler.postDelayed(updateTimer, 10);
 
 
         //game
@@ -459,6 +458,8 @@ public class MemoryGameEasy extends AppCompatActivity {
                 iv_42.getVisibility() == View.INVISIBLE &&
                 iv_43.getVisibility() == View.INVISIBLE &&
                 iv_44.getVisibility() == View.INVISIBLE) {
+            //停止計時器的執行緒
+            handler.removeCallbacks(updateTimer);
             //頁面跳轉
             Intent intent = new Intent();
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);

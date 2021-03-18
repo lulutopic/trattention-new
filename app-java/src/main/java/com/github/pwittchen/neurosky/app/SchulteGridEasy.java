@@ -39,11 +39,10 @@ public class SchulteGridEasy extends AppCompatActivity {
         setContentView(R.layout.activity_schulte_grid);
         //設定隱藏標題
         getSupportActionBar().hide();
-        timer = (Chronometer) findViewById(R.id.timer);
+
         //取得目前時間
         startTime = System.currentTimeMillis();
-        //設定計時器的執行緒結束
-        handler.removeCallbacks(updateTimer);
+
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
@@ -254,6 +253,8 @@ public class SchulteGridEasy extends AppCompatActivity {
 
     private void checkEnd() {
         if (count == 16) {
+            //設定計時器的執行緒結束
+            handler.removeCallbacks(updateTimer);
             //頁面跳轉
             Intent intent = new Intent();
             intent.setClass(SchulteGridEasy.this, SchulteGridMed.class);

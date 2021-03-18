@@ -60,11 +60,10 @@ public class SchulteGridPro extends AppCompatActivity {
         setContentView(R.layout.activity_schulte_grid2);
         //設定隱藏標題
         getSupportActionBar().hide();
-        timer = (Chronometer) findViewById(R.id.timer);
+
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
-        //設定計時器的執行緒結束
-        handler.removeCallbacks(updateTimer);
+
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //計算當前時間
@@ -370,6 +369,8 @@ public class SchulteGridPro extends AppCompatActivity {
 
     private void checkEnd() {
         if (count == 25) {
+            //設定計時器的執行緒結束
+            handler.removeCallbacks(updateTimer);
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
             alertDialogBuilder
