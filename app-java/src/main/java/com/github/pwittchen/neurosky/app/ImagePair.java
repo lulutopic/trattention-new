@@ -20,6 +20,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 public class ImagePair extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class ImagePair extends AppCompatActivity {
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
+    private String formattedTime;
 
 
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
@@ -153,6 +155,7 @@ public class ImagePair extends AppCompatActivity {
         if(count == 1){
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
+            Log.d("MainActivity", "Current Timestamp: " + formattedTime);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePair.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
@@ -240,7 +243,7 @@ public class ImagePair extends AppCompatActivity {
             Long minius = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
             Long seconds = (spentTime/1000) % 60;
-            String formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
