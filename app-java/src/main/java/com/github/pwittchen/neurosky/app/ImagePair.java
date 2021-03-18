@@ -89,27 +89,6 @@ public class ImagePair extends AppCompatActivity {
         getRandomColor();
         deter();
         setupViewsAndListeners();
-
-        //        先寫死，後期在統一改 UID
-//        userID = fAuth.getCurrentUser().getUid();
-//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
-        //自動產生 document id
-        DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
-        Map<String,Object> gameresult = new HashMap<>();
-//        user.put("user", userID);
-        gameresult.put("record", formattedTime);
-        gameresult.put("createdAt", createdAt);
-        documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "成功");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "失敗：" + e.toString());
-            }
-        });
     }
 
     //監聽事件的函式
@@ -223,6 +202,26 @@ public class ImagePair extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+            //        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
+            //自動產生 document id
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            Map<String,Object> gameresult = new HashMap<>();
+//        user.put("user", userID);
+            gameresult.put("record", formattedTime);
+            gameresult.put("createdAt", createdAt);
+            documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "成功");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "失敗：" + e.toString());
+                }
+            });
         }
     }
 
