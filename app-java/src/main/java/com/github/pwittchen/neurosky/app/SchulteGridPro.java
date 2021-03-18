@@ -37,6 +37,7 @@ public class SchulteGridPro extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
+    private String formattedTime;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt, a;
@@ -66,32 +67,12 @@ public class SchulteGridPro extends AppCompatActivity {
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
+
         //計算當前時間
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
         Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
-
-        //        先寫死，後期在統一改 UID
-//        userID = fAuth.getCurrentUser().getUid();
-//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
-        //自動產生 document id
-        DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
-        Map<String,Object> gameresult = new HashMap<>();
-//        user.put("user", userID);
-//        gameresult.put("record", updateTimer);
-        gameresult.put("createdAt", createdAt);
-        documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "成功");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "失敗：" + e.toString());
-            }
-        });
 
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
@@ -396,6 +377,28 @@ public class SchulteGridPro extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+            Log.i("time",updateTimer.toString());
+
+            //        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
+            //自動產生 document id
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            Map<String,Object> gameresult = new HashMap<>();
+//        user.put("user", userID);
+            gameresult.put("record", formattedTime);
+            gameresult.put("createdAt", createdAt);
+            documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "成功");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "失敗：" + e.toString());
+                }
+            });
         }
     }
 

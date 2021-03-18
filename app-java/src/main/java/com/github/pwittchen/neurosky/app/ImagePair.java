@@ -44,7 +44,7 @@ public class ImagePair extends AppCompatActivity {
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String createdAt, a;
+    String createdAt;
 
 
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
@@ -269,10 +269,6 @@ public class ImagePair extends AppCompatActivity {
         button.add(ImageButtonB);
         button.add(ImageButtonC);
     }
-
-
-
-
 
     //計時器的計時方法
     private Runnable updateTimer = new Runnable() {

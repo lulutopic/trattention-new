@@ -12,11 +12,24 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.Timer;
 
 
@@ -24,6 +37,11 @@ public class MemoryGamePro extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
+    private String formattedTime;
+    public static final String TAG = "TAG";
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String createdAt;
     private ImageView temp;
     private ImageView collect;
     private int moved=1;
@@ -54,17 +72,30 @@ public class MemoryGamePro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_memory_game_hard);
+
+        //計算當前時間
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
+        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
+
         //設定隱藏標題
         getSupportActionBar().hide();
+
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
+
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
+
         //題目洗牌
         Collections.shuffle(Arrays.asList(questionArray));
         questionArray=Arrays.copyOf(questionArray,9);
         questionArray[8] =0;
+
         //設定第一題
         questionCard = questionArray[questionCount];
 
@@ -80,9 +111,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
-
-
 
         //game
         //題目顏色
@@ -136,8 +164,6 @@ public class MemoryGamePro extends AppCompatActivity {
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
 
-
-
         ImageView right_arrow = findViewById(R.id.right_arrow);
         ImageView left_arrow = findViewById(R.id.left_arrow);
         ImageView up_arrow = findViewById(R.id.up_arrow);
@@ -150,7 +176,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 iv_41,iv_42,iv_43,iv_44};
 
         temp = imageArray[i];
-
 
         //初始從第一個開始
         iv_11.setImageResource(R.drawable.memorybackground);
@@ -551,6 +576,26 @@ public class MemoryGamePro extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+            //        先寫死，後期在統一改 UID
+//        userID = fAuth.getCurrentUser().getUid();
+//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
+            //自動產生 document id
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            Map<String,Object> gameresult = new HashMap<>();
+//        user.put("user", userID);
+            gameresult.put("record", formattedTime);
+            gameresult.put("createdAt", createdAt);
+            documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "成功");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "失敗：" + e.toString());
+                }
+            });
         }
     }
 
@@ -564,9 +609,6 @@ public class MemoryGamePro extends AppCompatActivity {
         image106=R.drawable.memory106;
 
     }
-
-
-
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {
