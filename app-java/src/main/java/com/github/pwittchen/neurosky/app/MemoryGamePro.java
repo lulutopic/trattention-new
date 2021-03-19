@@ -37,11 +37,11 @@ public class MemoryGamePro extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
-    private String formattedTime;
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt;
+    String formattedTime;
     private ImageView temp;
     private ImageView collect;
     private int moved=1;

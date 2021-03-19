@@ -37,7 +37,7 @@ public class SchulteGridPro extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
-    private String formattedTime;
+    String formattedTime;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt, a;
