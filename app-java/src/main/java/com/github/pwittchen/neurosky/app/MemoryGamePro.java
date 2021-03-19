@@ -41,7 +41,7 @@ public class MemoryGamePro extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt;
-    String formattedTime;
+    private String formattedTime;
     private ImageView temp;
     private ImageView collect;
     private int moved=1;
@@ -551,6 +551,7 @@ public class MemoryGamePro extends AppCompatActivity {
                 iv_44.getVisibility() == View.INVISIBLE) {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
+            Log.d("Memorygame", "formattedTime " + formattedTime);
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
             alertDialogBuilder
@@ -621,7 +622,7 @@ public class MemoryGamePro extends AppCompatActivity {
             Long minius = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
             Long seconds = (spentTime/1000) % 60;
-            String formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }

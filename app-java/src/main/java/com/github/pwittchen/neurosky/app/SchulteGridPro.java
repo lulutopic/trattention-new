@@ -37,7 +37,7 @@ public class SchulteGridPro extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
-    String formattedTime;
+    private String formattedTime;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt, a;
@@ -413,7 +413,7 @@ public class SchulteGridPro extends AppCompatActivity {
             Long minius = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
             Long seconds = (spentTime/1000) % 60;
-            String formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }

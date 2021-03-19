@@ -177,7 +177,7 @@ public class ImagePair extends AppCompatActivity {
         if(count == 1){
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
-            Log.d("MainActivity", "Current Timestamp: " + formattedTime);
+            Log.d("MainActivity", "formattedTime " + formattedTime);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePair.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
