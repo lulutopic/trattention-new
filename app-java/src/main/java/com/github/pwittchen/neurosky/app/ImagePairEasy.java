@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.Random;
 
 public class ImagePairEasy extends AppCompatActivity {
 
@@ -54,8 +55,8 @@ public class ImagePairEasy extends AppCompatActivity {
     private int apple;
     private int pear;
     private int orange;
-    private int kiwi;
-    private int mango;
+//    private int kiwi;
+//    private int mango;
 
 
     private ImageView ImageButtonA;
@@ -63,6 +64,8 @@ public class ImagePairEasy extends AppCompatActivity {
     private ImageView ImageButtonC;
 
     int count = 0; //計算遊戲答對題數
+
+    Random ran = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class ImagePairEasy extends AppCompatActivity {
         setContentView(R.layout.activity_image_pair_easy);
         //設定隱藏標題
         getSupportActionBar().hide();
+
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -105,10 +109,10 @@ public class ImagePairEasy extends AppCompatActivity {
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
                 Integer TagA = (Integer) FruitQuestion.getTag();
-                System.out.println(TagA);
-                System.out.println(ImageButtonA.getTag());
+                System.out.println(TagA.getClass());
+                System.out.println(ImageButtonA.getTag().getClass());
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(TagA == ImageButtonA.getTag()){
+                if(TagA.equals(ImageButtonA.getTag())){
                     count++;
                     getRandomColor();
                     deter();
@@ -127,9 +131,9 @@ public class ImagePairEasy extends AppCompatActivity {
             public void onClick(View v){
                 //如果選項Ｂ的文字意思等於標籤Ｂ
                 Integer TagB = (Integer) FruitQuestion.getTag();
-                System.out.println();
-                System.out.println(ImageButtonB.getTag());
-                if(TagB == ImageButtonB.getTag()){
+                System.out.println(TagB.getClass());
+                System.out.println(ImageButtonB.getTag().getClass());
+                if(TagB.equals(ImageButtonB.getTag())){
                     count++;
                     getRandomColor();
                     deter();
@@ -148,9 +152,9 @@ public class ImagePairEasy extends AppCompatActivity {
             public void onClick(View v){
                 //如果選項Ｂ的文字意思等於標籤Ｃ
                 Integer TagC = (Integer) FruitQuestion.getTag();
-                System.out.println(TagC);
-                System.out.println(ImageButtonC.getTag());
-                if(TagC == ImageButtonC.getTag()){
+                System.out.println(TagC.getClass());
+                System.out.println(ImageButtonC.getTag().getClass());
+                if(TagC.equals(ImageButtonC.getTag())){
                     count++;
                     getRandomColor();
                     deter();
@@ -168,7 +172,7 @@ public class ImagePairEasy extends AppCompatActivity {
         //Collections.shuffle 隨機排列三個串列
         Collections.shuffle(FruitNames);
         Collections.shuffle(FruitIcon);
-        //Collections.shuffle(button);
+        Collections.shuffle(button);
 
         //colorChosen 取出colorNames裡的資料 當作題目的文字
         String Fruitchosen = FruitNames.get(0);
@@ -248,15 +252,9 @@ public class ImagePairEasy extends AppCompatActivity {
         else if (fruit == "橘子"){
             FruitQuestion.setTag(orange);
         }
-        else if (fruit == "梨子"){
+        else{
             FruitQuestion.setTag(pear);
         }
-        else if (fruit == "芒果"){
-            FruitQuestion.setTag(mango);
-        }
-        else
-            FruitQuestion.setTag(kiwi);
-
     }
 
     //接前端的id
@@ -273,8 +271,8 @@ public class ImagePairEasy extends AppCompatActivity {
         FruitNames.add("蘋果");
         FruitNames.add("橘子");
         FruitNames.add("梨子");
-        FruitNames.add("芒果");
-        FruitNames.add("奇異果");
+//        FruitNames.add("芒果");
+//        FruitNames.add("奇異果");
 
         //把放在color.xml裡面的顏色指定給相對應的變數
         apple = R.drawable.apple;
@@ -283,17 +281,17 @@ public class ImagePairEasy extends AppCompatActivity {
         Log.d("MainActivity", "orange " + orange);
         pear = R.drawable.pear;
         Log.d("MainActivity", "pear " + pear);
-        mango = R.drawable.mango;
-        Log.d("MainActivity", "mango " + mango);
-        kiwi = R.drawable.kiwi;
-        Log.d("MainActivity", "kiwi " + kiwi);
+//        mango = R.drawable.mango;
+//        Log.d("MainActivity", "mango " + mango);
+//        kiwi = R.drawable.kiwi;
+//        Log.d("MainActivity", "kiwi " + kiwi);
 
         //Add color values to the arraylist [-571050, -5973084, -9328385]
         FruitIcon.add(apple);
         FruitIcon.add(orange);
         FruitIcon.add(pear);
-        FruitIcon.add(mango);
-        FruitIcon.add(kiwi);
+//        FruitIcon.add(mango);
+//        FruitIcon.add(kiwi);
 
         //把ＡＢＣ選項加入到button ArrayLists
         button.add(ImageButtonA);
