@@ -600,7 +600,7 @@ public class MemoryGamePro extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(MemoryGamePro.this, GameResult.class);
+                            intent.setClass(MemoryGamePro.this, GameResultMemory.class);
                             startActivity(intent);
                             finish();
                         }
