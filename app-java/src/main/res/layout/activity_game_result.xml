@@ -71,9 +71,6 @@
                 android:textSize="30dp"
                 android:typeface="monospace"
                 android:layout_marginTop="30dp"/>
-            <TextClock
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/lastTimeRecord"
@@ -90,16 +87,26 @@
             android:layout_width="350dp"
             android:layout_height="250dp"
             android:layout_marginRight="20dp"
+            android:orientation="vertical"
             android:background="@drawable/game_result_background">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="此次訓練秒數"
                 android:textColor="#30449F"
                 android:textSize="30dp"
                 android:typeface="monospace"
                 android:layout_marginTop="30dp"/>
+            <TextView
+                android:id="@+id/thisTimeRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="50dp"
+                android:textColor="@color/blue"
+                android:layout_gravity="center"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -130,19 +137,6 @@
             android:textColor="#30449F"
             android:textSize="35dp"
             android:typeface="monospace" />
-        <TextClock
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/thisTimeRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="108dp"
-            android:text="TextView"
-            android:textSize="50dp"
-            android:textColor="@color/blue"
-            android:layout_gravity="center"
-            />
 
         <Button
             android:id="@+id/index"
@@ -153,8 +147,4 @@
             android:text="回到首頁"
             android:textColor="#FFFFFFFF" />
     </LinearLayout>
-
-
-
-
 </LinearLayout>

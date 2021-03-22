@@ -88,9 +88,6 @@ public class GameResult extends AppCompatActivity {
                             Log.d("document",list.toString());
                             lastTimeRecord.setText(list.get(0).toString());
                             thisTimeRecord.setText(list.get(1).toString());
-
-
-
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
