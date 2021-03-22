@@ -60,8 +60,14 @@ public class GameResultSchulte extends AppCompatActivity {
                                 list.add(document.getString("record"));
                             }
                             Log.d("document",list.toString());
-                            lastTimeRecord.setText(list.get(0).toString());
-                            thisTimeRecord.setText(list.get(1).toString());
+                            if(list.size() == 2){
+                                lastTimeRecord.setText(list.get(list.size()-2).toString());
+                                thisTimeRecord.setText(list.get(list.size()-1).toString());
+                            }
+                            else{
+                                lastTimeRecord.setText("尚未有先前記錄");
+                                thisTimeRecord.setText(list.get(list.size()-1).toString());
+                            }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
