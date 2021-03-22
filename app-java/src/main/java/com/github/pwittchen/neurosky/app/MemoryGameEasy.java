@@ -28,8 +28,8 @@ public class MemoryGameEasy extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
     private Long spentTime;
-    private Long Pause_Time=0L;
-    private Long Pause_Total=0L;
+    private Long pauseTime=0L;
+    private Long pauseTotal=0L;
 
 
     //圖片的id設定的變數
@@ -65,9 +65,9 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-                Pause_Time=startTime;
-                Log.d("Pause_Time_stop",Pause_Time+"");
+
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -84,13 +84,9 @@ public class MemoryGameEasy extends AppCompatActivity {
                         .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){
-                                Pause_Total=System.currentTimeMillis()-Pause_Time;
-
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
-                                Log.d("Pause_Total",Pause_Total+"");
-                                Log.d("Pause_NowTime",System.currentTimeMillis()+"");
-                                Log.d("Pause_Time",Pause_Time+"");
-                                Pause_Time=0L;
+                                pauseTime=0L;
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -488,6 +484,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
             intent.putExtra("time",startTime);
+            intent.putExtra("pause",pauseTotal);
             startActivity(intent);
             finish();
 
@@ -518,8 +515,9 @@ public class MemoryGameEasy extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            spentTime = System.currentTimeMillis() - startTime - Pause_Total;
-            Log.d("spentTime",spentTime+"");
+
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
+
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
