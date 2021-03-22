@@ -379,7 +379,7 @@ public class SchulteGridPro extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i){
                             Intent intent = new Intent();
-                            intent.setClass(SchulteGridPro.this,GameResult.class);
+                            intent.setClass(SchulteGridPro.this,GameResultSchulte.class);
                             startActivity(intent);
                             finish();
                         }
