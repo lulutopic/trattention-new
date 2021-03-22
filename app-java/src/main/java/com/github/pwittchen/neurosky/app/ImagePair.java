@@ -97,7 +97,6 @@ public class ImagePair extends AppCompatActivity {
         ImageView right_arrow = findViewById(R.id.right_arrow);
         ImageView ok = findViewById(R.id.ok);
 
-
         //選項Ａ的監聽事件
         ImageButtonA.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -186,7 +185,7 @@ public class ImagePair extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePair.this, GameResult.class);
+                            intent.setClass(ImagePair.this, GameResultImagePair.class);
                             startActivity(intent);
                             finish();
                         }
