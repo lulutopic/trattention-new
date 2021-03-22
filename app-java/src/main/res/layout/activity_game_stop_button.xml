@@ -22,16 +22,12 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             app:srcCompat="@drawable/game_stop_exit" />
 
         <ImageView
             android:id="@+id/imageplay"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             app:srcCompat="@drawable/game_stop_play" />
     </LinearLayout>
 

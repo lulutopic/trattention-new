@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_shape_round"
-            android:text="儲存"
+            android:text="登出"
             android:textSize="20dp"
             android:textColor="@color/white">
         </Button>

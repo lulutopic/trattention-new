@@ -22,7 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class GameResult extends AppCompatActivity {
+public class GameResultSchulte extends AppCompatActivity {
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -48,7 +48,7 @@ public class GameResult extends AppCompatActivity {
         //        userID = fAuth.getCurrentUser().getUid();
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
-        fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+        fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
                 .orderBy("createdAt")
                 .limitToLast(2)
                 .get()
@@ -82,7 +82,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , Home.class);
+                intent.setClass(GameResultSchulte.this , Home.class);
                 startActivity(intent);
             }
         });
@@ -93,7 +93,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , GameHome.class);
+                intent.setClass(GameResultSchulte.this , GameHome.class);
                 startActivity(intent);
             }
         });
@@ -103,7 +103,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , Home.class);
+                intent.setClass(GameResultSchulte.this , Home.class);
                 startActivity(intent);
             }
         });

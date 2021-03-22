@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -26,6 +27,10 @@ public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal=0L;
+
 
     //圖片的id設定的變數
     ImageView iv_11,iv_12,iv_13,iv_14,
@@ -59,6 +64,10 @@ public class MemoryGameEasy extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //stop time
+                pauseTime=System.currentTimeMillis();
+                handler.removeCallbacks(updateTimer);
+
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -70,20 +79,31 @@ public class MemoryGameEasy extends AppCompatActivity {
                                 intent.setClass(MemoryGameEasy.this,GameHome.class);
                                 startActivity(intent);
                                 finish();
-
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
             }
         });
+
+
+
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_tips, null));
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_easy_tips, null));
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
@@ -464,6 +484,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
             intent.putExtra("time",startTime);
+            intent.putExtra("pause",pauseTotal);
             startActivity(intent);
             finish();
 
@@ -494,7 +515,9 @@ public class MemoryGameEasy extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
+
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

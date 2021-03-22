@@ -35,6 +35,9 @@ import java.util.Timer;
 
 public class MemoryGamePro extends AppCompatActivity {
     protected Long startTime;
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal;
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
@@ -87,6 +90,8 @@ public class MemoryGamePro extends AppCompatActivity {
 
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
+        //接續前段時間
+        pauseTotal= getIntent().getLongExtra("pause",0);
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
@@ -98,6 +103,40 @@ public class MemoryGamePro extends AppCompatActivity {
 
         //設定第一題
         questionCard = questionArray[questionCount];
+
+        ImageView button4 = findViewById(R.id.imagepause);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTime=System.currentTimeMillis();
+                //stop time
+                handler.removeCallbacks(updateTimer);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
+                LayoutInflater inflater = MemoryGamePro.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
+                alertDialogBuilder
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                Intent intent = new Intent();
+                                intent.setClass(MemoryGamePro.this,GameHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
+            }
+        });
 
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
@@ -561,7 +600,7 @@ public class MemoryGamePro extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(MemoryGamePro.this, GameResult.class);
+                            intent.setClass(MemoryGamePro.this, GameResultMemory.class);
                             startActivity(intent);
                             finish();
                         }
@@ -615,7 +654,7 @@ public class MemoryGamePro extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

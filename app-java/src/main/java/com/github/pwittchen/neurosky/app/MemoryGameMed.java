@@ -1,13 +1,16 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.Handler;
 
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +23,9 @@ import java.util.Collections;
 
 public class MemoryGameMed extends AppCompatActivity {
     protected Long startTime;
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal;
     private Chronometer timer;
     private Handler handler = new Handler();
 
@@ -44,10 +50,61 @@ public class MemoryGameMed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_game_med);
 
+
+        ImageView button4 = findViewById(R.id.imagepause);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTime=System.currentTimeMillis();
+                //stop time
+                handler.removeCallbacks(updateTimer);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
+                LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
+                alertDialogBuilder
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                Intent intent = new Intent();
+                                intent.setClass(MemoryGameMed.this,GameHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
+            }
+        });
+
+        ImageView button5 = findViewById(R.id.imagetips);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
+                LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_easy_tips, null));
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+
         //設定隱藏標題
         getSupportActionBar().hide();
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
+        //接續前段時間
+        pauseTotal= getIntent().getLongExtra("pause",0);
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
@@ -499,6 +556,7 @@ public class MemoryGameMed extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(MemoryGameMed.this, MemoryGamePro.class);
             intent.putExtra("time",startTime);
+            intent.putExtra("pause",pauseTotal);
             startActivity(intent);
             finish();
 
@@ -533,7 +591,7 @@ public class MemoryGameMed extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

@@ -22,7 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class GameResult extends AppCompatActivity {
+public class GameResultMemory extends AppCompatActivity {
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -39,7 +39,7 @@ public class GameResult extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-        setContentView(R.layout.activity_game_result);
+        setContentView(R.layout.activity_game_result_memory);
 
         //取得各格 id 進一步設定要放值的地方
         lastTimeRecord = findViewById(R.id.lastTimeRecord);
@@ -82,7 +82,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , Home.class);
+                intent.setClass(GameResultMemory.this , Home.class);
                 startActivity(intent);
             }
         });
@@ -93,7 +93,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , GameHome.class);
+                intent.setClass(GameResultMemory.this , GameHome.class);
                 startActivity(intent);
             }
         });
@@ -103,7 +103,7 @@ public class GameResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameResult.this , Home.class);
+                intent.setClass(GameResultMemory.this , Home.class);
                 startActivity(intent);
             }
         });
