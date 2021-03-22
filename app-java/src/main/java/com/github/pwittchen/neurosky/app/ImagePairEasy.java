@@ -7,14 +7,11 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Chronometer;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -25,6 +22,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,10 +31,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.TimeZone;
 
-public class ImagePair extends AppCompatActivity {
+public class ImagePairEasy extends AppCompatActivity {
 
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -47,20 +45,22 @@ public class ImagePair extends AppCompatActivity {
     String createdAt;
 
 
-    private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
-    private ArrayList<Integer> colorValues = new ArrayList<>(); //文字真正的底色
-    private ArrayList<TextView> button = new ArrayList<>(); // ABC選項
+    private ArrayList<String> FruitNames = new ArrayList<>(); //文字意思的顏色
+    private ArrayList<Integer> FruitIcon = new ArrayList<>(); //水果圖案
+    private ArrayList<ImageView> button = new ArrayList<>(); // ABC選項
 
-    private TextView colorTextView; // 題目的文字
+    private TextView FruitQuestion; // 題目的文字
 
-    private int red;
-    private int blue;
-    private int green;
+    private int apple;
+    private int pear;
+    private int orange;
+    private int kiwi;
+    private int mango;
 
 
-    private TextView ImageButtonA;
-    private TextView ImageButtonB;
-    private TextView ImageButtonC;
+    private ImageView ImageButtonA;
+    private ImageView ImageButtonB;
+    private ImageView ImageButtonC;
 
     int count = 0; //計算遊戲答對題數
 
@@ -69,7 +69,7 @@ public class ImagePair extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        setContentView(R.layout.activity_image_pair);
+        setContentView(R.layout.activity_image_pair_easy);
         //設定隱藏標題
         getSupportActionBar().hide();
 
@@ -94,8 +94,8 @@ public class ImagePair extends AppCompatActivity {
     //監聽事件的函式
     private void setupViewsAndListeners(){
 
-        ImageView right_arrow = findViewById(R.id.right_arrow);
-        ImageView ok = findViewById(R.id.ok);
+//        ImageView right_arrow = findViewById(R.id.right_arrow);
+//        ImageView ok = findViewById(R.id.ok);
 
 
         //選項Ａ的監聽事件
@@ -104,13 +104,18 @@ public class ImagePair extends AppCompatActivity {
             //設定點擊事件
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
-                String TagA = (String) colorTextView.getTag();
+                Integer TagA = (Integer) FruitQuestion.getTag();
+                System.out.println(TagA);
+                System.out.println(ImageButtonA.getTag());
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(ImageButtonA.getText() == TagA){
+                if(TagA == ImageButtonA.getTag()){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
+                }
+                else{
+                    Log.d("MainActivity", "hello ");
                 }
             }
         });
@@ -121,12 +126,17 @@ public class ImagePair extends AppCompatActivity {
             //設定點擊事件
             public void onClick(View v){
                 //如果選項Ｂ的文字意思等於標籤Ｂ
-                String TagB = (String) colorTextView.getTag();
-                if(ImageButtonB.getText() == TagB){
+                Integer TagB = (Integer) FruitQuestion.getTag();
+                System.out.println();
+                System.out.println(ImageButtonB.getTag());
+                if(TagB == ImageButtonB.getTag()){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
+                }
+                else{
+                    Log.d("MainActivity", "hello ");
                 }
             }
         });
@@ -137,12 +147,17 @@ public class ImagePair extends AppCompatActivity {
             //設定點擊事件
             public void onClick(View v){
                 //如果選項Ｂ的文字意思等於標籤Ｃ
-                String TagC = (String) colorTextView.getTag();
-                if(ImageButtonC.getText() == TagC){
+                Integer TagC = (Integer) FruitQuestion.getTag();
+                System.out.println(TagC);
+                System.out.println(ImageButtonC.getTag());
+                if(TagC == ImageButtonC.getTag()){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
+                }
+                else{
+                    Log.d("MainActivity", "hello ");
                 }
             }
         });
@@ -151,26 +166,25 @@ public class ImagePair extends AppCompatActivity {
     //三個串列的隨機排列
     private void getRandomColor(){
         //Collections.shuffle 隨機排列三個串列
-        Collections.shuffle(colorNames);
-        Collections.shuffle(colorValues);
-        Collections.shuffle(button);
+        Collections.shuffle(FruitNames);
+        Collections.shuffle(FruitIcon);
+        //Collections.shuffle(button);
 
         //colorChosen 取出colorNames裡的資料 當作題目的文字
-        String colorChosen1 = colorNames.get(0);
-        String colorChosen2 = colorNames.get(1);
-        String colorChosen3 = colorNames.get(2);
+        String Fruitchosen = FruitNames.get(0);
 
         //setText 將文字設定給 題目 and 答案
-        colorTextView.setText(colorChosen1);
-        button.get(0).setText(colorChosen1);
-        button.get(1).setText(colorChosen2);
-        button.get(2).setText(colorChosen3);
+        FruitQuestion.setText(Fruitchosen);
 
         //setTextColor 設定文字底色給 題目 and 答案
-        colorTextView.setTextColor(colorValues.get(0));
-        button.get(0).setTextColor(colorValues.get(0));
-        button.get(1).setTextColor(colorValues.get(1));
-        button.get(2).setTextColor(colorValues.get(2));
+        button.get(0).setImageResource(FruitIcon.get(0));
+        button.get(0).setTag(FruitIcon.get(0));
+
+        button.get(1).setImageResource(FruitIcon.get(1));
+        button.get(1).setTag(FruitIcon.get(1));
+
+        button.get(2).setImageResource(FruitIcon.get(2));
+        button.get(2).setTag(FruitIcon.get(2));
     }
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
@@ -178,7 +192,7 @@ public class ImagePair extends AppCompatActivity {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             Log.d("MainActivity", "formattedTime " + formattedTime);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePair.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairEasy.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
                     .setCancelable(false)
@@ -186,7 +200,7 @@ public class ImagePair extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePair.this, GameResult.class);
+                            intent.setClass(ImagePairEasy.this, GameResult.class);
                             startActivity(intent);
                             finish();
                         }
@@ -195,7 +209,7 @@ public class ImagePair extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePair.this, GameHome.class);
+                            intent.setClass(ImagePairEasy.this, GameHome.class);
                             startActivity(intent);
                             finish();
                         }
@@ -227,42 +241,59 @@ public class ImagePair extends AppCompatActivity {
 
     //幫顏色設定標籤（判斷文字底色是否等於colorValues裡的顏色）
     private void deter(){
-        int col = colorTextView.getCurrentTextColor();
-        if (col == -571050){
-            colorTextView.setTag("紅色");
+        String fruit = (String) FruitQuestion.getText();
+        if (fruit == "蘋果"){
+            FruitQuestion.setTag(apple);
         }
-        else if (col == -5973084){
-            colorTextView.setTag("綠色");
+        else if (fruit == "橘子"){
+            FruitQuestion.setTag(orange);
         }
-        else{
-            colorTextView.setTag("藍色");
+        else if (fruit == "梨子"){
+            FruitQuestion.setTag(pear);
         }
+        else if (fruit == "芒果"){
+            FruitQuestion.setTag(mango);
+        }
+        else
+            FruitQuestion.setTag(kiwi);
+
     }
 
     //接前端的id
     private void populateBothArraylists(){
         //question
-        colorTextView = (TextView) findViewById(R.id.question);
+        FruitQuestion = (TextView) findViewById(R.id.question);
 
         //ABC選項
-        ImageButtonA = (TextView) findViewById(R.id.optionA);
-        ImageButtonB = (TextView)findViewById(R.id.optionB);
-        ImageButtonC = (TextView) findViewById(R.id.optionC);
+        ImageButtonA = (ImageView) findViewById(R.id.optionA);
+        ImageButtonB = (ImageView) findViewById(R.id.optionB);
+        ImageButtonC = (ImageView) findViewById(R.id.optionC);
 
         //把顏色字串加入coloNames ArrayLists
-        colorNames.add("紅色");
-        colorNames.add("綠色");
-        colorNames.add("藍色");
+        FruitNames.add("蘋果");
+        FruitNames.add("橘子");
+        FruitNames.add("梨子");
+        FruitNames.add("芒果");
+        FruitNames.add("奇異果");
 
         //把放在color.xml裡面的顏色指定給相對應的變數
-        red = R.color.colorRed;
-        green = R.color.colorGreen;
-        blue = R.color.colorBlue;
+        apple = R.drawable.apple;
+        Log.d("MainActivity", "apple " + apple);
+        orange = R.drawable.orange;
+        Log.d("MainActivity", "orange " + orange);
+        pear = R.drawable.pear;
+        Log.d("MainActivity", "pear " + pear);
+        mango = R.drawable.mango;
+        Log.d("MainActivity", "mango " + mango);
+        kiwi = R.drawable.kiwi;
+        Log.d("MainActivity", "kiwi " + kiwi);
 
         //Add color values to the arraylist [-571050, -5973084, -9328385]
-        colorValues.add(ContextCompat.getColor(this,red));
-        colorValues.add(ContextCompat.getColor(this,green));
-        colorValues.add(ContextCompat.getColor(this,blue));
+        FruitIcon.add(apple);
+        FruitIcon.add(orange);
+        FruitIcon.add(pear);
+        FruitIcon.add(mango);
+        FruitIcon.add(kiwi);
 
         //把ＡＢＣ選項加入到button ArrayLists
         button.add(ImageButtonA);
