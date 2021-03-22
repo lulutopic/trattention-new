@@ -130,44 +130,44 @@ public class SchulteGridEasy extends AppCompatActivity {
 
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
 
-        btn_down.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                focus_count+=1;
-                if (focus_count==2){
-                    row1.setBackgroundColor(unfocus_color);
-                    row2.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                    NumArray[0].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                }
-                else if(focus_count==3){
-                    row2.setBackgroundColor(unfocus_color);
-                    row3.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                    NumArray[4].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                }
-                else if(focus_count==4){
-                    row3.setBackgroundColor(unfocus_color);
-                    row4.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                    NumArray[7].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                }
-                else if(focus_count==5){
-                    focus_count=1;
-                    row4.setBackgroundColor(unfocus_color);
-                    row1.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                    NumArray[12].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                }
-            }
-        });
+//        btn_down.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                focus_count+=1;
+//                if (focus_count==2){
+//                    row1.setBackgroundColor(unfocus_color);
+//                    row2.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                    NumArray[0].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                }
+//                else if(focus_count==3){
+//                    row2.setBackgroundColor(unfocus_color);
+//                    row3.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                    NumArray[4].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                }
+//                else if(focus_count==4){
+//                    row3.setBackgroundColor(unfocus_color);
+//                    row4.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                    NumArray[7].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                }
+//                else if(focus_count==5){
+//                    focus_count=1;
+//                    row4.setBackgroundColor(unfocus_color);
+//                    row1.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                    NumArray[12].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                }
+//            }
+//        });
 
-        btn_right.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                NumArray[focus_count].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-                focus_count+=1;
-                if(focus_count==3||focus_count==7||focus_count==11||focus_count==15){
-                    focus_count-=3;
-                }
-            }
-        });
+//        btn_right.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view){
+//                NumArray[focus_count].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
+//                focus_count+=1;
+//                if(focus_count==3||focus_count==7||focus_count==11||focus_count==15){
+//                    focus_count-=3;
+//                }
+//            }
+//        });
 
 
 
@@ -304,15 +304,15 @@ public class SchulteGridEasy extends AppCompatActivity {
 
     }
 
-    private int getColorWithAlpha(int color, float ratio) {
-        int newColor = 0;
-        int alpha = Math.round(Color.alpha(color) * ratio);
-        int r = Color.red(color);
-        int g = Color.green(color);
-        int b = Color.blue(color);
-        newColor = Color.argb(alpha, r, g, b);
-        return newColor;
-    }
+//    private int getColorWithAlpha(int color, float ratio) {
+//        int newColor = 0;
+//        int alpha = Math.round(Color.alpha(color) * ratio);
+//        int r = Color.red(color);
+//        int g = Color.green(color);
+//        int b = Color.blue(color);
+//        newColor = Color.argb(alpha, r, g, b);
+//        return newColor;
+//    }
 
     private void doStuff(ImageView iv, int card){
         if(count == card){
