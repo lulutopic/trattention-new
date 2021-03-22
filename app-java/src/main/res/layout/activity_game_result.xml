@@ -100,11 +100,7 @@
                 android:textSize="30dp"
                 android:typeface="monospace"
                 android:layout_marginTop="30dp"/>
-            <TextView
-                android:id="@+id/thisTimeRecord"
-                android:layout_width="match_parent"
-                android:layout_height="108dp"
-                android:text="TextView" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="350dp"
@@ -134,6 +130,19 @@
             android:textColor="#30449F"
             android:textSize="35dp"
             android:typeface="monospace" />
+        <TextClock
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/thisTimeRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="108dp"
+            android:text="TextView"
+            android:textSize="50dp"
+            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            />
 
         <Button
             android:id="@+id/index"
