@@ -77,9 +77,13 @@
 
             <TextView
                 android:id="@+id/lastTimeRecord"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="108dp"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="50dp"
+                android:textColor="@color/blue"
+                android:layout_gravity="center"
+                />
 
         </LinearLayout>
         <LinearLayout

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Safari extends AppCompatActivity {
-   
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,7 @@ public class Safari extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_safari);
+        setContentView(R.layout.activity_hello);
 
         //header:頁面跳轉->home
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -45,53 +45,16 @@ public class Safari extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        mContext = Safari.this;
-        exlist_lol = (ExpandableListView) findViewById(R.id.exlist_lol);
 
-
-        //数据准备
-        gData = new ArrayList<Group>();
-        iData = new ArrayList<ArrayList<Item>>();
-        gData.add(new Group("AD"));
-        gData.add(new Group("AP"));
-        gData.add(new Group("TANK"));
-
-        lData = new ArrayList<Item>();
-
-        //AD组
-        lData.add(new Item(R.mipmap.iv_lol_icon3,"剑圣"));
-        lData.add(new Item(R.mipmap.iv_lol_icon4,"德莱文"));
-        lData.add(new Item(R.mipmap.iv_lol_icon13,"男枪"));
-        lData.add(new Item(R.mipmap.iv_lol_icon14,"韦鲁斯"));
-        iData.add(lData);
-        //AP组
-        lData = new ArrayList<Item>();
-        lData.add(new Item(R.mipmap.iv_lol_icon1, "提莫"));
-        lData.add(new Item(R.mipmap.iv_lol_icon7, "安妮"));
-        lData.add(new Item(R.mipmap.iv_lol_icon8, "天使"));
-        lData.add(new Item(R.mipmap.iv_lol_icon9, "泽拉斯"));
-        lData.add(new Item(R.mipmap.iv_lol_icon11, "狐狸"));
-        iData.add(lData);
-        //TANK组
-        lData = new ArrayList<Item>();
-        lData.add(new Item(R.mipmap.iv_lol_icon2, "诺手"));
-        lData.add(new Item(R.mipmap.iv_lol_icon5, "德邦"));
-        lData.add(new Item(R.mipmap.iv_lol_icon6, "奥拉夫"));
-        lData.add(new Item(R.mipmap.iv_lol_icon10, "龙女"));
-        lData.add(new Item(R.mipmap.iv_lol_icon12, "狗熊"));
-        iData.add(lData);
-
-        myAdapter = new MyBaseExpandableListAdapter(gData,iData,mContext);
-        exlist_lol.setAdapter(myAdapter);
-
-        //为列表设置点击事件
-        exlist_lol.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        //頁面跳轉  點選進入主頁面->home
+        Button button1 = findViewById(R.id.test);
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(mContext, "你点击了：" + iData.get(groupPosition).get(childPosition).getiName(), Toast.LENGTH_SHORT).show();
-                return true;
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(Safari.this, Home.class);
+                startActivity(intent);
             }
         });
-
     }
 }
