@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class GameResult extends AppCompatActivity {
@@ -44,6 +45,14 @@ public class GameResult extends AppCompatActivity {
             }
         });
 
-
+        Button btn_index=findViewById(R.id.index);
+        btn_index.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(GameResult.this , Home.class);
+                startActivity(intent);
+            }
+        });
     }
 }

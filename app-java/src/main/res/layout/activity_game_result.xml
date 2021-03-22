@@ -119,13 +119,14 @@
             android:textColor="#30449F"
             android:textSize="35dp"
             android:typeface="monospace" />
+
         <Button
-            android:id="@+id/video"
+            android:id="@+id/index"
             android:layout_width="140dp"
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:background="@drawable/button_shape_round"
-            android:text="進入遊戲"
+            android:text="回到首頁"
             android:textColor="#FFFFFFFF" />
     </LinearLayout>
 
