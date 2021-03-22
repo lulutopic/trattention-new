@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -26,6 +27,10 @@ public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
+    private Long spentTime;
+    private Long Pause_Time=0L;
+    private Long Pause_Total=0L;
+
 
     //圖片的id設定的變數
     ImageView iv_11,iv_12,iv_13,iv_14,
@@ -61,6 +66,8 @@ public class MemoryGameEasy extends AppCompatActivity {
             public void onClick(View view) {
                 //stop time
                 handler.removeCallbacks(updateTimer);
+                Pause_Time=startTime;
+                Log.d("Pause_Time_stop",Pause_Time+"");
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -77,7 +84,13 @@ public class MemoryGameEasy extends AppCompatActivity {
                         .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){
-                                handler.postDelayed(updateTimer,1000);
+                                Pause_Total=System.currentTimeMillis()-Pause_Time;
+
+                                handler.post(updateTimer);
+                                Log.d("Pause_Total",Pause_Total+"");
+                                Log.d("Pause_NowTime",System.currentTimeMillis()+"");
+                                Log.d("Pause_Time",Pause_Time+"");
+                                Pause_Time=0L;
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -505,7 +518,8 @@ public class MemoryGameEasy extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - Pause_Total;
+            Log.d("spentTime",spentTime+"");
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

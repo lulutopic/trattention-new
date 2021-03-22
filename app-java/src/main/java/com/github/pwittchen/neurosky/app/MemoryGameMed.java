@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -47,6 +48,36 @@ public class MemoryGameMed extends AppCompatActivity {
         setContentView(R.layout.activity_memory_game_med);
 
 
+        ImageView button4 = findViewById(R.id.imagepause);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //stop time
+                handler.removeCallbacks(updateTimer);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
+                LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
+                alertDialogBuilder
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                Intent intent = new Intent();
+                                intent.setClass(MemoryGameMed.this,GameHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                handler.postDelayed(updateTimer,1000);
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
+            }
+        });
 
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
