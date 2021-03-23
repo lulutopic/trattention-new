@@ -111,23 +111,17 @@ public class AttentionTestHome extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("last", document.getData().toString());
                                 attentionList.add(document.getString("attention_result"));
                             }
-
                             list_size = attentionList.size();
                             for(int i = 1; i <= attentionList.size() ; i++){
                                 float f1 =Float.parseFloat(attentionList.get(i-1).toString());
                                 values1.add(new Entry(i,f1));
                             }
-                            Log.d("document",attentionList.toString());
-                            Log.d("document",attentionList.get(attentionList.size()-2).toString());
-                            Log.d("document",attentionList.get(attentionList.size()-1).toString());
 
                             if(attentionList.size() >= 2){
                                 pre_attention.setText(attentionList.get(attentionList.size()-2).toString());
                                 cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
-
                             }
                             else{
                                 pre_attention.setText("尚未有先前記錄");
@@ -179,8 +173,6 @@ public class AttentionTestHome extends AppCompatActivity {
         lineChart.setBackgroundColor(Blue);//顯示整個圖表背景顏色 (預設灰底)
         lineChart.setScaleEnabled(false);
         lineChart.setBorderWidth(0f);
-
-
     }
     private void initX() {
         XAxis xAxis = lineChart.getXAxis();
