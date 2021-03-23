@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.Random;
 
-public class ImagePairEasy extends AppCompatActivity {
+public class ImagePairMed extends AppCompatActivity {
 
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -56,12 +56,13 @@ public class ImagePairEasy extends AppCompatActivity {
     private int pear;
     private int orange;
 //    private int kiwi;
-//    private int mango;
+    private int mango;
 
 
     private ImageView ImageButtonA;
     private ImageView ImageButtonB;
     private ImageView ImageButtonC;
+    private ImageView ImageButtonD;
 
     int count = 0; //計算遊戲答對題數
 
@@ -72,7 +73,7 @@ public class ImagePairEasy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        setContentView(R.layout.activity_image_pair_easy);
+        setContentView(R.layout.activity_image_pair_med);
         //設定隱藏標題
         getSupportActionBar().hide();
 
@@ -165,6 +166,27 @@ public class ImagePairEasy extends AppCompatActivity {
                 }
             }
         });
+
+        ImageButtonD.setOnClickListener(new View.OnClickListener(){
+            //選項Ｃ的監聽事件
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                //如果選項Ｂ的文字意思等於標籤Ｃ
+                Integer TagD = (Integer) FruitQuestion.getTag();
+                System.out.println(TagD.getClass());
+                System.out.println(ImageButtonD.getTag().getClass());
+                if(TagD.equals(ImageButtonD.getTag())){
+                    count++;
+                    getRandomColor();
+                    deter();
+                    checkEnd();
+                }
+                else{
+                    Log.d("MainActivity", "hello ");
+                }
+            }
+        });
     }
 
     //三個串列的隨機排列
@@ -189,13 +211,17 @@ public class ImagePairEasy extends AppCompatActivity {
 
         button.get(2).setImageResource(FruitIcon.get(2));
         button.get(2).setTag(FruitIcon.get(2));
+
+        button.get(3).setImageResource(FruitIcon.get(3));
+        button.get(3).setTag(FruitIcon.get(3));
+
     }
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
         if(count == 10){
             //頁面跳轉
             Intent intent = new Intent();
-            intent.setClass(ImagePairEasy.this, ImagePairMed.class);
+            intent.setClass(ImagePairMed.this, ImagePairPro.class);
             intent.putExtra("time",startTime);
             startActivity(intent);
             finish();
@@ -232,8 +258,11 @@ public class ImagePairEasy extends AppCompatActivity {
         else if (fruit == "橘子"){
             FruitQuestion.setTag(orange);
         }
-        else{
+        else if (fruit == "梨子"){
             FruitQuestion.setTag(pear);
+        }
+        else{
+            FruitQuestion.setTag(mango);
         }
     }
 
@@ -246,12 +275,13 @@ public class ImagePairEasy extends AppCompatActivity {
         ImageButtonA = (ImageView) findViewById(R.id.optionA);
         ImageButtonB = (ImageView) findViewById(R.id.optionB);
         ImageButtonC = (ImageView) findViewById(R.id.optionC);
+        ImageButtonD = (ImageView) findViewById(R.id.optionD);
 
         //把顏色字串加入coloNames ArrayLists
         FruitNames.add("蘋果");
         FruitNames.add("橘子");
         FruitNames.add("梨子");
-//        FruitNames.add("芒果");
+        FruitNames.add("芒果");
 //        FruitNames.add("奇異果");
 
         //把放在color.xml裡面的顏色指定給相對應的變數
@@ -261,8 +291,8 @@ public class ImagePairEasy extends AppCompatActivity {
         Log.d("MainActivity", "orange " + orange);
         pear = R.drawable.pear;
         Log.d("MainActivity", "pear " + pear);
-//        mango = R.drawable.mango;
-//        Log.d("MainActivity", "mango " + mango);
+        mango = R.drawable.mango;
+        Log.d("MainActivity", "mango " + mango);
 //        kiwi = R.drawable.kiwi;
 //        Log.d("MainActivity", "kiwi " + kiwi);
 
@@ -270,13 +300,14 @@ public class ImagePairEasy extends AppCompatActivity {
         FruitIcon.add(apple);
         FruitIcon.add(orange);
         FruitIcon.add(pear);
-//        FruitIcon.add(mango);
+        FruitIcon.add(mango);
 //        FruitIcon.add(kiwi);
 
         //把ＡＢＣ選項加入到button ArrayLists
         button.add(ImageButtonA);
         button.add(ImageButtonB);
         button.add(ImageButtonC);
+        button.add(ImageButtonD);
     }
 
     //計時器的計時方法
