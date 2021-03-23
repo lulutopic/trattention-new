@@ -25,27 +25,15 @@
         //圖形配對
         <activity
             android:name=".ImagePair"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"/>
+        //圖型配對簡單
+        <activity
+            android:name=".ImagePairEasy"
+            android:screenOrientation="landscape"/>
         //註冊
         <activity
             android:name=".Registration"
-            android:screenOrientation="landscape">
-
-        </activity>
-
-        <activity
-            android:name=".ImagePairEasy"
-            android:screenOrientation="landscape">
-            <!-- 初始畫面加上這段 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="landscape"/>
         //登入
         <activity
             android:name=".Login"
@@ -53,9 +41,7 @@
         //專注力測驗結果
         <activity
             android:name=".AttentionTestResult"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape" />
         //專注力測驗
         <activity
             android:name=".AttentionTesting"
@@ -63,7 +49,15 @@
         //專注力測驗首頁
         <activity
             android:name=".AttentionTestHome"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        <!-- 初始畫面加上這段 -->
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         //專注力測驗說明
         <activity
             android:name=".AttentionTestIntro"
@@ -89,9 +83,7 @@
         //圖形配對遊戲結果
         <activity
             android:name=".GameResultImagePair"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape" />
         //專注力暫停按鈕
         <activity
             android:name=".GameStopButton"
@@ -112,10 +104,7 @@
         //記憶力遊戲困難
         <activity
             android:name=".MemoryGamePro"
-            android:screenOrientation="landscape">
-
-
-        </activity>
+            android:screenOrientation="landscape"/>
         //舒爾特方格簡單
         <activity
             android:name=".SchulteGridEasy"
@@ -127,16 +116,11 @@
         //舒爾特方格困難
         <activity
             android:name=".SchulteGridPro"
-            android:screenOrientation="landscape" >
-
-
-        </activity>
+            android:screenOrientation="landscape" />
         //個人化設置
         <activity
             android:name=".Personal"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape" />
         //招呼頁面
         <activity
             android:name=".Hello"
@@ -144,8 +128,7 @@
         //首頁
         <activity
             android:name=".Home"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"/>
         //指南首頁
         <activity
             android:name=".InstructionHome"
@@ -153,8 +136,7 @@
         //訓練記錄
         <activity
             android:name=".TrainRecord"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
