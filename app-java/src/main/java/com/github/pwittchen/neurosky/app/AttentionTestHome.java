@@ -1,15 +1,19 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,23 +26,47 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class AttentionTestHome extends AppCompatActivity {
     LineChart lineChart;
+    public static final String TAG = "TAG";
     int Blue=Color.parseColor("#244F98");
     int Yellow=Color.parseColor("#fff5b8");
+    private int list_size;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    TextView pre_attention, cur_attention;
+    String userID, data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fStore = FirebaseFirestore.getInstance();
+
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-
         setContentView(R.layout.activity_attention_test_home);
+        ArrayList attentionList = new ArrayList<>();
+        //圖表初始化
+        lineChart =(LineChart)findViewById(R.id.chart_line);
+        ArrayList<Entry> values1=new ArrayList<>();
+
+        pre_attention = findViewById(R.id.pre_attention);
+        cur_attention = findViewById(R.id.cur_attention);
 
         //header:頁面跳轉->回首頁
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -62,7 +90,6 @@ public class AttentionTestHome extends AppCompatActivity {
             }
         });
 
-
         //頁面跳轉->測驗說明
         Button nextPageBtn = (Button)findViewById(R.id.btn_home_start);
         nextPageBtn.setOnClickListener(new View.OnClickListener() {
@@ -74,31 +101,49 @@ public class AttentionTestHome extends AppCompatActivity {
             }
         });
 
-        //圖表
-        lineChart =(LineChart)findViewById(R.id.chart_line);
-        ArrayList<Entry> values1=new ArrayList<>();
-        values1.add(new Entry(1,10));
-        values1.add(new Entry(2,20));
-        values1.add(new Entry(3,40));
-        values1.add(new Entry(4,50));
-        values1.add(new Entry(5,70));
-        values1.add(new Entry(6,60));
-        values1.add(new Entry(7,40));
-        values1.add(new Entry(8,90));
-        values1.add(new Entry(9,70));
-        values1.add(new Entry(10,60));
-        values1.add(new Entry(11,40));
-        values1.add(new Entry(12,90));
+        //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
+        fStore.collection("mindwave_record").document("record").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq2")
+                .orderBy("createdAt")
+                .limitToLast(10)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("last", document.getData().toString());
+                                attentionList.add(document.getString("attention_result"));
+                            }
 
-        text_all(values1);
-        initChartFormat();
-        initX();
-        initY();
+                            list_size = attentionList.size();
+                            for(int i = 1; i <= attentionList.size() ; i++){
+                                float f1 =Float.parseFloat(attentionList.get(i-1).toString());
+                                values1.add(new Entry(i,f1));
+                            }
+                            Log.d("document",attentionList.toString());
+                            Log.d("document",attentionList.get(attentionList.size()-2).toString());
+                            Log.d("document",attentionList.get(attentionList.size()-1).toString());
 
+                            if(attentionList.size() >= 2){
+                                pre_attention.setText(attentionList.get(attentionList.size()-2).toString());
+                                cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
 
+                            }
+                            else{
+                                pre_attention.setText("尚未有先前記錄");
+                                cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
+                            }
 
+                            text_all(values1);
+                            initChartFormat();
+                            initX();
+                            initY();
 
-
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
 
@@ -113,8 +158,6 @@ public class AttentionTestHome extends AppCompatActivity {
         set1.setValueFormatter(new DefaultValueFormatter(0));//座標點數字的小數位數1位
         set1.setDrawCircles(false);//設置範圍背景填充
         set1.setDrawValues(false);//不顯示座標點對應Y軸的數字(預設顯示)
-
-
 
         //創建LineData 對象，
         LineData data =new LineData(set1);
@@ -149,7 +192,7 @@ public class AttentionTestHome extends AppCompatActivity {
         xAxis.setTextColor(Yellow);//X軸標籤顏色
         xAxis.setTextSize(12);//X軸標籤大小
 
-        xAxis.setLabelCount(12);//X軸標籤個數
+        xAxis.setLabelCount(list_size-1);//X軸標籤個數
         xAxis.setSpaceMin(0.5f);//折線起點距離左側Y軸距離
         xAxis.setSpaceMax(0.5f);//折線終點距離右側Y軸距離
     }
