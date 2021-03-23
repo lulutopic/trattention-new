@@ -50,13 +50,6 @@
         <activity
             android:name=".AttentionTestHome"
             android:screenOrientation="landscape" >
-        <!-- 初始畫面加上這段 -->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         //專注力測驗說明
         <activity
@@ -121,6 +114,18 @@
         <activity
             android:name=".Personal"
             android:screenOrientation="landscape" />
+        //指南
+        <activity
+            android:name=".SafariBrain"
+            android:screenOrientation="landscape" >
+            <!-- 初始畫面加上這段 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         //招呼頁面
         <activity
             android:name=".Hello"

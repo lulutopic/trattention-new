@@ -11,10 +11,9 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="150dp"
         android:orientation="horizontal"
-        android:background="@color/blue"
-        android:layout_weight="1">
+        android:background="@color/blue">
         <ImageView
             android:id="@+id/imagehome"
             android:layout_width="100dp"
@@ -36,22 +35,99 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingLeft="230dp"
         android:paddingRight="230dp"
         android:paddingTop="70dp">
-        <TextView
+
+        <LinearLayout
             android:id="@+id/Q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/safariback"
+>
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/caret_down" />
+
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
-            android:text="Q:為什麼連結不了?ʚ🐰ɞ"
+            android:text="Ｑ：為什麼我連結不了ヾ(;ﾟ;Д;ﾟ;)ﾉﾞ"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textColor="@color/blue"
+            android:layout_marginRight="20dp"
+
+            />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/A1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="85dp"
+            android:text="Ａ：麻煩您重新連結試試！(*ﾟ∀ﾟ*)"
+            android:textStyle="bold"
+
+            android:textSize="25sp"
+            android:textColor="@color/blue"
+            android:visibility="gone"
             />
 
+
+
+        <LinearLayout
+            android:id="@+id/Q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/safariback"
+            android:layout_marginTop="5dp"
+                >
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/caret_down" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="30dp"
+                    android:text="Ｑ：請問我一天可以測幾次！？(❍ᴥ❍ʋ)"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/blue"
+                    android:layout_marginRight="20dp"
+
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/A2"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="85dp"
+                android:text="Ａ：本系統不限次數唷！佛心系統　(*ﾟ∀ﾟ*)"
+                android:textStyle="bold"
+
+                android:textSize="25sp"
+                android:textColor="@color/blue"
+                android:visibility="gone"
+                />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/confuse" />
     </LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>
