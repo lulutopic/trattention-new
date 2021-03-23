@@ -24,11 +24,15 @@
             android:screenOrientation="landscape"/>
         //圖形配對
         <activity
-            android:name=".ImagePair"
+            android:name=".ImagePairPro"
             android:screenOrientation="landscape"/>
         //圖型配對簡單
         <activity
             android:name=".ImagePairEasy"
+            android:screenOrientation="landscape"/>
+        //圖型配對簡單
+        <activity
+            android:name=".ImagePairMed"
             android:screenOrientation="landscape"/>
         //註冊
         <activity

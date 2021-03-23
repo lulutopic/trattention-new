@@ -7,14 +7,10 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Chronometer;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -32,10 +28,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.TimeZone;
 
-public class ImagePair extends AppCompatActivity {
+public class ImagePairPro extends AppCompatActivity {
 
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -177,7 +172,7 @@ public class ImagePair extends AppCompatActivity {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             Log.d("MainActivity", "formattedTime " + formattedTime);
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePair.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
                     .setCancelable(false)
@@ -185,7 +180,7 @@ public class ImagePair extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePair.this, GameResultImagePair.class);
+                            intent.setClass(ImagePairPro.this, GameResultImagePair.class);
                             startActivity(intent);
                             finish();
                         }
@@ -194,7 +189,7 @@ public class ImagePair extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePair.this, GameHome.class);
+                            intent.setClass(ImagePairPro.this, GameHome.class);
                             startActivity(intent);
                             finish();
                         }

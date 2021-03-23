@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 
 public class GameHome extends AppCompatActivity {
@@ -54,7 +53,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, ImagePair.class);
+                intent.setClass(GameHome.this, ImagePairPro.class);
                 startActivity(intent);
             }
         });

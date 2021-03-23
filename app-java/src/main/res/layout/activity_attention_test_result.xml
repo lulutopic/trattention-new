@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:orientation="horizontal"
-        android:background="@color/blue">
+        android:background="@color/blue"
+        >
         <ImageView
             android:id="@+id/imagehome"
             android:layout_width="100dp"
@@ -33,19 +34,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:layout_marginTop="50dp"
         android:layout_marginHorizontal="100dp"
         android:background="@drawable/scrollview_shape_round"
         android:gravity="center"
-        android:elevation="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="450dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+
             android:background="@drawable/scrollview_shape_round"
             android:orientation="vertical"
             android:padding="40dp">
@@ -56,16 +58,23 @@
                 android:layout_gravity="center_horizontal"
                 android:background="#ffffff"
                 android:text="專注力月數據圖表"
+
                 android:layout_marginBottom="20dp"
                 android:textColor="@color/blue"
-                android:textSize="40dp" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+                android:textSize="35dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/test_fakechart" />
+                android:background="@drawable/button_blue_shape_round"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    />
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -74,6 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
             android:background="@drawable/scrollview_shape_round"
             android:orientation="vertical"
             android:padding="40dp">
@@ -85,7 +95,7 @@
                 android:background="#ffffff"
                 android:text="測驗近期比較"
                 android:textColor="@color/blue"
-                android:textSize="40dp" />
+                android:textSize="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -102,9 +112,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_yellow_shape_round"
-                android:paddingHorizontal="50dp"
+                android:paddingHorizontal="80dp"
                 android:paddingVertical="20dp"
                 android:text="無"
+                android:textSize="30dp"
                 android:textColor="@color/blue" />
 
             <TextView
@@ -122,26 +133,21 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/button_yellow_shape_round"
-                android:paddingHorizontal="50dp"
+                android:paddingHorizontal="80dp"
                 android:paddingVertical="20dp"
-                android:text="70"
+                android:text="無"
+                android:textSize="30dp"
                 android:textColor="@color/blue" />
-
-
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/textView_congrat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="恭喜完成此次測驗！！！"
         android:textColor="@color/blue"
-        android:layout_marginTop="60dp"
-        android:textSize="30dp"
-        android:text="恭喜完成此次測驗！！！" />
+        android:textSize="30dp" />
 </LinearLayout>
