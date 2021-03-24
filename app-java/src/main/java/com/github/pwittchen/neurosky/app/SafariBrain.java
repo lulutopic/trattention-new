@@ -7,10 +7,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Safari extends AppCompatActivity {
+public class SafariBrain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class Safari extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_hello);
+        setContentView(R.layout.activity_safari);
 
         //header:頁面跳轉->home
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -30,7 +31,7 @@ public class Safari extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Safari.this , Home.class);
+                intent.setClass(SafariBrain.this , Home.class);
                 startActivity(intent);
             }
         });
@@ -41,20 +42,43 @@ public class Safari extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Safari.this , InstructionHome.class);
+                intent.setClass(SafariBrain.this , InstructionHome.class);
                 startActivity(intent);
             }
         });
 
-        //頁面跳轉  點選進入主頁面->home
-        Button button1 = findViewById(R.id.test);
-        button1.setOnClickListener(new View.OnClickListener() {
+
+        View btn_Q1=(View)findViewById(R.id.Q1);
+        TextView btn_A1=(TextView)findViewById(R.id.A1);
+        View btn_Q2=(View)findViewById(R.id.Q2);
+        TextView btn_A2=(TextView)findViewById(R.id.A2);
+
+        btn_Q1.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(Safari.this, Home.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                if(btn_A1.getVisibility()==View.GONE) {
+                    btn_A1.setVisibility(View.VISIBLE);
+                }
+                else{
+                    btn_A1.setVisibility(View.GONE);
+                }
             }
         });
+
+        btn_Q2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(btn_A2.getVisibility()==View.GONE) {
+                    btn_A2.setVisibility(View.VISIBLE);
+                }
+                else{
+                    btn_A2.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
+
 }

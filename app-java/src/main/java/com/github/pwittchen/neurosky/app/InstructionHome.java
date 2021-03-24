@@ -33,5 +33,15 @@ public class InstructionHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //頁面跳轉  點選導覽列的home->home
+        ImageView button3 = findViewById(R.id.test_ins);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(InstructionHome.this, SafariBrain.class);
+                startActivity(intent);
+            }
+        });
     }
 }
