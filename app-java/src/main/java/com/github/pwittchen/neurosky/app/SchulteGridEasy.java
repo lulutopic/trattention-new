@@ -28,6 +28,7 @@ public class SchulteGridEasy extends AppCompatActivity {
     private Handler handler = new Handler();//執行緒
 
     private int focus_count;
+    private int focus_row;
 
 
     //圖片的變數
@@ -35,9 +36,9 @@ public class SchulteGridEasy extends AppCompatActivity {
     ImageView btn_down,btn_right,btn_ok;
     View row1,row2,row3,row4;
 
-    int focus_color= Color.parseColor("#274C98");
-    int single_focus_color=Color.parseColor("#ade8f4");
-    int unfocus_color= Color.parseColor("#FFFFFF");
+    int blue= Color.parseColor("#274C98");
+    int focus_color=getColorWithAlpha(blue, 0.4f);
+    int unfocus_color= getColorWithAlpha(blue, 0f);
 
     //圖片的檔案引入陣列
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
@@ -118,7 +119,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         sixteen=(ImageView)findViewById(R.id.sixteen);
 
         btn_down=(ImageView)findViewById(R.id.down_arrow);
-        btn_right=(ImageView)findViewById(R.id.up_arrow);
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
         btn_ok=(ImageView)findViewById(R.id.ok);
 
         row1 =(View)findViewById(R.id.row1);
@@ -129,49 +130,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         row1.setBackgroundColor(focus_color);
 
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
-
-//        btn_down.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                focus_count+=1;
-//                if (focus_count==2){
-//                    row1.setBackgroundColor(unfocus_color);
-//                    row2.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                    NumArray[0].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                }
-//                else if(focus_count==3){
-//                    row2.setBackgroundColor(unfocus_color);
-//                    row3.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                    NumArray[4].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                }
-//                else if(focus_count==4){
-//                    row3.setBackgroundColor(unfocus_color);
-//                    row4.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                    NumArray[7].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                }
-//                else if(focus_count==5){
-//                    focus_count=1;
-//                    row4.setBackgroundColor(unfocus_color);
-//                    row1.setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                    NumArray[12].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                }
-//            }
-//        });
-
-//        btn_right.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                NumArray[focus_count].setBackgroundColor(getColorWithAlpha(focus_color, 0.4f));
-//                focus_count+=1;
-//                if(focus_count==3||focus_count==7||focus_count==11||focus_count==15){
-//                    focus_count-=3;
-//                }
-//            }
-//        });
-
-
-
-
+        ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
 
         Collections.shuffle(Arrays.asList(NumArray));
 
@@ -179,7 +138,53 @@ public class SchulteGridEasy extends AppCompatActivity {
             NumArray[i].setImageResource(ImageArray[i]);
             String s = String.valueOf(i);
             NumArray[i].setTag(s);
+
         }
+        one.setBackgroundColor(focus_color);
+        UnShuffle[0].setBackgroundColor(focus_color);
+        btn_down.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                clearView(focus_row);
+                clearCount(focus_count);
+                focus_row+=1;
+                if (focus_row==1){
+                    focus_count=4;
+                    row2.setBackgroundColor(focus_color);
+                    UnShuffle[4].setBackgroundColor(focus_color);
+                }
+                else if(focus_row==2){
+                    focus_count=8;
+                    row3.setBackgroundColor(focus_color);
+                    UnShuffle[8].setBackgroundColor(focus_color);
+                }
+                else if(focus_row==3){
+                    focus_count=12;
+                    row4.setBackgroundColor(focus_color);
+                    UnShuffle[12].setBackgroundColor(focus_color);
+                }
+                else if(focus_row==4){
+                    focus_count=0;
+                    focus_row=0;
+                    row1.setBackgroundColor(focus_color);
+                    UnShuffle[0].setBackgroundColor(focus_color);
+                }
+
+            }
+        });
+
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                clearCount(focus_count);
+                focus_count+=1;
+                if(focus_count==4||focus_count==8||focus_count==12||focus_count==16){
+                    focus_count-=4;
+                }
+                UnShuffle[focus_count].setBackgroundColor(focus_color);
+
+            }
+        });
 
 
 
@@ -304,15 +309,36 @@ public class SchulteGridEasy extends AppCompatActivity {
 
     }
 
-//    private int getColorWithAlpha(int color, float ratio) {
-//        int newColor = 0;
-//        int alpha = Math.round(Color.alpha(color) * ratio);
-//        int r = Color.red(color);
-//        int g = Color.green(color);
-//        int b = Color.blue(color);
-//        newColor = Color.argb(alpha, r, g, b);
-//        return newColor;
-//    }
+    private int getColorWithAlpha(int color, float ratio) {
+        int newColor = 0;
+        int alpha = Math.round(Color.alpha(color) * ratio);
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        newColor = Color.argb(alpha, r, g, b);
+        return newColor;
+    }
+    private void clearView(int focus_row){
+        switch(focus_row){
+            case(0):
+                row1.setBackgroundColor(unfocus_color);
+                break;
+            case(1):
+                row2.setBackgroundColor(unfocus_color);
+                break;
+            case(2):
+                row3.setBackgroundColor(unfocus_color);
+                break;
+            case(3):
+                row4.setBackgroundColor(unfocus_color);
+                break;
+        }
+    }
+    private void clearCount(int focus_count){
+        ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
+        UnShuffle[focus_count].setBackgroundColor(unfocus_color);
+
+    }
 
     private void doStuff(ImageView iv, int card){
         if(count == card){
