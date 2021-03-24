@@ -64,7 +64,7 @@ public class ImagePairPro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        setContentView(R.layout.activity_image_pair);
+        setContentView(R.layout.activity_image_pair_pro);
         //設定隱藏標題
         getSupportActionBar().hide();
 

@@ -76,7 +76,7 @@
             android:layout_width="700dp"
             android:layout_height="550dp"
             android:layout_gravity="top"
-            android:background="#ffffff"
+            android:background="@drawable/scrollview_shape_round"
             android:elevation="5dp"
             android:orientation="vertical">
 
