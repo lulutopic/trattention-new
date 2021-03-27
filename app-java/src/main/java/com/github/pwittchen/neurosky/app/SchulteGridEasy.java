@@ -28,7 +28,8 @@ public class SchulteGridEasy extends AppCompatActivity {
     private Handler handler = new Handler();//執行緒
 
     private int focus_count;
-    private int focus_row;
+    private int focus_row=1;
+    private int focus_column=1;
 
 
     //圖片的變數
@@ -37,7 +38,7 @@ public class SchulteGridEasy extends AppCompatActivity {
     View row1,row2,row3,row4;
 
     int blue= Color.parseColor("#274C98");
-    int focus_color=getColorWithAlpha(blue, 0.4f);
+    int focus_color=getColorWithAlpha(blue, 0.6f);
     int unfocus_color= getColorWithAlpha(blue, 0f);
 
     //圖片的檔案引入陣列
@@ -127,7 +128,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         row3 =(View)findViewById(R.id.row3);
         row4 =(View)findViewById(R.id.row4);
 
-        row1.setBackgroundColor(focus_color);
+
 
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
@@ -140,169 +141,80 @@ public class SchulteGridEasy extends AppCompatActivity {
             NumArray[i].setTag(s);
 
         }
-        one.setBackgroundColor(focus_color);
+        //初始設定：選取第一行、第一列
+        row1.setBackgroundColor(focus_color);
         UnShuffle[0].setBackgroundColor(focus_color);
+        UnShuffle[4].setBackgroundColor(focus_color);
+        UnShuffle[8].setBackgroundColor(focus_color);
+        UnShuffle[12].setBackgroundColor(focus_color);
+
+        //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                clearView(focus_row);
-                clearCount(focus_count);
+                clearRow(focus_row);
                 focus_row+=1;
-                if (focus_row==1){
-                    focus_count=4;
-                    row2.setBackgroundColor(focus_color);
-                    UnShuffle[4].setBackgroundColor(focus_color);
+                switch(focus_row){
+                    case(2):
+                        row2.setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        row3.setBackgroundColor(focus_color);
+                        break;
+                    case(4):
+                        row4.setBackgroundColor(focus_color);
+                        break;
+                    case(5):
+                        focus_row=1;
+                        row1.setBackgroundColor(focus_color);
+                        break;
                 }
-                else if(focus_row==2){
-                    focus_count=8;
-                    row3.setBackgroundColor(focus_color);
-                    UnShuffle[8].setBackgroundColor(focus_color);
-                }
-                else if(focus_row==3){
-                    focus_count=12;
-                    row4.setBackgroundColor(focus_color);
-                    UnShuffle[12].setBackgroundColor(focus_color);
-                }
-                else if(focus_row==4){
-                    focus_count=0;
-                    focus_row=0;
-                    row1.setBackgroundColor(focus_color);
-                    UnShuffle[0].setBackgroundColor(focus_color);
-                }
-
             }
         });
-
+        //向右的按鈕
         btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                clearCount(focus_count);
-                focus_count+=1;
-                if(focus_count==4||focus_count==8||focus_count==12||focus_count==16){
-                    focus_count-=4;
+                clearColumn(focus_column);
+                focus_column+=1;
+                switch(focus_column){
+                    case(2):
+                        UnShuffle[1].setBackgroundColor(focus_color);
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        UnShuffle[2].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        break;
+                    case(4):
+                        UnShuffle[3].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
+                        break;
+                    case(5):
+                        focus_column=1;
+                        UnShuffle[0].setBackgroundColor(focus_color);
+                        UnShuffle[4].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        break;
                 }
-                UnShuffle[focus_count].setBackgroundColor(focus_color);
 
             }
         });
 
-
-
-        //Listener 等待使用者點擊此事件
-        //override 覆蓋掉原本android studio 上層物件
-
-
-        one.setOnClickListener(new View.OnClickListener(){
+        //確認的按鈕
+        btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(one,theCard);
-
-            }
-        });
-        two.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(two,theCard);
-            }
-        });
-        three.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(three,theCard);
-            }
-        });
-        four.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(four,theCard);
-            }
-        });
-        five.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(five,theCard);
-            }
-        });
-        six.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(six,theCard);
-            }
-        });
-        seven.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(seven,theCard);
-            }
-        });
-        eight.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(eight,theCard);
-            }
-        });
-        nine.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(nine,theCard);
-            }
-        });
-        ten.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(ten,theCard);
-            }
-        });
-        eleven.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(eleven,theCard);
-            }
-        });
-        twelve.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twelve,theCard);
-            }
-        });
-        thirteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(thirteen,theCard);
-            }
-        });
-        fourteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(fourteen,theCard);
-            }
-        });
-        fifteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(fifteen,theCard);
-            }
-        });
-        sixteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(sixteen,theCard);
+                focus_count=(focus_row-1)*4+focus_column-1;
+                int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
+                doStuff(UnShuffle[focus_count],theCard);
             }
         });
 
@@ -318,36 +230,59 @@ public class SchulteGridEasy extends AppCompatActivity {
         newColor = Color.argb(alpha, r, g, b);
         return newColor;
     }
-    private void clearView(int focus_row){
+
+    private void clearRow(int focus_row){
         switch(focus_row){
-            case(0):
+            case(1):
                 row1.setBackgroundColor(unfocus_color);
                 break;
-            case(1):
+            case(2):
                 row2.setBackgroundColor(unfocus_color);
                 break;
-            case(2):
+            case(3):
                 row3.setBackgroundColor(unfocus_color);
                 break;
-            case(3):
+            case(4):
                 row4.setBackgroundColor(unfocus_color);
                 break;
         }
     }
-    private void clearCount(int focus_count){
+    private void clearColumn(int focus_column){
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
-        UnShuffle[focus_count].setBackgroundColor(unfocus_color);
-
+        switch(focus_column){
+            case(1):
+                UnShuffle[0].setBackgroundColor(unfocus_color);
+                UnShuffle[4].setBackgroundColor(unfocus_color);
+                UnShuffle[8].setBackgroundColor(unfocus_color);
+                UnShuffle[12].setBackgroundColor(unfocus_color);
+                break;
+            case(2):
+                UnShuffle[1].setBackgroundColor(unfocus_color);
+                UnShuffle[5].setBackgroundColor(unfocus_color);
+                UnShuffle[9].setBackgroundColor(unfocus_color);
+                UnShuffle[13].setBackgroundColor(unfocus_color);
+                break;
+            case(3):
+                UnShuffle[2].setBackgroundColor(unfocus_color);
+                UnShuffle[6].setBackgroundColor(unfocus_color);
+                UnShuffle[10].setBackgroundColor(unfocus_color);
+                UnShuffle[14].setBackgroundColor(unfocus_color);
+                break;
+            case(4):
+                UnShuffle[3].setBackgroundColor(unfocus_color);
+                UnShuffle[7].setBackgroundColor(unfocus_color);
+                UnShuffle[11].setBackgroundColor(unfocus_color);
+                UnShuffle[15].setBackgroundColor(unfocus_color);
+                break;
+        }
     }
 
     private void doStuff(ImageView iv, int card){
         if(count == card){
-            iv.setVisibility(View.INVISIBLE);
+            iv.setImageResource(R.drawable.gridblank);
             count++;
         }
-        else{
-            iv.setVisibility(View.VISIBLE);
-        }
+
         checkEnd();
     }
 
@@ -385,12 +320,6 @@ public class SchulteGridEasy extends AppCompatActivity {
     };
 
 
-
-    public void btnClick(View view) {
-        timer.setBase(SystemClock.elapsedRealtime());//計時器清零
-        int hour = (int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 1000 / 60);
-        timer.setFormat("0"+ String.valueOf(hour)+":%s");
-    }
 
 }
 
