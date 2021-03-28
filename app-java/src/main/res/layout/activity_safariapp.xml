@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".SafariApp">
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:background="@color/blue">
+        <ImageView
+            android:id="@+id/imagehome"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/header_home"
+            android:layout_marginRight="20dp"
+            />
+        <ImageView
+            android:id="@+id/imagesafari"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/header_safari"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="230dp"
+        android:paddingRight="230dp"
+        android:paddingTop="70dp">
+
+        <LinearLayout
+            android:id="@+id/Q1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/safariback"
+>
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/caret_down" />
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="Ｑ：為什麼我點甚麼都沒反應ヾ(;ﾟ;Д;ﾟ;)ﾉﾞ"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textColor="@color/blue"
+            android:layout_marginRight="20dp"
+
+            />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/A1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="85dp"
+            android:text="Ａ：我也不知道建議您可以打電話申訴！TEL:0222223333(*ﾟ∀ﾟ*)"
+            android:textStyle="bold"
+
+            android:textSize="25sp"
+            android:textColor="@color/blue"
+            android:visibility="gone"
+            />
+
+
+
+        <LinearLayout
+            android:id="@+id/Q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/safariback"
+            android:layout_marginTop="5dp"
+                >
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/caret_down" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="30dp"
+                    android:text="Ｑ：請問我一天可以遊玩幾次！？(❍ᴥ❍ʋ)"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/blue"
+                    android:layout_marginRight="20dp"
+
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/A2"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="85dp"
+                android:text="Ａ：可以玩10次唷!　(*ﾟ∀ﾟ*)"
+                android:textStyle="bold"
+
+                android:textSize="25sp"
+                android:textColor="@color/blue"
+                android:visibility="gone"
+                />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/confuse" />
+    </LinearLayout>
+
+</LinearLayout>
