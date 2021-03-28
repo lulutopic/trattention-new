@@ -53,7 +53,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, ImagePairPro.class);
+                intent.setClass(GameHome.this, ImagePairEasy.class);
                 startActivity(intent);
             }
         });

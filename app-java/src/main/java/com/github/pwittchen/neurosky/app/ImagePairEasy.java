@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,9 @@ public class ImagePairEasy extends AppCompatActivity {
 
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal;
     private Handler handler = new Handler(); //計時器的執行緒宣告
     private String formattedTime;
     public static final String TAG = "TAG";
@@ -79,6 +83,8 @@ public class ImagePairEasy extends AppCompatActivity {
 
         //取得目前時間
         startTime = System.currentTimeMillis();
+        pauseTotal= getIntent().getLongExtra("pause",0);
+
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
@@ -93,7 +99,47 @@ public class ImagePairEasy extends AppCompatActivity {
         getRandomColor();
         deter();
         setupViewsAndListeners();
+
+        ImageView button4 = findViewById(R.id.imagepause);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTime=System.currentTimeMillis();
+                //stop time
+                handler.removeCallbacks(updateTimer);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairEasy.this);
+                LayoutInflater inflater = ImagePairEasy.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
+                alertDialogBuilder
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                Intent intent = new Intent();
+                                intent.setClass(ImagePairEasy.this,GameHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
+            }
+        });
     }
+
+
+
+
+
+
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
@@ -283,7 +329,7 @@ public class ImagePairEasy extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

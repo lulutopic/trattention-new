@@ -24,9 +24,11 @@ import java.util.Collections;
 
 public class SchulteGridEasy extends AppCompatActivity {
     private Long startTime; //初始時間
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal;
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler();//執行緒
-
     private int focus_count;
     private int focus_row=1;
     private int focus_column=1;
@@ -57,6 +59,8 @@ public class SchulteGridEasy extends AppCompatActivity {
 
         //取得目前時間
         startTime = System.currentTimeMillis();
+        //接續前段時間
+        pauseTotal= getIntent().getLongExtra("pause",0);
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
@@ -66,6 +70,9 @@ public class SchulteGridEasy extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pauseTime=System.currentTimeMillis();
+                //stop time
+                handler.removeCallbacks(updateTimer);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridEasy.this);
                 LayoutInflater inflater = SchulteGridEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -77,11 +84,19 @@ public class SchulteGridEasy extends AppCompatActivity {
                                 intent.setClass(SchulteGridEasy.this,GameHome.class);
                                 startActivity(intent);
                                 finish();
-
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
             }
         });
 
@@ -306,7 +321,7 @@ public class SchulteGridEasy extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
