@@ -33,7 +33,8 @@ public class InstructionHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //頁面跳轉  點選導覽列的home->home
+
+        //頁面跳轉  點選腦波儀問題->腦波儀問題
         ImageView button3 = findViewById(R.id.test_ins);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,5 +44,28 @@ public class InstructionHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //頁面跳轉  點選 app問題->app問題
+        ImageView button1 = findViewById(R.id.app_ins);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(InstructionHome.this, SafariApp.class);
+                startActivity(intent);
+            }
+        });
+        //頁面跳轉  點選 watch問題->watch問題
+        ImageView button2 = findViewById(R.id.watch_ins);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent();
+                intent.setClass(InstructionHome.this, SafariWatch.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }
