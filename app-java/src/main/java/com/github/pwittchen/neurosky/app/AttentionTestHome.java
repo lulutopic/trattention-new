@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class AttentionTestHome extends AppCompatActivity {
     LineChart lineChart;
     public static final String TAG = "TAG";
-    int Blue=Color.parseColor("#244F98");
+    int Blue=Color.parseColor("#99CCF7");
     int Yellow=Color.parseColor("#fff5b8");
     private int list_size;
     FirebaseAuth fAuth;
@@ -98,6 +98,7 @@ public class AttentionTestHome extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTestHome.this , AttentionTestIntro.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
             }
         });
 
@@ -146,7 +147,7 @@ public class AttentionTestHome extends AppCompatActivity {
         set1=new LineDataSet(values1,"專注力數值");
         set1.setMode(LineDataSet.Mode.LINEAR);//LINEAR是立方曲線
         set1.setColor(Yellow);//線的顏色
-        set1.setLineWidth(2);
+        set1.setLineWidth(3);
         set1.setCircleRadius(4); //焦點圓心的大小
         set1.setHighlightEnabled(false);//禁用點擊高亮線
         set1.setValueFormatter(new DefaultValueFormatter(0));//座標點數字的小數位數1位
