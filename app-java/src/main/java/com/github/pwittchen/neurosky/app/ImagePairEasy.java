@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -53,19 +54,34 @@ public class ImagePairEasy extends AppCompatActivity {
     private ArrayList<String> FruitNames = new ArrayList<>(); //文字意思的顏色
     private ArrayList<Integer> FruitIcon = new ArrayList<>(); //水果圖案
     private ArrayList<ImageView> button = new ArrayList<>(); // ABC選項
+    private ArrayList<ImageView> button1 = new ArrayList<>(); // ABC選項(不隨機)
 
     private TextView FruitQuestion; // 題目的文字
 
     private int apple;
     private int pear;
     private int orange;
+
+    private int optiona;
+    private int optionb;
+    private int optionc;
+    private int optiona_border;
+    private int optionb_border;
+    private int optionc_border;
+
+
 //    private int kiwi;
 //    private int mango;
+
+    int clicked = 0;
+
 
 
     private ImageView ImageButtonA;
     private ImageView ImageButtonB;
     private ImageView ImageButtonC;
+
+    ImageView btn_right,btn_ok;
 
     int count = 0; //計算遊戲答對題數
 
@@ -143,74 +159,52 @@ public class ImagePairEasy extends AppCompatActivity {
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
+        button1.get(0).setBackgroundResource(optiona_border);
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        System.out.println();
+                        clicked++;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        clicked++;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked-=2;
+                        break;
+                }
 
-//        ImageView right_arrow = findViewById(R.id.right_arrow);
-//        ImageView ok = findViewById(R.id.ok);
+            }
+        });
 
-
-        //選項Ａ的監聽事件
-        ImageButtonA.setOnClickListener(new View.OnClickListener(){
+        btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
-                Integer TagA = (Integer) FruitQuestion.getTag();
-                System.out.println(TagA.getClass());
-                System.out.println(ImageButtonA.getTag().getClass());
+                Integer Tag = (Integer) FruitQuestion.getTag();
+                System.out.println(Tag);//2131165271 apple
+                System.out.println(button.get(clicked).getTag());
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(TagA.equals(ImageButtonA.getTag())){
+                if(Tag.equals(button.get(clicked).getTag())){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
                 }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
+
             }
         });
 
-        ImageButtonB.setOnClickListener(new View.OnClickListener(){
-            //選項Ｂ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｂ
-                Integer TagB = (Integer) FruitQuestion.getTag();
-                System.out.println(TagB.getClass());
-                System.out.println(ImageButtonB.getTag().getClass());
-                if(TagB.equals(ImageButtonB.getTag())){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
-            }
-        });
-
-        ImageButtonC.setOnClickListener(new View.OnClickListener(){
-            //選項Ｃ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｃ
-                Integer TagC = (Integer) FruitQuestion.getTag();
-                System.out.println(TagC.getClass());
-                System.out.println(ImageButtonC.getTag().getClass());
-                if(TagC.equals(ImageButtonC.getTag())){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
-            }
-        });
     }
 
     //三個串列的隨機排列
@@ -218,7 +212,7 @@ public class ImagePairEasy extends AppCompatActivity {
         //Collections.shuffle 隨機排列三個串列
         Collections.shuffle(FruitNames);
         Collections.shuffle(FruitIcon);
-        Collections.shuffle(button);
+        //Collections.shuffle(button);
 
         //colorChosen 取出colorNames裡的資料 當作題目的文字
         String Fruitchosen = FruitNames.get(0);
@@ -293,6 +287,10 @@ public class ImagePairEasy extends AppCompatActivity {
         ImageButtonB = (ImageView) findViewById(R.id.optionB);
         ImageButtonC = (ImageView) findViewById(R.id.optionC);
 
+        //按鈕選項
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+
         //把顏色字串加入coloNames ArrayLists
         FruitNames.add("蘋果");
         FruitNames.add("橘子");
@@ -302,11 +300,16 @@ public class ImagePairEasy extends AppCompatActivity {
 
         //把放在color.xml裡面的顏色指定給相對應的變數
         apple = R.drawable.apple;
-        Log.d("MainActivity", "apple " + apple);
         orange = R.drawable.orange;
-        Log.d("MainActivity", "orange " + orange);
         pear = R.drawable.pear;
-        Log.d("MainActivity", "pear " + pear);
+
+        optiona = R.drawable.optiona;
+        optionb = R.drawable.optionb;
+        optionc = R.drawable.optionc;
+
+        optiona_border = R.drawable.optiona_border;
+        optionb_border = R.drawable.optionb_border;
+        optionc_border = R.drawable.optionc_border;
 //        mango = R.drawable.mango;
 //        Log.d("MainActivity", "mango " + mango);
 //        kiwi = R.drawable.kiwi;
@@ -323,6 +326,11 @@ public class ImagePairEasy extends AppCompatActivity {
         button.add(ImageButtonA);
         button.add(ImageButtonB);
         button.add(ImageButtonC);
+
+        button1.add(ImageButtonA);
+        button1.add(ImageButtonB);
+        button1.add(ImageButtonC);
+
     }
 
     //計時器的計時方法

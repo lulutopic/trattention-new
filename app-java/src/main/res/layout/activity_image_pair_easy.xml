@@ -31,6 +31,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"/>
 
+
     </LinearLayout>
 
     <LinearLayout
@@ -51,17 +52,21 @@
             android:letterSpacing="0.4">
         </Chronometer>
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginLeft="50dp"
-            android:background="@color/background"
-            android:text="1/3"
-            android:textColor="@color/blue"
-            android:textSize="25sp">
+        <ImageView
+            android:id="@+id/ok"
+            android:layout_width="64dp"
+            android:layout_height="50dp"
+            android:scaleType="center"
+            android:src="@drawable/ok"
+            android:layout_marginLeft="52dp" />
 
-        </TextView>
+        <ImageView
+            android:id="@+id/right_arrow"
+            android:layout_width="64dp"
+            android:layout_height="50dp"
+            android:scaleType="center"
+            android:src="@drawable/right_arrow"
+            android:layout_marginLeft="52dp" />
     </LinearLayout>
 
     <LinearLayout
