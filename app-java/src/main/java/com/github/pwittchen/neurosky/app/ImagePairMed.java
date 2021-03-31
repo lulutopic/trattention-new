@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,9 @@ import java.util.Random;
 
 public class ImagePairMed extends AppCompatActivity {
 
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal=0L;
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
@@ -77,9 +81,8 @@ public class ImagePairMed extends AppCompatActivity {
         //設定隱藏標題
         getSupportActionBar().hide();
 
-
-        //取得目前時間
-        startTime = System.currentTimeMillis();
+        //接續前段時間
+        startTime= getIntent().getLongExtra("time",0);
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
@@ -88,6 +91,41 @@ public class ImagePairMed extends AppCompatActivity {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
         Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
+        //頁面跳轉  點選 pause
+        ImageView button4 = findViewById(R.id.imagepause);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //stop time
+                pauseTime=System.currentTimeMillis();
+                handler.removeCallbacks(updateTimer);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairMed.this);
+                LayoutInflater inflater = ImagePairMed.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
+                alertDialogBuilder
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                Intent intent = new Intent();
+                                intent.setClass(ImagePairMed.this,GameHome.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
+                                handler.post(updateTimer);
+                                pauseTime=0L;
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                alertDialog.getWindow().setLayout(455, 400);
+            }
+        });
 
         //呼叫函式
         populateBothArraylists();
@@ -314,7 +352,7 @@ public class ImagePairMed extends AppCompatActivity {
     private Runnable updateTimer = new Runnable() {
         public void run() {
             final TextView time = (Chronometer) findViewById(R.id.timer);
-            Long spentTime = System.currentTimeMillis() - startTime;
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
             Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數

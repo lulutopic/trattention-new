@@ -112,8 +112,6 @@
                     android:layout_gravity="center"
                     android:scaleType="center"
                     android:src="@drawable/up_arrow"
-
-
                     />
 
 
