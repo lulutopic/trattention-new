@@ -90,7 +90,7 @@ public class MemoryGamePro extends AppCompatActivity {
 
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
-        //接續前段時間
+        //暫停時間
         pauseTotal= getIntent().getLongExtra("pause",0);
 
         //設定Delay的時間
