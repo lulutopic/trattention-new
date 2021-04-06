@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.text.Layout;
 import android.text.TextUtils;
@@ -18,12 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 
+
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.google.android.gms.common.util.HttpUtils;
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
 import com.madgaze.watchsdk.WatchException;
@@ -31,7 +34,7 @@ import com.madgaze.watchsdk.WatchGesture;
 
 
 public class SchulteGridEasy extends MobileActivity {
-    private final String TAG = MainActivity.class.getSimpleName();
+    private final String MGTAG = MainActivity.class.getSimpleName();
 
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
@@ -73,25 +76,25 @@ public class SchulteGridEasy extends MobileActivity {
 
     @Override
     public void onWatchGestureReceived(WatchGesture gesture) {
-        Log.d(TAG, "onWatchGestureReceived: "+gesture.name());
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
         setResultText(gesture);
     }
 
     @Override
     public void onWatchGestureError(WatchException error) {
-        Log.d(TAG, "onWatchGestureError: "+error.getMessage());
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
         setStatusText(error.getMessage());
     }
 
     @Override
     public void onWatchDetectionOn() {
-        Log.d(TAG, "onWatchDetectionOn: ");
+        Log.d(MGTAG, "onWatchDetectionOn: ");
         setStatusText("Listening");
     }
 
     @Override
     public void onWatchDetectionOff() {
-        Log.d(TAG, "onWatchDetectionOff: ");
+        Log.d(MGTAG, "onWatchDetectionOff: ");
         setStatusText("Idle");
     }
 
@@ -159,62 +162,69 @@ public class SchulteGridEasy extends MobileActivity {
         setText(R.id.result, gesture.toString());
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
 
-
-        if(gesture == WatchGesture.HANDBACK_DOWN){
-            clearRow(focus_row);
-            focus_row+=1;
-            switch(focus_row){
-                case(2):
-                    row2.setBackgroundColor(focus_color);
-                    break;
-                case(3):
-                    row3.setBackgroundColor(focus_color);
-                    break;
-                case(4):
-                    row4.setBackgroundColor(focus_color);
-                    break;
-                case(5):
-                    focus_row=1;
-                    row1.setBackgroundColor(focus_color);
-                    break;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //手勢控制方向向下
+                if(gesture == WatchGesture.HANDBACK_DOWN){
+                    clearRow(focus_row);
+                    focus_row+=1;
+                    switch(focus_row){
+                        case(2):
+                            row2.setBackgroundColor(focus_color);
+                            break;
+                        case(3):
+                            row3.setBackgroundColor(focus_color);
+                            break;
+                        case(4):
+                            row4.setBackgroundColor(focus_color);
+                            break;
+                        case(5):
+                            focus_row=1;
+                            row1.setBackgroundColor(focus_color);
+                            break;
+                    }
+                }
+                //手勢控制方向向右
+                else if(gesture == WatchGesture.FOREARM_RIGHT){
+                    clearColumn(focus_column);
+                    focus_column+=1;
+                    switch(focus_column){
+                        case(2):
+                            UnShuffle[1].setBackgroundColor(focus_color);
+                            UnShuffle[5].setBackgroundColor(focus_color);
+                            UnShuffle[9].setBackgroundColor(focus_color);
+                            UnShuffle[13].setBackgroundColor(focus_color);
+                            break;
+                        case(3):
+                            UnShuffle[2].setBackgroundColor(focus_color);
+                            UnShuffle[6].setBackgroundColor(focus_color);
+                            UnShuffle[10].setBackgroundColor(focus_color);
+                            UnShuffle[14].setBackgroundColor(focus_color);
+                            break;
+                        case(4):
+                            UnShuffle[3].setBackgroundColor(focus_color);
+                            UnShuffle[7].setBackgroundColor(focus_color);
+                            UnShuffle[11].setBackgroundColor(focus_color);
+                            UnShuffle[15].setBackgroundColor(focus_color);
+                            break;
+                        case(5):
+                            focus_column=1;
+                            UnShuffle[0].setBackgroundColor(focus_color);
+                            UnShuffle[4].setBackgroundColor(focus_color);
+                            UnShuffle[8].setBackgroundColor(focus_color);
+                            UnShuffle[12].setBackgroundColor(focus_color);
+                            break;
+                    }
+                }
+                //手勢控制選取
+                else if(gesture == WatchGesture.THUMBTAP_INDEX){
+                    focus_count=(focus_row-1)*4+focus_column-1;
+                    int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
+                    doStuff(UnShuffle[focus_count],theCard);
+                }
             }
-        }
-        else if(gesture == WatchGesture.FOREARM_RIGHT){
-            clearColumn(focus_column);
-            focus_column+=1;
-            switch(focus_column){
-                case(2):
-                    UnShuffle[1].setBackgroundColor(focus_color);
-                    UnShuffle[5].setBackgroundColor(focus_color);
-                    UnShuffle[9].setBackgroundColor(focus_color);
-                    UnShuffle[13].setBackgroundColor(focus_color);
-                    break;
-                case(3):
-                    UnShuffle[2].setBackgroundColor(focus_color);
-                    UnShuffle[6].setBackgroundColor(focus_color);
-                    UnShuffle[10].setBackgroundColor(focus_color);
-                    UnShuffle[14].setBackgroundColor(focus_color);
-                    break;
-                case(4):
-                    UnShuffle[3].setBackgroundColor(focus_color);
-                    UnShuffle[7].setBackgroundColor(focus_color);
-                    UnShuffle[11].setBackgroundColor(focus_color);
-                    UnShuffle[15].setBackgroundColor(focus_color);
-                    break;
-                case(5):
-                    focus_column=1;
-                    UnShuffle[0].setBackgroundColor(focus_color);
-                    UnShuffle[4].setBackgroundColor(focus_color);
-                    UnShuffle[8].setBackgroundColor(focus_color);
-                    UnShuffle[12].setBackgroundColor(focus_color);
-                    break;
-            }
-        }
-        else if(gesture == WatchGesture.THUMBTAP_INDEX){
-            focus_count=(focus_row-1)*4+focus_column-1;
-            int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
-            doStuff(UnShuffle[focus_count],theCard);
-        }
+        });
     }
 
     public void setDefinedGestures(){
@@ -307,17 +317,20 @@ public class SchulteGridEasy extends MobileActivity {
 
     //圖片的檔案引入陣列
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
-    ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
-    ,R.drawable.grid15,R.drawable.grid16};
+            ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
+            ,R.drawable.grid15,R.drawable.grid16};
 
     int count = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schulte_grid);
         //設定隱藏標題
         getSupportActionBar().hide();
+
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -497,6 +510,7 @@ public class SchulteGridEasy extends MobileActivity {
 
 
     }
+
 
     private int getColorWithAlpha(int color, float ratio) {
         int newColor = 0;

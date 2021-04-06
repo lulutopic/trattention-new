@@ -4,10 +4,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,8 +35,381 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.Timer;
 
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
 
-public class MemoryGamePro extends AppCompatActivity {
+
+public class MemoryGamePro extends MobileActivity {
+
+    private final String MGTAG = MainActivity.class.getSimpleName();
+
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+        showConnectDialog();
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            showConnectDialog();
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageView right_arrow = findViewById(R.id.right_arrow);
+                ImageView left_arrow = findViewById(R.id.left_arrow);
+                ImageView up_arrow = findViewById(R.id.up_arrow);
+                ImageView down_arrow = findViewById(R.id.down_arrow);
+                ImageView ok = findViewById(R.id.ok);
+
+                ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,
+                        iv_21,iv_22,iv_23,iv_24,
+                        iv_31,iv_32,iv_33,iv_34,
+                        iv_41,iv_42,iv_43,iv_44};
+                ok.setVisibility(View.VISIBLE);
+                //手勢控制方向向上
+                if(gesture == WatchGesture.HANDBACK_UP){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    if(i==0 ||i==1||i==2||i==3) {
+                        i = i+12;
+                    }
+                    else {
+                        i = i - 4;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==0 ||i==1||i==2||i==3) {
+                            i = i+12;
+                        }
+                        else {
+                            i = i - 4;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                    Log.d("walktest-up:i",""+i);
+                    Log.d("walktest-up:j",""+j);
+
+
+                }
+                //手勢控制方向向下
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+
+                    if(i==12 ||i==13||i==14||i==15) {
+                        i = i-12;
+                    }
+                    else {
+                        i = i + 4;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==12 ||i==13||i==14||i==15) {
+                            i = i-12;
+                        }
+                        else {
+                            i = i + 4;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+
+                }
+                //手勢控制方向向左
+                else if(gesture == WatchGesture.FOREARM_LEFT){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==0) {
+                        i =15;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i -- ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==0){
+                            i=15;
+                        }
+                        else {
+                            i--;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+                    Log.d("walktest-left:i",""+i);
+                    Log.d("walktest-left:j",""+j);
+                }
+                //手勢控制方向向右
+                else if(gesture == WatchGesture.FOREARM_RIGHT){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==15) {
+                        i =0;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i ++ ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==15){
+                            i=0;
+                        }
+                        else {
+                            i++;
+                        }
+                        temp = imageArray[i];
+                    }
+
+                    //消除動作：prev：到下一格後的上一格
+                    ImageView prev = imageArray[j];
+                    //若prev不是翻開過的，設為蓋起來的黑框背景
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    //若現在新到的這格不是翻開過的，設為聚焦的藍框背景
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                }
+                //手勢控制選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2 || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2){
+                    if (moved==1) {
+                        int theCard = Integer.parseInt((String) temp.getTag());
+                        //如果當前選取的不是已經選取過的
+                        if (temp != collect) {
+                            temp.setImageResource(R.drawable.memorybackground);
+                            if (cardNumber == 1) {
+                                collect = temp;
+                            } else {
+                                collect = null;
+                            }
+                            doStuff(temp, theCard);
+                        }
+                        moved=0;
+                        ok.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    public void setDefinedGestures(){
+        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("Connect Required")
+                .setMessage("Watch is not connected. Connect to MAD Gaze Watch now.")
+                .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(MemoryGamePro.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("Training Required")
+                .setMessage("The required gestures for this application have not been trained. Do you want to train now?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(MemoryGamePro.this);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("Training Required");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
+    }
+
+    public void setListeners(){
+        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                MGWatch.trainRequiredGestures(MemoryGamePro.this);
+            }
+        });
+    }
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
+
+
     protected Long startTime;
     private Long spentTime;
     private Long pauseTime=0L;

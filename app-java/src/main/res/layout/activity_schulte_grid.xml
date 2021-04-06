@@ -30,6 +30,16 @@
             app:srcCompat="@drawable/game_header_tips"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"/>
+        <TextView
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="650dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:id="@+id/result"
+            android:text="Nil" />
 
     </LinearLayout>
 
