@@ -165,7 +165,8 @@ public class SchulteGridEasy extends MobileActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(gesture == WatchGesture.HANDBACK_DOWN){
+                //手勢控制向下
+                if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
                     clearRow(focus_row);
                     focus_row+=1;
                     switch(focus_row){
@@ -184,9 +185,8 @@ public class SchulteGridEasy extends MobileActivity {
                             break;
                     }
                 }
+                //手勢控制向右
                 else if(gesture == WatchGesture.FOREARM_RIGHT){
-
-
                     clearColumn(focus_column);
                     focus_column+=1;
                     switch(focus_column){
@@ -217,7 +217,11 @@ public class SchulteGridEasy extends MobileActivity {
                             break;
                     }
                 }
-                else if(gesture == WatchGesture.THUMBTAP_INDEX){
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                ){
                     focus_count=(focus_row-1)*4+focus_column-1;
                     int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
                     doStuff(UnShuffle[focus_count],theCard);

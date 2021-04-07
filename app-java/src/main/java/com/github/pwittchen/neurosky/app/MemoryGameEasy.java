@@ -202,7 +202,7 @@ public class MemoryGameEasy extends MobileActivity{
                     Log.d("walktest-up:j",""+j);
                 }
                 //手勢控制方向向下
-                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;

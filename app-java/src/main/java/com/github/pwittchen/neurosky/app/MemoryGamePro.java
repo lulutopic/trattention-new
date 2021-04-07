@@ -218,7 +218,7 @@ public class MemoryGamePro extends MobileActivity {
 
                 }
                 //手勢控制方向向下
-                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -324,7 +324,10 @@ public class MemoryGamePro extends MobileActivity {
                     }
                 }
                 //手勢控制選取
-                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2 || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2){
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                ){
                     if (moved==1) {
                         int theCard = Integer.parseInt((String) temp.getTag());
                         //如果當前選取的不是已經選取過的
