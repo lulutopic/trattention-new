@@ -163,9 +163,9 @@ public class SchulteGridEasy extends MobileActivity {
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen};
 
         runOnUiThread(new Runnable() {
-
             @Override
             public void run() {
+                //手勢控制方向向下
                 if(gesture == WatchGesture.HANDBACK_DOWN){
                     clearRow(focus_row);
                     focus_row+=1;
@@ -185,6 +185,7 @@ public class SchulteGridEasy extends MobileActivity {
                             break;
                     }
                 }
+                //手勢控制方向向右
                 else if(gesture == WatchGesture.FOREARM_RIGHT){
                     clearColumn(focus_column);
                     focus_column+=1;
@@ -216,6 +217,7 @@ public class SchulteGridEasy extends MobileActivity {
                             break;
                     }
                 }
+                //手勢控制選取
                 else if(gesture == WatchGesture.THUMBTAP_INDEX){
                     focus_count=(focus_row-1)*4+focus_column-1;
                     int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
@@ -223,7 +225,6 @@ public class SchulteGridEasy extends MobileActivity {
                 }
             }
         });
-
     }
 
     public void setDefinedGestures(){
@@ -232,9 +233,9 @@ public class SchulteGridEasy extends MobileActivity {
 
     public void showConnectDialog(){
         android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+        dialog.setTitle("Connect Required")
+                .setMessage("Watch is not connected. Connect to MAD Gaze Watch now.")
+                .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MGWatch.connect(SchulteGridEasy.this);
@@ -243,20 +244,21 @@ public class SchulteGridEasy extends MobileActivity {
                 .setCancelable(false);
         dialog.show();
     }
+
     public void showTrainingDialog(){
         android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+        dialog.setTitle("Training Required")
+                .setMessage("The required gestures for this application have not been trained. Do you want to train now?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         MGWatch.trainRequiredGestures(SchulteGridEasy.this);
                     }
                 })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
+                        setStatusText("Training Required");
                         ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
                         dialog.dismiss();
                     }
@@ -607,6 +609,7 @@ public class SchulteGridEasy extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
+
 
 
 }
