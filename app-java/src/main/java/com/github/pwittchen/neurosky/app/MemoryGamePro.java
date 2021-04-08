@@ -35,18 +35,15 @@ import java.util.Timer;
 
 public class MemoryGamePro extends AppCompatActivity {
     protected Long startTime;
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal;
+    private Long spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt;
-    private String formattedTime;
-    private ImageView temp;
-    private ImageView collect;
+    private String formattedTime, recordSeconds;
+    private ImageView temp, collect;
     private int moved=1;
     ImageView iv_11,iv_12,iv_13,iv_14,
             iv_21,iv_22,iv_23,iv_24,
@@ -332,11 +329,9 @@ public class MemoryGamePro extends AppCompatActivity {
                 Log.d("walktest-up:i",""+i);
                 Log.d("walktest-up:j",""+j);
             };
-
         });
 
         down_arrow.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view){
                 moved=1;
@@ -351,7 +346,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 }
                 temp = imageArray[i];
                 while (temp.getVisibility() == View.INVISIBLE) {
-
                     if(i==12 ||i==13||i==14||i==15) {
                         i = i-12;
                     }
@@ -367,9 +361,7 @@ public class MemoryGamePro extends AppCompatActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-
             };
-
         });
 
         ok.setVisibility(View.VISIBLE);
@@ -394,9 +386,6 @@ public class MemoryGamePro extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     //set the conect image to the imageview
@@ -548,8 +537,6 @@ public class MemoryGamePro extends AppCompatActivity {
             iv_42.setImageResource(R.drawable.memoryback);
             iv_43.setImageResource(R.drawable.memoryback);
             iv_44.setImageResource(R.drawable.memoryback);
-
-
         }
         iv_11.setEnabled(true);
         iv_12.setEnabled(true);
@@ -623,7 +610,9 @@ public class MemoryGamePro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
+            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
+            gameresult.put("secondRecord", recordSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -647,7 +636,6 @@ public class MemoryGamePro extends AppCompatActivity {
         image102=R.drawable.memory102;
         image107=R.drawable.memory107;
         image106=R.drawable.memory106;
-
     }
 
     //固定要執行的方法
@@ -656,24 +644,22 @@ public class MemoryGamePro extends AppCompatActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            Long hour = (spentTime/1000)/3600;
+            hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = ((spentTime/1000)/60) % 60;
+            minutes = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            Long seconds = (spentTime/1000) % 60;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            seconds = (spentTime/1000) % 60;
+            //計算總秒數
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
     };
-
-
-
 
     public void btnClick(View view) {
         timer.setBase(SystemClock.elapsedRealtime());//計時器清零
         int hour = (int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 1000 / 60);
         timer.setFormat("0"+String.valueOf(hour)+":%s");
     }
-
 }
