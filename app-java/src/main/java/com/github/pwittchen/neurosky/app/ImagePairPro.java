@@ -9,8 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,15 +34,248 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class ImagePairPro extends AppCompatActivity {
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
 
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal=0L;
-    private Long startTime; //初始時間
+public class ImagePairPro extends MobileActivity {
+
+    private final String MGTAG = MainActivity.class.getSimpleName();
+
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+        showConnectDialog();
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            showConnectDialog();
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                //手勢控制向右
+                if(gesture == WatchGesture.FOREARM_RIGHT){
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            System.out.println();
+                            clicked++;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            clicked++;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked-=2;
+                            break;
+                    }
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2) {
+                    //回傳題目的文字底色的文字標籤
+                    String Tag = (String) colorTextView.getTag();
+                    //如果選項Ａ的文字意思等於標籤Ａ
+                    if(button1.get(clicked).getText() == Tag){
+                        count++;
+                        getRandomColor();
+                        deter();
+                        checkEnd();
+                    }
+                }
+            }
+        });
+    }
+
+    public void setDefinedGestures(){
+        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未連線成功")
+                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
+                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(ImagePairPro.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未完成手勢訓練")
+                .setMessage("請配戴手錶並完成所有手勢訓練")
+                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(ImagePairPro.this);
+                    }
+                })
+                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("尚未完成手勢訓練");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
+    }
+    public void setListeners(){
+        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                MGWatch.trainRequiredGestures(ImagePairPro.this);
+            }
+        });
+    }
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
+
+    private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
-    private String formattedTime;
+    private String formattedTime, recordSeconds;
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -49,6 +285,7 @@ public class ImagePairPro extends AppCompatActivity {
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
     private ArrayList<Integer> colorValues = new ArrayList<>(); //文字真正的底色
     private ArrayList<TextView> button = new ArrayList<>(); // ABC選項
+    private ArrayList<TextView> button1 = new ArrayList<>(); // ABC選項(不隨機)
 
     private TextView colorTextView; // 題目的文字
 
@@ -56,12 +293,22 @@ public class ImagePairPro extends AppCompatActivity {
     private int blue;
     private int green;
 
+    private int optiona;
+    private int optionb;
+    private int optionc;
+    private int optiona_border;
+    private int optionb_border;
+    private int optionc_border;
+
+    ImageView btn_right,btn_ok;
+
 
     private TextView ImageButtonA;
     private TextView ImageButtonB;
     private TextView ImageButtonC;
 
     int count = 0; //計算遊戲答對題數
+    int clicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,58 +376,50 @@ public class ImagePairPro extends AppCompatActivity {
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
+        button1.get(0).setBackgroundResource(optiona_border);
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        System.out.println();
+                        clicked++;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        clicked++;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked-=2;
+                        break;
+                }
 
-        ImageView right_arrow = findViewById(R.id.right_arrow);
-        ImageView ok = findViewById(R.id.ok);
+            }
+        });
 
-        //選項Ａ的監聽事件
-        ImageButtonA.setOnClickListener(new View.OnClickListener(){
+        btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
-                String TagA = (String) colorTextView.getTag();
+                String Tag = (String) colorTextView.getTag();
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(ImageButtonA.getText() == TagA){
+                if(button1.get(clicked).getText() == Tag){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
                 }
+
             }
         });
 
-        ImageButtonB.setOnClickListener(new View.OnClickListener(){
-            //選項Ｂ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｂ
-                String TagB = (String) colorTextView.getTag();
-                if(ImageButtonB.getText() == TagB){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-            }
-        });
-
-        ImageButtonC.setOnClickListener(new View.OnClickListener(){
-            //選項Ｃ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｃ
-                String TagC = (String) colorTextView.getTag();
-                if(ImageButtonC.getText() == TagC){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-            }
-        });
     }
 
     //三個串列的隨機排列
@@ -244,7 +483,9 @@ public class ImagePairPro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
+            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
+            gameresult.put("secondRecord", recordSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -279,6 +520,10 @@ public class ImagePairPro extends AppCompatActivity {
         //question
         colorTextView = (TextView) findViewById(R.id.question);
 
+        //按鈕選項
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+
         //ABC選項
         ImageButtonA = (TextView) findViewById(R.id.optionA);
         ImageButtonB = (TextView)findViewById(R.id.optionB);
@@ -294,6 +539,14 @@ public class ImagePairPro extends AppCompatActivity {
         green = R.color.colorGreen;
         blue = R.color.colorBlue;
 
+        optiona = R.drawable.optiona;
+        optionb = R.drawable.optionb;
+        optionc = R.drawable.optionc;
+
+        optiona_border = R.drawable.optiona_border;
+        optionb_border = R.drawable.optionb_border;
+        optionc_border = R.drawable.optionc_border;
+
         //Add color values to the arraylist [-571050, -5973084, -9328385]
         colorValues.add(ContextCompat.getColor(this,red));
         colorValues.add(ContextCompat.getColor(this,green));
@@ -303,6 +556,10 @@ public class ImagePairPro extends AppCompatActivity {
         button.add(ImageButtonA);
         button.add(ImageButtonB);
         button.add(ImageButtonC);
+
+        button1.add(ImageButtonA);
+        button1.add(ImageButtonB);
+        button1.add(ImageButtonC);
     }
 
     //計時器的計時方法
@@ -311,12 +568,13 @@ public class ImagePairPro extends AppCompatActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            Long hour = (spentTime/1000)/3600;
+            hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = ((spentTime/1000)/60) % 60;
+            minutes = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            Long seconds = (spentTime/1000) % 60;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            seconds = (spentTime/1000) % 60;
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
