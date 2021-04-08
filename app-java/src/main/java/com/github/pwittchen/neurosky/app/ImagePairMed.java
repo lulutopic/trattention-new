@@ -10,8 +10,11 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.madgaze.watchsdk.MobileActivity;
 
 import org.w3c.dom.Text;
 
@@ -35,7 +39,250 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.Random;
 
-public class ImagePairMed extends AppCompatActivity {
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
+
+public class ImagePairMed extends MobileActivity {
+
+    private final String MGTAG = MainActivity.class.getSimpleName();
+
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+        showConnectDialog();
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            showConnectDialog();
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                //手勢控制向右
+                if(gesture == WatchGesture.FOREARM_RIGHT){
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            System.out.println();
+                            clicked++;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            clicked++;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(3).setBackgroundResource(optiond_border);
+                            clicked++;
+                            break;
+                        case(3):
+                            button1.get(3).setBackgroundResource(optiond);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked-=3;
+                            break;
+                    }
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2) {
+                    //回傳題目的文字底色的文字標籤
+                    Integer Tag = (Integer) FruitQuestion.getTag();
+                    System.out.println(Tag);//2131165271 apple
+                    System.out.println(button.get(clicked).getTag());
+                    //如果選項Ａ的文字意思等於標籤Ａ
+                    if(Tag.equals(button.get(clicked).getTag())){
+                        count++;
+                        getRandomColor();
+                        deter();
+                        checkEnd();
+                    }
+                }
+            }
+        });
+    }
+
+    public void setDefinedGestures(){
+        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未連線成功")
+                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
+                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(ImagePairMed.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未完成手勢訓練")
+                .setMessage("請配戴手錶並完成所有手勢訓練")
+                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(ImagePairMed.this);
+                    }
+                })
+                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("尚未完成手勢訓練");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
+    }
+    public void setListeners(){
+        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                MGWatch.trainRequiredGestures(ImagePairMed.this);
+            }
+        });
+    }
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
 
     private Long spentTime;
     private Long pauseTime=0L;
@@ -53,14 +300,23 @@ public class ImagePairMed extends AppCompatActivity {
     private ArrayList<String> FruitNames = new ArrayList<>(); //文字意思的顏色
     private ArrayList<Integer> FruitIcon = new ArrayList<>(); //水果圖案
     private ArrayList<ImageView> button = new ArrayList<>(); // ABC選項
+    private ArrayList<ImageView> button1 = new ArrayList<>(); // ABC選項(不隨機)
 
     private TextView FruitQuestion; // 題目的文字
 
     private int apple;
     private int pear;
     private int orange;
-//    private int kiwi;
     private int mango;
+
+    private int optiona;
+    private int optionb;
+    private int optionc;
+    private int optiond;
+    private int optiona_border;
+    private int optionb_border;
+    private int optionc_border;
+    private int optiond_border;
 
 
     private ImageView ImageButtonA;
@@ -68,9 +324,10 @@ public class ImagePairMed extends AppCompatActivity {
     private ImageView ImageButtonC;
     private ImageView ImageButtonD;
 
-    int count = 0; //計算遊戲答對題數
+    ImageView btn_right,btn_ok;
 
-    Random ran = new Random();
+    int count = 0; //計算遊戲答對題數
+    int clicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,95 +393,57 @@ public class ImagePairMed extends AppCompatActivity {
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
+        button1.get(0).setBackgroundResource(optiona_border);
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        System.out.println();
+                        clicked++;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        clicked++;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(3).setBackgroundResource(optiond_border);
+                        clicked++;
+                        break;
+                    case(3):
+                        button1.get(3).setBackgroundResource(optiond);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked-=3;
+                        break;
+                }
 
-//        ImageView right_arrow = findViewById(R.id.right_arrow);
-//        ImageView ok = findViewById(R.id.ok);
+            }
+        });
 
-
-        //選項Ａ的監聽事件
-        ImageButtonA.setOnClickListener(new View.OnClickListener(){
+        btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
-                Integer TagA = (Integer) FruitQuestion.getTag();
-                System.out.println(TagA.getClass());
-                System.out.println(ImageButtonA.getTag().getClass());
+                Integer Tag = (Integer) FruitQuestion.getTag();
+                System.out.println(Tag);//2131165271 apple
+                System.out.println(button.get(clicked).getTag());
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(TagA.equals(ImageButtonA.getTag())){
+                if(Tag.equals(button.get(clicked).getTag())){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
                 }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
+
             }
         });
 
-        ImageButtonB.setOnClickListener(new View.OnClickListener(){
-            //選項Ｂ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｂ
-                Integer TagB = (Integer) FruitQuestion.getTag();
-                System.out.println(TagB.getClass());
-                System.out.println(ImageButtonB.getTag().getClass());
-                if(TagB.equals(ImageButtonB.getTag())){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
-            }
-        });
-
-        ImageButtonC.setOnClickListener(new View.OnClickListener(){
-            //選項Ｃ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｃ
-                Integer TagC = (Integer) FruitQuestion.getTag();
-                System.out.println(TagC.getClass());
-                System.out.println(ImageButtonC.getTag().getClass());
-                if(TagC.equals(ImageButtonC.getTag())){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
-            }
-        });
-
-        ImageButtonD.setOnClickListener(new View.OnClickListener(){
-            //選項Ｃ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｃ
-                Integer TagD = (Integer) FruitQuestion.getTag();
-                System.out.println(TagD.getClass());
-                System.out.println(ImageButtonD.getTag().getClass());
-                if(TagD.equals(ImageButtonD.getTag())){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-                else{
-                    Log.d("MainActivity", "hello ");
-                }
-            }
-        });
     }
 
     //三個串列的隨機排列
@@ -232,7 +451,7 @@ public class ImagePairMed extends AppCompatActivity {
         //Collections.shuffle 隨機排列三個串列
         Collections.shuffle(FruitNames);
         Collections.shuffle(FruitIcon);
-        Collections.shuffle(button);
+        //Collections.shuffle(button);
 
         //colorChosen 取出colorNames裡的資料 當作題目的文字
         String Fruitchosen = FruitNames.get(0);
@@ -263,27 +482,6 @@ public class ImagePairMed extends AppCompatActivity {
             intent.putExtra("time",startTime);
             startActivity(intent);
             finish();
-
-            //        先寫死，後期在統一改 UID
-//        userID = fAuth.getCurrentUser().getUid();
-//        DocumentReference documentReference = fStore.collection("game_record").document(userID);
-            //自動產生 document id
-            DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
-            Map<String,Object> gameresult = new HashMap<>();
-//        user.put("user", userID);
-            gameresult.put("record", formattedTime);
-            gameresult.put("createdAt", createdAt);
-            documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "成功");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "失敗：" + e.toString());
-                }
-            });
         }
     }
 
@@ -309,6 +507,10 @@ public class ImagePairMed extends AppCompatActivity {
         //question
         FruitQuestion = (TextView) findViewById(R.id.question);
 
+        //按鈕選項
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+
         //ABC選項
         ImageButtonA = (ImageView) findViewById(R.id.optionA);
         ImageButtonB = (ImageView) findViewById(R.id.optionB);
@@ -324,15 +526,19 @@ public class ImagePairMed extends AppCompatActivity {
 
         //把放在color.xml裡面的顏色指定給相對應的變數
         apple = R.drawable.apple;
-        Log.d("MainActivity", "apple " + apple);
         orange = R.drawable.orange;
-        Log.d("MainActivity", "orange " + orange);
         pear = R.drawable.pear;
-        Log.d("MainActivity", "pear " + pear);
         mango = R.drawable.mango;
-        Log.d("MainActivity", "mango " + mango);
-//        kiwi = R.drawable.kiwi;
-//        Log.d("MainActivity", "kiwi " + kiwi);
+
+        optiona = R.drawable.optiona;
+        optionb = R.drawable.optionb;
+        optionc = R.drawable.optionc;
+        optiond = R.drawable.optiond;
+
+        optiona_border = R.drawable.optiona_border;
+        optionb_border = R.drawable.optionb_border;
+        optionc_border = R.drawable.optionc_border;
+        optiond_border = R.drawable.optiond_border;
 
         //Add color values to the arraylist [-571050, -5973084, -9328385]
         FruitIcon.add(apple);
@@ -346,6 +552,11 @@ public class ImagePairMed extends AppCompatActivity {
         button.add(ImageButtonB);
         button.add(ImageButtonC);
         button.add(ImageButtonD);
+
+        button1.add(ImageButtonA);
+        button1.add(ImageButtonB);
+        button1.add(ImageButtonC);
+        button1.add(ImageButtonD);
     }
 
     //計時器的計時方法
