@@ -460,7 +460,7 @@ public class MemoryGameEasy extends MobileActivity{
 
 
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.test);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
         mediaPlayer.start();//播放
 
 
@@ -469,6 +469,7 @@ public class MemoryGameEasy extends MobileActivity{
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //stop music
                 mediaPlayer.pause();
                 //stop time
                 pauseTime=System.currentTimeMillis();
