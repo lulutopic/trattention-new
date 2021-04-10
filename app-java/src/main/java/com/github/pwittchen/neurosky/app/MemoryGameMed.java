@@ -270,7 +270,7 @@ public class MemoryGameMed extends AppCompatActivity {
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3||i==4) {
-                    i = i+12;
+                    i = i+15;
                 }
                 else {
                     i = i - 5;
@@ -279,7 +279,7 @@ public class MemoryGameMed extends AppCompatActivity {
                 while (temp.getVisibility() == View.INVISIBLE) {
 
                     if(i==0 ||i==1||i==2||i==3||i==4) {
-                        i = i+12;
+                        i = i+15;
                     }
                     else {
                         i = i - 5;
@@ -307,8 +307,8 @@ public class MemoryGameMed extends AppCompatActivity {
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
-                if(i==12 ||i==13||i==14||i==15 ||i==16) {
-                    i = i-12;
+                if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                    i = i-15;
                 }
                 else {
                     i = i + 5;
@@ -316,8 +316,8 @@ public class MemoryGameMed extends AppCompatActivity {
                 temp = imageArray[i];
                 while (temp.getVisibility() == View.INVISIBLE) {
 
-                    if(i==12 ||i==13||i==14||i==15 ||i==16) {
-                        i = i-12;
+                    if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                        i = i-15;
                     }
                     else {
                         i = i + 5;

@@ -97,7 +97,14 @@
         //記憶力遊戲中等
         <activity
             android:name=".MemoryGameMed"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        <!-- 初始畫面加上這段 -->
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         //記憶力遊戲困難
         <activity
             android:name=".MemoryGamePro"
@@ -106,13 +113,7 @@
         <activity
             android:name=".SchulteGridEasy"
             android:screenOrientation="landscape" >
-            <!-- 初始畫面加上這段 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         //舒爾特方格中等
         <activity
@@ -130,12 +131,7 @@
         <activity
             android:name=".SafariBrain"
             android:screenOrientation="landscape" >
-            <!-- 初始畫面加上這段 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".SafariWatch"
