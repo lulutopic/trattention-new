@@ -63,7 +63,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, SchulteGridEasy.class);
+                intent.setClass(GameHome.this, SchulteGridPro.class);
                 startActivity(intent);
             }
         });
