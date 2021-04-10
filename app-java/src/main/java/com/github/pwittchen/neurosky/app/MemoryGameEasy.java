@@ -5,10 +5,13 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.os.Handler;
 
 import android.os.Looper;
@@ -23,6 +26,8 @@ import android.widget.TextView;
 
 import android.view.View;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import com.madgaze.watchsdk.MGWatch;
@@ -31,8 +36,26 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 
-public class MemoryGameEasy extends MobileActivity{
+import java.util.concurrent.TimeUnit;
 
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+public class MemoryGameEasy extends MobileActivity{
+    
+
+    //手錶
     private final String MGTAG = MainActivity.class.getSimpleName();
 
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
@@ -392,6 +415,8 @@ public class MemoryGameEasy extends MobileActivity{
         });
     }
 
+
+
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
@@ -433,11 +458,18 @@ public class MemoryGameEasy extends MobileActivity{
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
 
+
+        //音樂
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.test);
+        mediaPlayer.start();//播放
+
+
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayer.pause();
                 //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
@@ -461,6 +493,7 @@ public class MemoryGameEasy extends MobileActivity{
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                mediaPlayer.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
