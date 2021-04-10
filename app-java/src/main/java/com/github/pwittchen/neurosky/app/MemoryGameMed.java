@@ -9,8 +9,12 @@ import android.os.Bundle;
 
 import android.os.Handler;
 
+import android.os.Looper;
 import android.os.SystemClock;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,14 +24,384 @@ import android.view.View;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
 
-public class MemoryGameMed extends AppCompatActivity {
+
+public class MemoryGameMed extends MobileActivity {
+
+    private final String MGTAG = MainActivity.class.getSimpleName();
+
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+        showConnectDialog();
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            showConnectDialog();
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+        ImageView ok = findViewById(R.id.ok);
+        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
+                iv_21,iv_22,iv_23,iv_24,iv_25,
+                iv_31,iv_32,iv_33,iv_34,iv_35,
+                iv_41,iv_42,iv_43,iv_44,iv_45};
+
+        ok.setVisibility(View.VISIBLE);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                //手勢控制方向向上
+                if(gesture == WatchGesture.HANDBACK_UP){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    if(i==0 ||i==1||i==2||i==3||i==4) {
+                        i = i+15;
+                    }
+                    else {
+                        i = i - 5;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==0 ||i==1||i==2||i==3||i==4) {
+                            i = i+15;
+                        }
+                        else {
+                            i = i - 5;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                    Log.d("walktest-up:i",""+i);
+                    Log.d("walktest-up:j",""+j);
+                }
+                //手勢控制方向向下
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+
+                    if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                        i = i-15;
+                    }
+                    else {
+                        i = i + 5;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                            i = i-15;
+                        }
+                        else {
+                            i = i + 5;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                }
+                //手勢控制方向向左
+                else if(gesture == WatchGesture.FOREARM_LEFT){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==0) {
+                        i =19;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i -- ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==0){
+                            i=19;
+                        }
+                        else {
+                            i--;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+                    Log.d("walktest-left:i",""+i);
+                    Log.d("walktest-left:j",""+j);
+                }
+                //手勢控制方向向右
+                else if(gesture == WatchGesture.FOREARM_RIGHT){
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==19) {
+                        i =0;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i ++ ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==19){
+                            i=0;
+                        }
+                        else {
+                            i++;
+                        }
+                        temp = imageArray[i];
+                    }
+
+                    //消除動作：prev：到下一格後的上一格
+                    ImageView prev = imageArray[j];
+                    //若prev不是翻開過的，設為蓋起來的黑框背景
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    //若現在新到的這格不是翻開過的，設為聚焦的藍框背景
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2){
+                    if (moved==1) {
+                        int theCard = Integer.parseInt((String) temp.getTag());
+                        //如果當前選取的不是已經選取過的
+                        if (temp != collect) {
+                            temp.setImageResource(R.drawable.memorybackground);
+                            if (cardNumber == 1) {
+                                collect = temp;
+                            } else {
+                                collect = null;
+                            }
+                            doStuff(temp, theCard);
+                        }
+                        moved=0;
+                        ok.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    public void setDefinedGestures(){
+        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未連線成功")
+                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
+                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(MemoryGameMed.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未完成手勢訓練")
+                .setMessage("請配戴手錶並完成所有手勢訓練")
+                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(MemoryGameMed.this);
+                    }
+                })
+                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("尚未完成手勢訓練");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
+    }
+    public void setListeners(){
+        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                MGWatch.trainRequiredGestures(MemoryGameMed.this);
+            }
+        });
+    }
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
+
     protected Long startTime;
     private Long spentTime;
     private Long pauseTime=0L;
     private Long pauseTotal;
     private Chronometer timer;
     private Handler handler = new Handler();
+
+    private ImageView temp;
+    private ImageView collect;
+    private int moved=1;
 
     ImageView iv_11,iv_12,iv_13,iv_14,iv_15,
             iv_21,iv_22,iv_23,iv_24,iv_25,
@@ -36,6 +410,11 @@ public class MemoryGameMed extends AppCompatActivity {
 
     //array for the images
     Integer[] cardsArray = {101,102,103,104,105,106,107,108,109,110,201,202,203,204,205,206,207,208,209,210};
+
+    //actual images
+    int questionCard;//題目
+    int questionCount = 0;
+    int i=0;
 
     //actual images
     int image101,image102,image103,image104,image105,image106,image107,image108,image109,image110,
@@ -159,146 +538,196 @@ public class MemoryGameMed extends AppCompatActivity {
 
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
-        iv_11.setOnClickListener(new View.OnClickListener(){
+        ImageView right_arrow = findViewById(R.id.right_arrow);
+        ImageView left_arrow = findViewById(R.id.left_arrow);
+        ImageView up_arrow = findViewById(R.id.up_arrow);
+        ImageView down_arrow = findViewById(R.id.down_arrow);
+        ImageView ok = findViewById(R.id.ok);
+        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
+                iv_21,iv_22,iv_23,iv_24,iv_25,
+                iv_31,iv_32,iv_33,iv_34,iv_35,
+                iv_41,iv_42,iv_43,iv_44,iv_45};
+
+        temp = imageArray[i];
+
+        iv_11.setImageResource(R.drawable.memorybackground);
+        right_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_11,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                //如果現在在最右邊的話，從最左邊開始
+                if(i==19) {
+                    i =0;
+                }
+                //不是的話，往右移
+                else {
+                    i ++ ;
+                }
+                //temp:現在新到的格子
+                temp = imageArray[i];
+                //當現在要前往的格子是消失的話，往右找沒有消失的
+                while (temp.getVisibility() == View.INVISIBLE) {
+                    if (i==19){
+                        i=0;
+                    }
+                    else {
+                        i++;
+                    }
+                    temp = imageArray[i];
+                }
+
+                //消除動作：prev：到下一格後的上一格
+                ImageView prev = imageArray[j];
+                //若prev不是翻開過的，設為蓋起來的黑框背景
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                //若現在新到的這格不是翻開過的，設為聚焦的藍框背景
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+            };
         });
-        iv_12.setOnClickListener(new View.OnClickListener(){
+
+
+        left_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_12,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                //如果現在在最右邊的話，從最左邊開始
+                if(i==0) {
+                    i =19;
+                }
+                //不是的話，往右移
+                else {
+                    i -- ;
+                }
+                //temp:現在新到的格子
+                temp = imageArray[i];
+                //當現在要前往的格子是消失的話，往右找沒有消失的
+                while (temp.getVisibility() == View.INVISIBLE) {
+                    if (i==0){
+                        i=19;
+                    }
+                    else {
+                        i--;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+                Log.d("walktest-left:i",""+i);
+                Log.d("walktest-left:j",""+j);
+            };
+
         });
-        iv_13.setOnClickListener(new View.OnClickListener(){
+        up_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_13,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                if(i==0 ||i==1||i==2||i==3||i==4) {
+                    i = i+15;
+                }
+                else {
+                    i = i - 5;
+                }
+                temp = imageArray[i];
+                while (temp.getVisibility() == View.INVISIBLE) {
+
+                    if(i==0 ||i==1||i==2||i==3||i==4) {
+                        i = i+15;
+                    }
+                    else {
+                        i = i - 5;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+                Log.d("walktest-up:i",""+i);
+                Log.d("walktest-up:j",""+j);
+            };
+
         });
-        iv_14.setOnClickListener(new View.OnClickListener(){
+
+        down_arrow.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_14,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+
+                if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                    i = i-15;
+                }
+                else {
+                    i = i + 5;
+                }
+                temp = imageArray[i];
+                while (temp.getVisibility() == View.INVISIBLE) {
+
+                    if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                        i = i-15;
+                    }
+                    else {
+                        i = i + 5;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+            };
+
         });
-        iv_15.setOnClickListener(new View.OnClickListener(){
+
+        ok.setVisibility(View.VISIBLE);
+        ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_15,theCard);
+                if (moved==1) {
+                    int theCard = Integer.parseInt((String) temp.getTag());
+                    //如果當前選取的不是已經選取過的
+                    if (temp != collect) {
+                        temp.setImageResource(R.drawable.memorybackground);
+                        if (cardNumber == 1) {
+                            collect = temp;
+                        } else {
+                            collect = null;
+                        }
+                        doStuff(temp, theCard);
+                    }
+                    moved=0;
+                    ok.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
-        iv_21.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_21,theCard);
-            }
-        });
-        iv_22.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_22,theCard);
-            }
-        });
-        iv_23.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_23,theCard);
-            }
-        });
-        iv_24.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_24,theCard);
-            }
-        });
-        iv_25.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_25,theCard);
-            }
-        });
-        iv_31.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_31,theCard);
-            }
-        });
-        iv_32.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_32,theCard);
-            }
-        });
-        iv_33.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_33,theCard);
-            }
-        });
-        iv_34.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_34,theCard);
-            }
-        });
-        iv_35.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_35,theCard);
-            }
-        });
-        iv_41.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_41,theCard);
-            }
-        });
-        iv_42.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_42,theCard);
-            }
-        });
-        iv_43.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_43,theCard);
-            }
-        });
-        iv_44.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_44,theCard);
-            }
-        });
-        iv_45.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_45,theCard);
-            }
-        });
+
     }
 
     //set the conect image to the imageview
