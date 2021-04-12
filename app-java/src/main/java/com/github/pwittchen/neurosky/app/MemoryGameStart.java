@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -26,6 +27,27 @@ public class MemoryGameStart extends AppCompatActivity {
         video.setMediaController(new MediaController(this));
         video.start();
 
+        //header:頁面跳轉->回首頁
+        ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
+        btn_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MemoryGameStart.this , Home.class);
+                startActivity(intent);
+            }
+        });
+
+        //header:頁面跳轉->指南
+        ImageView btn_safari=(ImageView)findViewById(R.id.imagesafari);
+        btn_safari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MemoryGameStart.this , InstructionHome.class);
+                startActivity(intent);
+            }
+        });
 
         Button practiceBtn = (Button)findViewById(R.id.btn_practice);
         practiceBtn.setOnClickListener(new View.OnClickListener() {

@@ -16,29 +16,29 @@
         android:background="@color/blue"
         >
         <ImageView
-            android:id="@+id/imagepause"
+            android:id="@+id/imagehome"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            app:srcCompat="@drawable/game_header_pause"
+            app:srcCompat="@drawable/header_home"
             android:layout_marginRight="20dp"
             />
         <ImageView
-            android:id="@+id/imageatips"
+            android:id="@+id/imagesafari"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/game_header_tips"
+            app:srcCompat="@drawable/header_safari"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"/>
 
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="650dp"
         android:layout_height="450dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
 
         android:paddingTop="30dp">
 
