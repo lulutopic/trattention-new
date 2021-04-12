@@ -122,6 +122,19 @@ public class ImagePairPro extends AppCompatActivity {
             }
         });
 
+        ImageView button5 = findViewById(R.id.imagetips);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
+                LayoutInflater inflater = ImagePairPro.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_image_pair_pro_tips, null));
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
         //計算當前時間
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));

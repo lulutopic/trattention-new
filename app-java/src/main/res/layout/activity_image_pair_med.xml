@@ -24,7 +24,7 @@
             android:layout_marginRight="20dp"
             />
         <ImageView
-            android:id="@+id/imageatips"
+            android:id="@+id/imagetips"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/game_header_tips"

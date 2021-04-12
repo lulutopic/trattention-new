@@ -137,6 +137,19 @@ public class ImagePairMed extends AppCompatActivity {
             }
         });
 
+        ImageView button5 = findViewById(R.id.imagetips);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairMed.this);
+                LayoutInflater inflater = ImagePairMed.this.getLayoutInflater();
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_image_pair_tips, null));
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
         //呼叫函式
         populateBothArraylists();
         getRandomColor();
