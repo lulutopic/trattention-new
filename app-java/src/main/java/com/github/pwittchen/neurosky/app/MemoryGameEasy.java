@@ -65,9 +65,12 @@ public class MemoryGameEasy extends AppCompatActivity {
         startTime = System.currentTimeMillis();
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
+
         //音樂
         MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
         mediaPlayer.start();
+
+
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +104,9 @@ public class MemoryGameEasy extends AppCompatActivity {
                                 mediaPlayer.start();
                             }
                         });
+                //禁止點擊畫面外取消
+                alertDialogBuilder.setCancelable(false);
+
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
                 alertDialog.getWindow().setLayout(455, 400);
@@ -122,6 +128,22 @@ public class MemoryGameEasy extends AppCompatActivity {
             }
         });
 
+        //下一關快速鍵
+        ImageView next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //停止計時器的執行緒
+                handler.removeCallbacks(updateTimer);
+                //頁面跳轉
+                Intent intent = new Intent();
+                intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
+                intent.putExtra("time",startTime);
+                intent.putExtra("pause",pauseTotal);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 

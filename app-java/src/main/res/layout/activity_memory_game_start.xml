@@ -47,6 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:elevation="10dp" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            app:srcCompat="@drawable/header_safari"
+             />
 
     </LinearLayout>
     <LinearLayout

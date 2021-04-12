@@ -97,6 +97,9 @@ public class MemoryGameMed extends AppCompatActivity {
                                 mediaPlayer.start();
                             }
                         });
+                //禁止點擊畫面外取消
+                alertDialogBuilder.setCancelable(false);
+
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
                 alertDialog.getWindow().setLayout(455, 400);
@@ -116,6 +119,22 @@ public class MemoryGameMed extends AppCompatActivity {
             }
         });
 
+        //下一關快速鍵
+        ImageView next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //停止計時器的執行緒
+                handler.removeCallbacks(updateTimer);
+                //頁面跳轉
+                Intent intent = new Intent();
+                intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
+                intent.putExtra("time",startTime);
+                intent.putExtra("pause",pauseTotal);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         //設定隱藏標題
         getSupportActionBar().hide();
