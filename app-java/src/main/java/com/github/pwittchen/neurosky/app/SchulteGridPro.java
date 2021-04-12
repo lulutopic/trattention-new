@@ -122,11 +122,9 @@ public class SchulteGridPro extends AppCompatActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this)
-                        .setTitle("小提示頁面")
-                        .setMessage("請依照數字順序點選");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
                 LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_tips, null));
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_schulte_pro_tips, null));
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
