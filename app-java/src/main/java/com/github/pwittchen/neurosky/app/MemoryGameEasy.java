@@ -122,6 +122,23 @@ public class MemoryGameEasy extends AppCompatActivity {
             }
         });
 
+        //下一關快速鍵
+        ImageView next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //停止計時器的執行緒
+                handler.removeCallbacks(updateTimer);
+                //頁面跳轉
+                Intent intent = new Intent();
+                intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
+                intent.putExtra("time",startTime);
+                intent.putExtra("pause",pauseTotal);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
 
 
