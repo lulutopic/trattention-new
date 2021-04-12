@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -29,6 +30,10 @@ public class MemoryGameMed extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
 
+    private ImageView temp;
+    private ImageView collect;
+    private int moved=1;
+
     ImageView iv_11,iv_12,iv_13,iv_14,iv_15,
             iv_21,iv_22,iv_23,iv_24,iv_25,
             iv_31,iv_32,iv_33,iv_34,iv_35,
@@ -36,6 +41,11 @@ public class MemoryGameMed extends AppCompatActivity {
 
     //array for the images
     Integer[] cardsArray = {101,102,103,104,105,106,107,108,109,110,201,202,203,204,205,206,207,208,209,210};
+
+    //actual images
+    int questionCard;//題目
+    int questionCount = 0;
+    int i=0;
 
     //actual images
     int image101,image102,image103,image104,image105,image106,image107,image108,image109,image110,
@@ -159,146 +169,196 @@ public class MemoryGameMed extends AppCompatActivity {
 
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
-        iv_11.setOnClickListener(new View.OnClickListener(){
+        ImageView right_arrow = findViewById(R.id.right_arrow);
+        ImageView left_arrow = findViewById(R.id.left_arrow);
+        ImageView up_arrow = findViewById(R.id.up_arrow);
+        ImageView down_arrow = findViewById(R.id.down_arrow);
+        ImageView ok = findViewById(R.id.ok);
+        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
+                iv_21,iv_22,iv_23,iv_24,iv_25,
+                iv_31,iv_32,iv_33,iv_34,iv_35,
+                iv_41,iv_42,iv_43,iv_44,iv_45};
+
+        temp = imageArray[i];
+
+        iv_11.setImageResource(R.drawable.memorybackground);
+        right_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_11,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                //如果現在在最右邊的話，從最左邊開始
+                if(i==19) {
+                    i =0;
+                }
+                //不是的話，往右移
+                else {
+                    i ++ ;
+                }
+                //temp:現在新到的格子
+                temp = imageArray[i];
+                //當現在要前往的格子是消失的話，往右找沒有消失的
+                while (temp.getVisibility() == View.INVISIBLE) {
+                    if (i==19){
+                        i=0;
+                    }
+                    else {
+                        i++;
+                    }
+                    temp = imageArray[i];
+                }
+
+                //消除動作：prev：到下一格後的上一格
+                ImageView prev = imageArray[j];
+                //若prev不是翻開過的，設為蓋起來的黑框背景
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                //若現在新到的這格不是翻開過的，設為聚焦的藍框背景
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+            };
         });
-        iv_12.setOnClickListener(new View.OnClickListener(){
+
+
+        left_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_12,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                //如果現在在最右邊的話，從最左邊開始
+                if(i==0) {
+                    i =19;
+                }
+                //不是的話，往右移
+                else {
+                    i -- ;
+                }
+                //temp:現在新到的格子
+                temp = imageArray[i];
+                //當現在要前往的格子是消失的話，往右找沒有消失的
+                while (temp.getVisibility() == View.INVISIBLE) {
+                    if (i==0){
+                        i=19;
+                    }
+                    else {
+                        i--;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+                Log.d("walktest-left:i",""+i);
+                Log.d("walktest-left:j",""+j);
+            };
+
         });
-        iv_13.setOnClickListener(new View.OnClickListener(){
+        up_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_13,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+                if(i==0 ||i==1||i==2||i==3||i==4) {
+                    i = i+15;
+                }
+                else {
+                    i = i - 5;
+                }
+                temp = imageArray[i];
+                while (temp.getVisibility() == View.INVISIBLE) {
+
+                    if(i==0 ||i==1||i==2||i==3||i==4) {
+                        i = i+15;
+                    }
+                    else {
+                        i = i - 5;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+                Log.d("walktest-up:i",""+i);
+                Log.d("walktest-up:j",""+j);
+            };
+
         });
-        iv_14.setOnClickListener(new View.OnClickListener(){
+
+        down_arrow.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_14,theCard);
-            }
+                moved=1;
+                ok.setVisibility(View.VISIBLE);
+                int j=i;
+
+                if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                    i = i-15;
+                }
+                else {
+                    i = i + 5;
+                }
+                temp = imageArray[i];
+                while (temp.getVisibility() == View.INVISIBLE) {
+
+                    if(i==15 ||i==16||i==17 ||i==18||i==19) {
+                        i = i-15;
+                    }
+                    else {
+                        i = i + 5;
+                    }
+                    temp = imageArray[i];
+                }
+                ImageView prev = imageArray[j];
+                if (prev != collect) {
+                    prev.setImageResource(R.drawable.memoryback);
+                }
+                if (temp != collect){
+                    temp.setImageResource(R.drawable.memorybackground);
+                }
+
+            };
+
         });
-        iv_15.setOnClickListener(new View.OnClickListener(){
+
+        ok.setVisibility(View.VISIBLE);
+        ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_15,theCard);
+                if (moved==1) {
+                    int theCard = Integer.parseInt((String) temp.getTag());
+                    //如果當前選取的不是已經選取過的
+                    if (temp != collect) {
+                        temp.setImageResource(R.drawable.memorybackground);
+                        if (cardNumber == 1) {
+                            collect = temp;
+                        } else {
+                            collect = null;
+                        }
+                        doStuff(temp, theCard);
+                    }
+                    moved=0;
+                    ok.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
-        iv_21.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_21,theCard);
-            }
-        });
-        iv_22.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_22,theCard);
-            }
-        });
-        iv_23.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_23,theCard);
-            }
-        });
-        iv_24.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_24,theCard);
-            }
-        });
-        iv_25.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_25,theCard);
-            }
-        });
-        iv_31.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_31,theCard);
-            }
-        });
-        iv_32.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_32,theCard);
-            }
-        });
-        iv_33.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_33,theCard);
-            }
-        });
-        iv_34.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_34,theCard);
-            }
-        });
-        iv_35.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_35,theCard);
-            }
-        });
-        iv_41.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_41,theCard);
-            }
-        });
-        iv_42.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_42,theCard);
-            }
-        });
-        iv_43.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_43,theCard);
-            }
-        });
-        iv_44.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_44,theCard);
-            }
-        });
-        iv_45.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(iv_45,theCard);
-            }
-        });
+
     }
 
     //set the conect image to the imageview
