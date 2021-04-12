@@ -41,7 +41,6 @@ public class MemoryGamePro extends AppCompatActivity {
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
-    private MediaPlayer mediaPlayer;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt;
@@ -101,7 +100,7 @@ public class MemoryGamePro extends AppCompatActivity {
         questionArray=Arrays.copyOf(questionArray,9);
         questionArray[8] =0;
         //音樂
-        mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
         //設定第一題
         questionCard = questionArray[questionCount];
         //點pause
@@ -137,9 +136,6 @@ public class MemoryGamePro extends AppCompatActivity {
                                 mediaPlayer.start();
                             }
                         });
-                //禁止點擊畫面外取消
-                alertDialogBuilder.setCancelable(false);
-
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
                 alertDialog.getWindow().setLayout(455, 400);
@@ -158,7 +154,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
 
         //game
         //題目顏色
@@ -589,8 +584,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 iv_44.getVisibility() == View.INVISIBLE) {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
-            //
-            mediaPlayer.pause();
             Log.d("Memorygame", "formattedTime " + formattedTime);
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);

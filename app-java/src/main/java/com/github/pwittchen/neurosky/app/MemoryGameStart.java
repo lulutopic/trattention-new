@@ -1,11 +1,8 @@
 package com.github.pwittchen.neurosky.app;
 
 import android.content.Intent;
-import android.media.Image;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,15 +23,9 @@ public class MemoryGameStart extends AppCompatActivity {
         //設定隱藏標題
         getSupportActionBar().hide();
         VideoView video = (VideoView) findViewById(R.id.videoView);
-        ImageView image=(ImageView)findViewById(R.id.imageView);
         video.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/trattention-f3daa.appspot.com/o/video.mp4?alt=media&token=e7832ebd-8eab-4dff-b17b-a51ca1b3d1d7"));
         video.setMediaController(new MediaController(this));
         video.start();
-
-
-
-
-
 
         //header:頁面跳轉->回首頁
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
