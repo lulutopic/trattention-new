@@ -14,147 +14,128 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        //mad gaze watch 手錶畫面
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="false" />
+
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
+
+        <activity
+            android:name=".MemoryGamePractice"
+            android:label="@string/title_activity_memory_game_practice">
+
+        </activity>
+        <activity
+            android:name=".MemoryGameStart"
+            android:label="@string/title_activity_memory_game_start">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainWatchActivity"
-            android:screenOrientation="landscape"/>
-        //mad gaze watch 平板畫面
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="landscape"/>
-        //圖形配對
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ImagePairPro"
-            android:screenOrientation="landscape"/>
-        //圖型配對簡單
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ImagePairEasy"
-            android:screenOrientation="landscape"/>
-        //圖型配對簡單
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ImagePairMed"
-            android:screenOrientation="landscape"/>
-        //註冊
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Registration"
-            android:screenOrientation="landscape"/>
-        //登入
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Login"
             android:screenOrientation="landscape" />
-        //專注力測驗結果
         <activity
             android:name=".AttentionTestResult"
             android:screenOrientation="landscape" />
-        //專注力測驗
         <activity
             android:name=".AttentionTesting"
             android:screenOrientation="landscape" />
-        //專注力測驗首頁
         <activity
             android:name=".AttentionTestHome"
-            android:screenOrientation="landscape" >
-        </activity>
-        //專注力測驗說明
+            android:screenOrientation="landscape" />
         <activity
             android:name=".AttentionTestIntro"
             android:screenOrientation="landscape" />
-        //遊戲首頁
         <activity
             android:name=".GameHome"
             android:screenOrientation="landscape" />
-        //遊戲結果
         <activity
             android:name=".GameResult"
-            android:screenOrientation="landscape" >
-
-        </activity>
-        //舒爾特方格遊戲結果
+            android:screenOrientation="landscape" />
         <activity
             android:name=".GameResultSchulte"
             android:screenOrientation="landscape" />
-        //記憶力遊戲結果
         <activity
             android:name=".GameResultMemory"
             android:screenOrientation="landscape" />
-        //圖形配對遊戲結果
         <activity
             android:name=".GameResultImagePair"
             android:screenOrientation="landscape" />
-        //專注力暫停按鈕
         <activity
             android:name=".GameStopButton"
             android:screenOrientation="landscape" />
-        //遊戲前導影片
         <activity
             android:name=".GameVideo"
             android:screenOrientation="landscape" />
-        //記憶力遊戲簡單
         <activity
             android:name=".MemoryGameEasy"
-            android:screenOrientation="landscape" >
-        </activity>
-        //記憶力遊戲中等
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MemoryGameMed"
-            android:screenOrientation="landscape" >
-        <!-- 初始畫面加上這段 -->
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-        //記憶力遊戲困難
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".MemoryGamePro"
-            android:screenOrientation="landscape"/>
-        //舒爾特方格簡單
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SchulteGridEasy"
-            android:screenOrientation="landscape" >
-
-        </activity>
-        //舒爾特方格中等
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SchulteGridMed"
             android:screenOrientation="landscape" />
-        //舒爾特方格困難
         <activity
             android:name=".SchulteGridPro"
             android:screenOrientation="landscape" />
-        //個人化設置
         <activity
             android:name=".Personal"
             android:screenOrientation="landscape" />
-        //指南
         <activity
             android:name=".SafariBrain"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SafariWatch"
             android:screenOrientation="landscape" />
         <activity
             android:name=".SafariApp"
             android:screenOrientation="landscape" />
-        //招呼頁面
         <activity
             android:name=".Hello"
             android:screenOrientation="landscape" />
-        //首頁
         <activity
             android:name=".Home"
-            android:screenOrientation="landscape"/>
-        //指南首頁
+            android:screenOrientation="landscape" />
         <activity
             android:name=".InstructionHome"
             android:screenOrientation="landscape" />
-        //訓練記錄
         <activity
             android:name=".TrainRecord"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

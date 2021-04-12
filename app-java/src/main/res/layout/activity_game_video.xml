@@ -40,12 +40,13 @@
         android:paddingLeft="230dp"
         android:paddingRight="230dp"
         android:paddingTop="70dp">
+
         <VideoView
             android:id="@+id/videoView"
+            android:layout_width="1dp"
             android:layout_height="450dp"
             android:layout_weight="1"
-            android:layout_width="1dp"
-            android:elevation="10dp"/>
+            android:elevation="10dp" />
 
     </LinearLayout>
     <LinearLayout
