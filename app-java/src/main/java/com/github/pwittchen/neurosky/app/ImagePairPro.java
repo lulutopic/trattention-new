@@ -46,6 +46,7 @@ public class ImagePairPro extends AppCompatActivity {
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
     private ArrayList<Integer> colorValues = new ArrayList<>(); //文字真正的底色
     private ArrayList<TextView> button = new ArrayList<>(); // ABC選項
+    private ArrayList<TextView> button1 = new ArrayList<>(); // ABC選項(不隨機)
 
     private TextView colorTextView; // 題目的文字
 
@@ -53,12 +54,22 @@ public class ImagePairPro extends AppCompatActivity {
     private int blue;
     private int green;
 
+    private int optiona;
+    private int optionb;
+    private int optionc;
+    private int optiona_border;
+    private int optionb_border;
+    private int optionc_border;
+
+    ImageView btn_right,btn_ok;
+
 
     private TextView ImageButtonA;
     private TextView ImageButtonB;
     private TextView ImageButtonC;
 
     int count = 0; //計算遊戲答對題數
+    int clicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,58 +137,50 @@ public class ImagePairPro extends AppCompatActivity {
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
+        button1.get(0).setBackgroundResource(optiona_border);
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        System.out.println();
+                        clicked++;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        clicked++;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked-=2;
+                        break;
+                }
 
-        ImageView right_arrow = findViewById(R.id.right_arrow);
-        ImageView ok = findViewById(R.id.ok);
+            }
+        });
 
-        //選項Ａ的監聽事件
-        ImageButtonA.setOnClickListener(new View.OnClickListener(){
+        btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
             public void onClick(View v){
                 //回傳題目的文字底色的文字標籤
-                String TagA = (String) colorTextView.getTag();
+                String Tag = (String) colorTextView.getTag();
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if(ImageButtonA.getText() == TagA){
+                if(button1.get(clicked).getText() == Tag){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
                 }
+
             }
         });
 
-        ImageButtonB.setOnClickListener(new View.OnClickListener(){
-            //選項Ｂ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｂ
-                String TagB = (String) colorTextView.getTag();
-                if(ImageButtonB.getText() == TagB){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-            }
-        });
-
-        ImageButtonC.setOnClickListener(new View.OnClickListener(){
-            //選項Ｃ的監聽事件
-            @Override
-            //設定點擊事件
-            public void onClick(View v){
-                //如果選項Ｂ的文字意思等於標籤Ｃ
-                String TagC = (String) colorTextView.getTag();
-                if(ImageButtonC.getText() == TagC){
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
-            }
-        });
     }
 
     //三個串列的隨機排列
@@ -278,6 +281,10 @@ public class ImagePairPro extends AppCompatActivity {
         //question
         colorTextView = (TextView) findViewById(R.id.question);
 
+        //按鈕選項
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+
         //ABC選項
         ImageButtonA = (TextView) findViewById(R.id.optionA);
         ImageButtonB = (TextView)findViewById(R.id.optionB);
@@ -293,6 +300,14 @@ public class ImagePairPro extends AppCompatActivity {
         green = R.color.colorGreen;
         blue = R.color.colorBlue;
 
+        optiona = R.drawable.optiona;
+        optionb = R.drawable.optionb;
+        optionc = R.drawable.optionc;
+
+        optiona_border = R.drawable.optiona_border;
+        optionb_border = R.drawable.optionb_border;
+        optionc_border = R.drawable.optionc_border;
+
         //Add color values to the arraylist [-571050, -5973084, -9328385]
         colorValues.add(ContextCompat.getColor(this,red));
         colorValues.add(ContextCompat.getColor(this,green));
@@ -302,6 +317,10 @@ public class ImagePairPro extends AppCompatActivity {
         button.add(ImageButtonA);
         button.add(ImageButtonB);
         button.add(ImageButtonC);
+
+        button1.add(ImageButtonA);
+        button1.add(ImageButtonB);
+        button1.add(ImageButtonC);
     }
 
     //計時器的計時方法

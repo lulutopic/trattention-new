@@ -2,6 +2,7 @@ package com.github.pwittchen.neurosky.app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -33,18 +34,32 @@ import java.util.TimeZone;
 
 
 public class SchulteGridPro extends AppCompatActivity {
-    private Long startTime, spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
+    private Long startTime;
+    private Long spentTime;
+    private Long pauseTime=0L;
+    private Long pauseTotal;
+
+    private int focus_count;
+    private int focus_row=1;
+    private int focus_column=1;
+
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
-    private String formattedTime, recordSeconds;
+    private String formattedTime;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String createdAt;
+    String createdAt, a;
 
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
             seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive;
+    ImageView btn_down,btn_right,btn_ok;
+    View row1,row2,row3,row4,row5;
+
+    int blue= Color.parseColor("#274C98");
+    int focus_color=getColorWithAlpha(blue, 0.6f);
+    int unfocus_color= getColorWithAlpha(blue, 0f);
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
@@ -154,11 +169,31 @@ public class SchulteGridPro extends AppCompatActivity {
         twentyfour=(ImageView)findViewById(R.id.twentyfour);
         twentyfive=(ImageView)findViewById(R.id.twentyfive);
 
+        btn_down=(ImageView)findViewById(R.id.down_arrow);
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+
+        row1 =(View)findViewById(R.id.row1);
+        row2 =(View)findViewById(R.id.row2);
+        row3 =(View)findViewById(R.id.row3);
+        row4 =(View)findViewById(R.id.row4);
+        row5 =(View)findViewById(R.id.row5);
+
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
                 seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+        ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,
+                fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
 
         //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
+
+        //初始設定：選取第一行、第一列
+        row1.setBackgroundColor(focus_color);
+        UnShuffle[0].setBackgroundColor(focus_color);
+        UnShuffle[5].setBackgroundColor(focus_color);
+        UnShuffle[10].setBackgroundColor(focus_color);
+        UnShuffle[15].setBackgroundColor(focus_color);
+        UnShuffle[20].setBackgroundColor(focus_color);
 
         for(int i = 0; i < ImageArray.length; i++){
             NumArray[i].setImageResource(ImageArray[i]);
@@ -166,194 +201,170 @@ public class SchulteGridPro extends AppCompatActivity {
             NumArray[i].setTag(s);
         }
 
-        //Listener 等待使用者點擊此事件
-        //override 覆蓋掉原本android studio 上層物件
-        one.setOnClickListener(new View.OnClickListener(){
+        //向下的按鈕
+        btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(one,theCard);
+                clearRow(focus_row);
+                focus_row+=1;
+                switch(focus_row){
+                    case(2):
+                        row2.setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        row3.setBackgroundColor(focus_color);
+                        break;
+                    case(4):
+                        row4.setBackgroundColor(focus_color);
+                        break;
+                    case(5):
+                        row5.setBackgroundColor(focus_color);
+                        break;
+                    case(6):
+                        focus_row=1;
+                        row1.setBackgroundColor(focus_color);
+                        break;
+                }
+            }
+        });
+        //向右的按鈕
+        btn_right.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                clearColumn(focus_column);
+                focus_column+=1;
+                switch(focus_column){
+                    case(2):
+                        UnShuffle[1].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[16].setBackgroundColor(focus_color);
+                        UnShuffle[21].setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        UnShuffle[2].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        UnShuffle[17].setBackgroundColor(focus_color);
+                        UnShuffle[22].setBackgroundColor(focus_color);
+                        break;
+                    case(4):
+                        UnShuffle[3].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        UnShuffle[18].setBackgroundColor(focus_color);
+                        UnShuffle[23].setBackgroundColor(focus_color);
+                        break;
+                    case(5):
+                        UnShuffle[4].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        UnShuffle[19].setBackgroundColor(focus_color);
+                        UnShuffle[24].setBackgroundColor(focus_color);
+                        break;
+                    case(6):
+                        focus_column=1;
+                        UnShuffle[0].setBackgroundColor(focus_color);
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
+                        UnShuffle[20].setBackgroundColor(focus_color);
+                        break;
+                }
 
             }
         });
-        two.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(two,theCard);
-            }
-        });
-        three.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(three,theCard);
-            }
-        });
-        four.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(four,theCard);
-            }
-        });
-        five.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(five,theCard);
-            }
-        });
-        six.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(six,theCard);
-            }
-        });
-        seven.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(seven,theCard);
-            }
-        });
-        eight.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(eight,theCard);
-            }
-        });
-        nine.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(nine,theCard);
-            }
-        });
-        ten.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(ten,theCard);
-            }
-        });
-        eleven.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(eleven,theCard);
-            }
-        });
-        twelve.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twelve,theCard);
-            }
-        });
-        thirteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(thirteen,theCard);
-            }
-        });
-        fourteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(fourteen,theCard);
-            }
-        });
-        fifteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(fifteen,theCard);
-            }
-        });
-        sixteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(sixteen,theCard);
-            }
-        });
-        seventeen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(seventeen,theCard);
-            }
-        });
-        eighteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(eighteen,theCard);
-            }
-        });
-        nineteen.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(nineteen,theCard);
-            }
-        });
-        twenty.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twenty,theCard);
-            }
-        });
-        twentyone.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twentyone,theCard);
-            }
-        });
-        twentytwo.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twentytwo,theCard);
-            }
-        });
-        twentythree.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twentythree,theCard);
-            }
-        });
-        twentyfour.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twentyfour,theCard);
-            }
-        });
-        twentyfive.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                int theCard = Integer.parseInt((String)view.getTag());
-                doStuff(twentyfive,theCard);
-            }
-        });
 
+        //確認的按鈕
+        btn_ok.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                focus_count=(focus_row-1)*5+focus_column-1;
+                int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
+                doStuff(UnShuffle[focus_count],theCard);
+            }
+        });
+    }
+    private void clearRow(int focus_row){
+        switch(focus_row){
+            case(1):
+                row1.setBackgroundColor(unfocus_color);
+                break;
+            case(2):
+                row2.setBackgroundColor(unfocus_color);
+                break;
+            case(3):
+                row3.setBackgroundColor(unfocus_color);
+                break;
+            case(4):
+                row4.setBackgroundColor(unfocus_color);
+                break;
+            case(5):
+                row5.setBackgroundColor(unfocus_color);
+                break;
+        }
+    }
+
+    private void clearColumn(int focus_column){
+        ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen, fourteen,fifteen,sixteen,
+                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+        switch(focus_column){
+            case(1):
+                UnShuffle[0].setBackgroundColor(unfocus_color);
+                UnShuffle[5].setBackgroundColor(unfocus_color);
+                UnShuffle[10].setBackgroundColor(unfocus_color);
+                UnShuffle[15].setBackgroundColor(unfocus_color);
+                UnShuffle[20].setBackgroundColor(unfocus_color);
+                break;
+            case(2):
+                UnShuffle[1].setBackgroundColor(unfocus_color);
+                UnShuffle[6].setBackgroundColor(unfocus_color);
+                UnShuffle[11].setBackgroundColor(unfocus_color);
+                UnShuffle[16].setBackgroundColor(unfocus_color);
+                UnShuffle[21].setBackgroundColor(unfocus_color);
+                break;
+            case(3):
+                UnShuffle[2].setBackgroundColor(unfocus_color);
+                UnShuffle[7].setBackgroundColor(unfocus_color);
+                UnShuffle[12].setBackgroundColor(unfocus_color);
+                UnShuffle[17].setBackgroundColor(unfocus_color);
+                UnShuffle[22].setBackgroundColor(unfocus_color);
+                break;
+            case(4):
+                UnShuffle[3].setBackgroundColor(unfocus_color);
+                UnShuffle[8].setBackgroundColor(unfocus_color);
+                UnShuffle[13].setBackgroundColor(unfocus_color);
+                UnShuffle[18].setBackgroundColor(unfocus_color);
+                UnShuffle[23].setBackgroundColor(unfocus_color);
+                break;
+            case(5):
+                UnShuffle[4].setBackgroundColor(unfocus_color);
+                UnShuffle[9].setBackgroundColor(unfocus_color);
+                UnShuffle[14].setBackgroundColor(unfocus_color);
+                UnShuffle[19].setBackgroundColor(unfocus_color);
+                UnShuffle[24].setBackgroundColor(unfocus_color);
+                break;
+        }
+    }
+
+
+    private int getColorWithAlpha(int color, float ratio) {
+        int newColor = 0;
+        int alpha = Math.round(Color.alpha(color) * ratio);
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        newColor = Color.argb(alpha, r, g, b);
+        return newColor;
     }
 
     private void doStuff(ImageView iv, int card){
         if(count == card && count != 24){
-            iv.setVisibility(View.INVISIBLE);
+            iv.setImageResource(R.drawable.gridblank);
             count = count + 2;
         }
         else if(count == card && count == 24){
-            iv.setVisibility(View.INVISIBLE);
+            iv.setImageResource(R.drawable.gridblank);
             count = 1;
         }
         else{
@@ -400,9 +411,7 @@ public class SchulteGridPro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
-            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
-            gameresult.put("secondRecord", recordSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -424,13 +433,12 @@ public class SchulteGridPro extends AppCompatActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            hour = (spentTime/1000)/3600;
+            Long hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            minutes = ((spentTime/1000)/60) % 60;
+            Long minius = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            seconds = (spentTime/1000) % 60;
-            totalSeconds = spentTime/1000;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
+            Long seconds = (spentTime/1000) % 60;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
