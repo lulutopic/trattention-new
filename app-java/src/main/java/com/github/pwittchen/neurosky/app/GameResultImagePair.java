@@ -22,11 +22,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import static java.lang.String.valueOf;
+
 public class GameResultImagePair extends AppCompatActivity {
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    TextView lastTimeRecord, thisTimeRecord;
+    TextView lastTimeRecord, thisTimeRecord, recordCompare, differSeconds;
     String userID;
 
     @Override
@@ -39,12 +41,15 @@ public class GameResultImagePair extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-        setContentView(R.layout.activity_game_result);
+        setContentView(R.layout.activity_game_result_imagepair);
 
         //取得各格 id 進一步設定要放值的地方
         lastTimeRecord = findViewById(R.id.lastTimeRecord);
         thisTimeRecord = findViewById(R.id.thisTimeRecord);
-        ArrayList list = new ArrayList<>();
+        recordCompare = findViewById(R.id.recordCompare);
+        differSeconds = findViewById(R.id.differSeconds);
+        ArrayList recordList = new ArrayList<>();
+        ArrayList compareList = new ArrayList<>();
         //        userID = fAuth.getCurrentUser().getUid();
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
@@ -57,16 +62,28 @@ public class GameResultImagePair extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                list.add(document.getString("record"));
+                                recordList.add(document.getString("record"));
+                                compareList.add(document.getString("secondRecord"));
                             }
-                            Log.d("document",list.toString());
-                            if(list.size() == 2){
-                                lastTimeRecord.setText(list.get(list.size()-2).toString());
-                                thisTimeRecord.setText(list.get(list.size()-1).toString());
+                            Log.d("comparecord", recordList.toString());
+                            Log.d("comparecord", compareList.toString());
+                            if(recordList.size() == 2 && compareList.size() == 2){
+                                lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
+                                differSeconds.setText(valueOf(Math.abs(compareRecord)));
+                                Log.d("comparecord", valueOf(compareRecord));
+                                if(compareRecord > 0){
+                                    recordCompare.setText("比上次退步"+Math.abs(compareRecord));
+                                }
+                                else{
+                                    recordCompare.setText("比上次進步"+Math.abs(compareRecord));
+                                }
                             }
                             else{
                                 lastTimeRecord.setText("尚未有先前記錄");
-                                thisTimeRecord.setText(list.get(list.size()-1).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                recordCompare.setText("尚未有先前記錄");
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());

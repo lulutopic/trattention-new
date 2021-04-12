@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -60,14 +62,18 @@ public class MemoryGameMed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memory_game_med);
 
-
+        //音樂
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
+        //點pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pauseTime=System.currentTimeMillis();
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                mediaPlayer.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
                 LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -87,6 +93,8 @@ public class MemoryGameMed extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                mediaPlayer.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();

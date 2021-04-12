@@ -34,22 +34,16 @@ import java.util.TimeZone;
 
 
 public class SchulteGridPro extends AppCompatActivity {
-    private Long startTime;
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal;
+    private Long startTime, spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
 
-    private int focus_count;
-    private int focus_row=1;
-    private int focus_column=1;
+    private int focus_count, focus_row=1, focus_column=1;
 
-    private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
-    private String formattedTime;
+    private String formattedTime, recordSeconds;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String createdAt, a;
+    String createdAt;
 
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
@@ -58,15 +52,12 @@ public class SchulteGridPro extends AppCompatActivity {
     View row1,row2,row3,row4,row5;
 
     int blue= Color.parseColor("#274C98");
-    int focus_color=getColorWithAlpha(blue, 0.6f);
-    int unfocus_color= getColorWithAlpha(blue, 0f);
+    int focus_color=getColorWithAlpha(blue, 0.6f), unfocus_color= getColorWithAlpha(blue, 0f), count = 0;
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
             ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
             ,R.drawable.grid23,R.drawable.grid24,R.drawable.grid25};
-
-    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +71,6 @@ public class SchulteGridPro extends AppCompatActivity {
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
         pauseTotal= getIntent().getLongExtra("pause",0);
-
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
@@ -409,7 +399,9 @@ public class SchulteGridPro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
+            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
+            gameresult.put("secondRecord", recordSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -431,12 +423,13 @@ public class SchulteGridPro extends AppCompatActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            Long hour = (spentTime/1000)/3600;
+            hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = ((spentTime/1000)/60) % 60;
+            minutes = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            Long seconds = (spentTime/1000) % 60;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            seconds = (spentTime/1000) % 60;
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
