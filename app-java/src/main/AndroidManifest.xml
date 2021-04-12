@@ -26,8 +26,20 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+        <activity
+            android:name=".MemoryGamePractice"
+            android:label="@string/title_activity_memory_game_practice">
 
+        </activity>
+        <activity
+            android:name=".MemoryGameStart"
+            android:label="@string/title_activity_memory_game_start">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainWatchActivity"
             android:screenOrientation="landscape" />
@@ -63,13 +75,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".GameHome"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity >
+            android:screenOrientation="landscape" />
         <activity
             android:name=".GameResult"
             android:screenOrientation="landscape" />
@@ -88,14 +94,6 @@
         <activity
             android:name=".GameVideo"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".MemoryGameStart"
-            android:label="@string/title_activity_memory_game_start">
-        </activity>
-        <activity
-            android:name=".MemoryGamePractice"
-            android:label="@string/title_activity_memory_game_practice">
-        </activity>
         <activity
             android:name=".MemoryGameEasy"
             android:screenOrientation="landscape" />
