@@ -2,6 +2,7 @@ package com.github.pwittchen.neurosky.app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -34,6 +35,7 @@ import java.util.Timer;
 
 
 public class MemoryGamePro extends AppCompatActivity {
+    public static boolean isPlay;
     protected Long startTime;
     private Long spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
     private Chronometer timer;
@@ -97,17 +99,20 @@ public class MemoryGamePro extends AppCompatActivity {
         Collections.shuffle(Arrays.asList(questionArray));
         questionArray=Arrays.copyOf(questionArray,9);
         questionArray[8] =0;
-
+        //音樂
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
         //設定第一題
         questionCard = questionArray[questionCount];
-
+        //點pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pauseTime=System.currentTimeMillis();
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                mediaPlayer.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
                 LayoutInflater inflater = MemoryGamePro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -127,6 +132,8 @@ public class MemoryGamePro extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                mediaPlayer.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
