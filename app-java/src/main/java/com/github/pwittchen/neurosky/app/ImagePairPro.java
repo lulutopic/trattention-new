@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -32,7 +33,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class ImagePairPro extends AppCompatActivity {
-
+    private MediaPlayer music;
     private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
@@ -75,7 +76,10 @@ public class ImagePairPro extends AppCompatActivity {
         handler.postDelayed(updateTimer, 10);
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.star);
+        music.setLooping(true);
+        music.start();
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +88,8 @@ public class ImagePairPro extends AppCompatActivity {
                 //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
                 LayoutInflater inflater = ImagePairPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -95,6 +100,9 @@ public class ImagePairPro extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(ImagePairPro.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -104,6 +112,8 @@ public class ImagePairPro extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -224,6 +234,9 @@ public class ImagePairPro extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameResultImagePair.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
                         }
                     })
@@ -233,6 +246,9 @@ public class ImagePairPro extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameHome.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
                         }
                     });

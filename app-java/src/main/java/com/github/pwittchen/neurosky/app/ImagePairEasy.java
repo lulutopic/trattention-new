@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import java.util.TimeZone;
 import java.util.Random;
 
 public class ImagePairEasy extends AppCompatActivity {
-
+    private MediaPlayer music;
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
     private Long spentTime;
@@ -105,13 +106,20 @@ public class ImagePairEasy extends AppCompatActivity {
         deter();
         setupViewsAndListeners();
 
+        //音樂
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
+
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pauseTime=System.currentTimeMillis();
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairEasy.this);
                 LayoutInflater inflater = ImagePairEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -122,6 +130,9 @@ public class ImagePairEasy extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(ImagePairEasy.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -131,6 +142,8 @@ public class ImagePairEasy extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -239,6 +252,9 @@ public class ImagePairEasy extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(ImagePairEasy.this, ImagePairMed.class);
             intent.putExtra("time",startTime);
+            //音樂釋放
+            music.release();
+            music=null;
             startActivity(intent);
             finish();
 
