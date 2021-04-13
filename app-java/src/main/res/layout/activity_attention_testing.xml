@@ -120,7 +120,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -134,14 +134,32 @@
                 android:textColor="@color/blue"
                 android:text="開始測驗" />
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_start_monitoring"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:background="@color/blue"-->
-<!--                android:layout_marginRight="20dp"-->
-<!--                android:textColor="#ffffff"-->
-<!--                android:text="@string/start_monitoring" />-->
+
+            <LinearLayout
+                android:id="@+id/testing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/question"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="請輸入文章中有幾個「鼠」呢？"
+                    android:textColor="@color/blue"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/editTextNumber"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:ems="10"
+
+                    android:inputType="number" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_stop_monitoring"
@@ -149,14 +167,10 @@
                 android:layout_height="50dp"
                 android:background="@drawable/button_shape_round"
                 android:textColor="#ffffff"
+                android:visibility="gone"
+                android:text="送出答案" />
 
-                android:text="@string/stop_monitoring" />
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_disconnect"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:text="@string/disconnect" />-->
 
 
         </LinearLayout>
