@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +34,7 @@ import java.util.Timer;
 
 
 public class MemoryGamePro extends AppCompatActivity {
-    public static boolean isPlay;
+    private MediaPlayer music;
     protected Long startTime;
     private Long spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
     private Chronometer timer;
@@ -99,7 +98,9 @@ public class MemoryGamePro extends AppCompatActivity {
         questionArray=Arrays.copyOf(questionArray,9);
         questionArray[8] =0;
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //設定第一題
         questionCard = questionArray[questionCount];
         //點pause
@@ -111,7 +112,7 @@ public class MemoryGamePro extends AppCompatActivity {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
-                mediaPlayer.pause();
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
                 LayoutInflater inflater = MemoryGamePro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -122,6 +123,9 @@ public class MemoryGamePro extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGamePro.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -132,7 +136,7 @@ public class MemoryGamePro extends AppCompatActivity {
                                 handler.post(updateTimer);
                                 pauseTime=0L;
                                 //音樂繼續
-                                mediaPlayer.start();
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -590,7 +594,11 @@ public class MemoryGamePro extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameResultMemory.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
+
                         }
                     })
                     .setNegativeButton("離開",new DialogInterface.OnClickListener(){
@@ -599,6 +607,9 @@ public class MemoryGamePro extends AppCompatActivity {
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameHome.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
                         }
                     });

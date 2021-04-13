@@ -2,22 +2,17 @@ package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
-
 import android.os.Bundle;
-
 import android.os.Handler;
-
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import android.view.View;
 
 import java.util.Arrays;
@@ -31,7 +26,7 @@ public class MemoryGameMed extends AppCompatActivity {
     private Long pauseTotal;
     private Chronometer timer;
     private Handler handler = new Handler();
-
+    private MediaPlayer music;
     private ImageView temp;
     private ImageView collect;
     private int moved=1;
@@ -63,7 +58,9 @@ public class MemoryGameMed extends AppCompatActivity {
         setContentView(R.layout.activity_memory_game_med);
 
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
+        music = MediaPlayer.create(this, R.raw.popcorn);
+        music.setLooping(true);
+        music.start();
         //點pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +70,7 @@ public class MemoryGameMed extends AppCompatActivity {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
-                mediaPlayer.pause();
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
                 LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -84,6 +81,9 @@ public class MemoryGameMed extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGameMed.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -94,7 +94,7 @@ public class MemoryGameMed extends AppCompatActivity {
                                 handler.post(updateTimer);
                                 pauseTime=0L;
                                 //音樂繼續
-                                mediaPlayer.start();
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -128,6 +128,8 @@ public class MemoryGameMed extends AppCompatActivity {
                 intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
                 intent.putExtra("time",startTime);
                 intent.putExtra("pause",pauseTotal);
+                music.release();
+                music =null;
                 startActivity(intent);
                 finish();
             }
@@ -642,6 +644,9 @@ public class MemoryGameMed extends AppCompatActivity {
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
             startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
             finish();
 
         }
