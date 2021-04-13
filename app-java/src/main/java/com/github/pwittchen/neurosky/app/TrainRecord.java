@@ -31,8 +31,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
 
 import java.util.ArrayList;
 
@@ -93,7 +95,8 @@ public class TrainRecord extends AppCompatActivity {
                 lineChart =(LineChart)findViewById(R.id.chart_line);
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList imagePairRecordList = new ArrayList<>();
-                //firebase 資料
+                ArrayList maxList = new ArrayList<>();
+                //firebase 資料 折線圖
                 fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
@@ -103,36 +106,48 @@ public class TrainRecord extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if(document.getString("secondRecord")!=null){
-                                            imagePairRecordList.add(document.getString("secondRecord"));
+                                        if(document.get("secondRecord")!=null){
+                                            imagePairRecordList.add(document.get("secondRecord"));
                                         }
                                     }
-                                    Log.d("document",imagePairRecordList.toString());
                                     list_size = imagePairRecordList.size();
                                     for(int i = 1; i <= imagePairRecordList.size() ; i++){
                                         float f1 =Float.parseFloat(valueOf(imagePairRecordList.get(i-1)));
                                         values1.add(new Entry(i,f1));
                                     }
-                                    Log.d("document",values1.toString());
-                                    Log.d("document",imagePairRecordList.toString());
+                                    //顯示
+                                    text_all_line(values1);
+
+                                    initX_line();
+                                    initY_line();
+
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+                //firebase 資料
+                fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                        .orderBy("secondRecord", Query.Direction.DESCENDING)
+                        .limitToLast(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if(document.get("secondRecord")!=null){
+                                            maxList.add(document.get("secondRecord"));
+                                        }
+                                    }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
                                     ArrayList<BarEntry> bar_others=new ArrayList<>();
                                     bar_others.add(new BarEntry(1,40.3f));
-                                    for(int i = 0; i < imagePairRecordList.size();i++){
-                                        count += Integer.parseInt(imagePairRecordList.get(imagePairRecordList.size()-i-1).toString());
-                                    }
-                                    ownImagePairAverage = count/imagePairRecordList.size();
+                                    count = Integer.parseInt(maxList.get(0).toString());
                                     ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,ownImagePairAverage));
-                                    Log.d("imageAverage", valueOf(ownImagePairAverage));
-
-                                    //顯示
-                                    text_all_line(values1);
+                                    bar_own.add(new BarEntry(2,count));
                                     text_all_bar(bar_others,bar_own);
-
-                                    initX_line();
-                                    initY_line();
                                     initX_bar();
                                     initY_bar();
 
@@ -156,7 +171,8 @@ public class TrainRecord extends AppCompatActivity {
                 lineChart =(LineChart)findViewById(R.id.chart_line);
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList schulteRecordList = new ArrayList<>();
-                //firebase 資料
+                ArrayList maxList = new ArrayList<>();
+                //firebase 資料 折線圖
                 fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
@@ -166,33 +182,48 @@ public class TrainRecord extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if(document.getString("secondRecord")!=null){
-                                            schulteRecordList.add(document.getString("secondRecord"));
+                                        if(document.get("secondRecord")!=null){
+                                            schulteRecordList.add(document.get("secondRecord"));
                                         }
                                     }
                                     list_size = schulteRecordList.size();
-                                    Log.d("listsize",valueOf(list_size));
                                     for(int i = 1; i <= schulteRecordList.size() ; i++){
                                         float f1 =Float.parseFloat(valueOf(schulteRecordList.get(i-1)));
                                         values1.add(new Entry(i,f1));
+                                    }
+                                    //顯示
+                                    text_all_line(values1);
+
+                                    initX_line();
+                                    initY_line();
+
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+                //firebase 資料
+                fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                        .orderBy("secondRecord", Query.Direction.DESCENDING)
+                        .limitToLast(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if(document.get("secondRecord")!=null){
+                                            maxList.add(document.get("secondRecord"));
+                                        }
                                     }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
                                     ArrayList<BarEntry> bar_others=new ArrayList<>();
                                     bar_others.add(new BarEntry(1,40.3f));
-                                    for(int i = 0; i < schulteRecordList.size();i++){
-                                        count += Integer.parseInt(schulteRecordList.get(schulteRecordList.size()-i-1).toString());
-                                    }
-                                    ownSchulteAverage = count/schulteRecordList.size();
+                                    count = Integer.parseInt(maxList.get(0).toString());
                                     ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,ownSchulteAverage));
-
-                                    //顯示
-                                    text_all_line(values1);
+                                    bar_own.add(new BarEntry(2,count));
                                     text_all_bar(bar_others,bar_own);
-
-                                    initX_line();
-                                    initY_line();
                                     initX_bar();
                                     initY_bar();
 
@@ -216,7 +247,8 @@ public class TrainRecord extends AppCompatActivity {
                 lineChart =(LineChart)findViewById(R.id.chart_line);
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList memoryRecordList = new ArrayList<>();
-                //firebase 資料
+                ArrayList maxList = new ArrayList<>();
+                //firebase 資料 折線圖
                 fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
@@ -226,35 +258,51 @@ public class TrainRecord extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if(document.getString("secondRecord")!=null){
-                                            memoryRecordList.add(document.getString("secondRecord"));
+                                        if(document.get("secondRecord")!=null){
+                                            memoryRecordList.add(document.get("secondRecord"));
                                         }
                                     }
                                     list_size = memoryRecordList.size();
                                     for(int i = 1; i <= memoryRecordList.size() ; i++){
                                         float f1 =Float.parseFloat(valueOf(memoryRecordList.get(i-1)));
-
                                         values1.add(new Entry(i,f1));
+                                    }
+                                    //顯示
+                                    text_all_line(values1);
+
+                                    initX_line();
+                                    initY_line();
+
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+                //firebase 資料
+                fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                        .orderBy("secondRecord", Query.Direction.DESCENDING)
+                        .limitToLast(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if(document.get("secondRecord")!=null){
+                                            maxList.add(document.get("secondRecord"));
+                                        }
                                     }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
                                     ArrayList<BarEntry> bar_others=new ArrayList<>();
                                     bar_others.add(new BarEntry(1,40.3f));
-                                    for(int i = 0; i < memoryRecordList.size();i++){
-                                        count += Integer.parseInt(memoryRecordList.get(memoryRecordList.size()-i-1).toString());
-                                    }
-                                    ownMemoryAverage = count/memoryRecordList.size();
+                                    count = Integer.parseInt(maxList.get(0).toString());
                                     ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,ownMemoryAverage));
-
-                                    //顯示
-                                    text_all_line(values1);
+                                    bar_own.add(new BarEntry(2,count));
                                     text_all_bar(bar_others,bar_own);
-
-                                    initX_line();
-                                    initY_line();
                                     initX_bar();
                                     initY_bar();
+
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }

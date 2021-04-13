@@ -10,10 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -29,7 +26,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,8 +43,7 @@ import java.util.TimeZone;
 public class AttentionTestResult extends AppCompatActivity {
     LineChart lineChart;
     public static final String TAG = "TAG";
-    int Blue= Color.parseColor("#244F98");
-    int Yellow=Color.parseColor("#fff5b8");
+    int Blue= Color.parseColor("#244F98"), Yellow=Color.parseColor("#fff5b8");
     private int list_size;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -106,7 +101,6 @@ public class AttentionTestResult extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
 
 //        先寫死，後期在統一改 UID
 //        userID = fAuth.getCurrentUser().getUid();
@@ -167,8 +161,6 @@ public class AttentionTestResult extends AppCompatActivity {
                         }
                     }
                 });
-
-
     }
     private void text_all(ArrayList<Entry> values1) {
         LineDataSet set1;//設定線數資料的方式
@@ -229,7 +221,4 @@ public class AttentionTestResult extends AppCompatActivity {
         leftAxis.setAxisMinimum(0f);//Y軸標籤最小值
         leftAxis.setAxisMaximum(100f);//Y軸標籤最大值
     }
-
-
-
 }

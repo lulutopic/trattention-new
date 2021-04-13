@@ -64,9 +64,8 @@ public class GameResultMemory extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 recordList.add(document.getString("record"));
-                                compareList.add(document.getString("secondRecord"));
+                                compareList.add(document.get("secondRecord"));
                             }
-
                             if(recordList.size() == 2){
                                 lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
                                 thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());

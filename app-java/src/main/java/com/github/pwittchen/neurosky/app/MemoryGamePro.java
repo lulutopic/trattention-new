@@ -44,7 +44,7 @@ public class MemoryGamePro extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String createdAt;
-    private String formattedTime, recordSeconds;
+    private String formattedTime;
     private ImageView temp, collect;
     private int moved=1;
     ImageView iv_11,iv_12,iv_13,iv_14,
@@ -82,7 +82,6 @@ public class MemoryGamePro extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
 
         //設定隱藏標題
         getSupportActionBar().hide();
@@ -298,8 +297,6 @@ public class MemoryGamePro extends AppCompatActivity {
                     temp.setImageResource(R.drawable.memorybackground);
                 }
 
-                Log.d("walktest-left:i",""+i);
-                Log.d("walktest-left:j",""+j);
             };
 
         });
@@ -333,8 +330,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-                Log.d("walktest-up:i",""+i);
-                Log.d("walktest-up:j",""+j);
             };
         });
 
@@ -584,7 +579,6 @@ public class MemoryGamePro extends AppCompatActivity {
                 iv_44.getVisibility() == View.INVISIBLE) {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
-            Log.d("Memorygame", "formattedTime " + formattedTime);
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
             alertDialogBuilder
@@ -617,9 +611,8 @@ public class MemoryGamePro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
-            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
-            gameresult.put("secondRecord", recordSeconds);
+            gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

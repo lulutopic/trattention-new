@@ -64,7 +64,7 @@ public class GameResultSchulte extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 recordList.add(document.getString("record"));
-                                compareList.add(document.getString("secondRecord"));
+                                compareList.add(document.get("secondRecord"));
                             }
                             Log.d("comparecord", recordList.toString());
                             Log.d("comparecord", compareList.toString());

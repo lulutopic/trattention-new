@@ -36,7 +36,7 @@ public class ImagePairPro extends AppCompatActivity {
     private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
-    private String formattedTime, recordSeconds;
+    private String formattedTime;
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -50,26 +50,16 @@ public class ImagePairPro extends AppCompatActivity {
 
     private TextView colorTextView; // 題目的文字
 
-    private int red;
-    private int blue;
-    private int green;
+    private int red, blue, green;
 
-    private int optiona;
-    private int optionb;
-    private int optionc;
-    private int optiona_border;
-    private int optionb_border;
-    private int optionc_border;
+    private int optiona, optionb, optionc, optiona_border, optionb_border, optionc_border;
 
     ImageView btn_right,btn_ok;
 
 
-    private TextView ImageButtonA;
-    private TextView ImageButtonB;
-    private TextView ImageButtonC;
+    private TextView ImageButtonA, ImageButtonB, ImageButtonC;
 
-    int count = 0; //計算遊戲答對題數
-    int clicked = 0;
+    int clicked = 0, count = 0; //計算遊戲答對題數
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +129,6 @@ public class ImagePairPro extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
 
         //呼叫函式
         populateBothArraylists();
@@ -225,7 +214,6 @@ public class ImagePairPro extends AppCompatActivity {
         if(count == 10){
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
-            Log.d("MainActivity", "formattedTime " + formattedTime);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
@@ -257,9 +245,8 @@ public class ImagePairPro extends AppCompatActivity {
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
-            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
-            gameresult.put("secondRecord", recordSeconds);
+            gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
