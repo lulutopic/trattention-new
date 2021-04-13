@@ -50,7 +50,7 @@
         <TextView android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:text="距離上次專注力測驗已滿一個月，\n你也已經完成20次每日任務，\n點擊下方進行新的專注力測驗！"
+            android:text="專注力測驗內容為閱讀一篇文章，並找出特定的字有幾個，\n點擊下方進行新的專注力測驗！"
             android:textSize="30dp"
             android:gravity="center_vertical"
             android:background="@drawable/scrollview_shape_round"

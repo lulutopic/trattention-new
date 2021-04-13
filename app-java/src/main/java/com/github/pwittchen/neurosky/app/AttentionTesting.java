@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,15 +81,12 @@ public class AttentionTesting extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        //初始樣式設定：隱藏閱讀完畢按鈕
-        Button connect_btn=(Button) findViewById(R.id.btn_stop_monitoring);
-        connect_btn.setVisibility(View.GONE);
+
         neuroSky = createNeuroSky();
     }
 
     //開始測試
     @Override protected void onResume() {
-
         super.onResume();
         if (neuroSky != null && neuroSky.isConnected()) {
             neuroSky.start();
@@ -127,6 +125,9 @@ public class AttentionTesting extends AppCompatActivity {
             //連線成功後樣式設定：顯示閱讀完畢、隱藏開始測驗按鈕
             Button stop_btn=(Button) findViewById(R.id.btn_stop_monitoring);
             stop_btn.setVisibility(View.VISIBLE);
+
+            View question=(View) findViewById(R.id.testing);
+            question.setVisibility(View.VISIBLE);
 
             Button connect_btn=(Button) findViewById(R.id.btn_connect);
             connect_btn.setVisibility(View.GONE);
@@ -183,9 +184,7 @@ public class AttentionTesting extends AppCompatActivity {
                 signal.setTotal_value((signal.getTotal_value()+signal.getValue()));
                 test=String.valueOf(signal.getTotal_value()/signal.getCount_value());
 
-//                Log.d("總專注力數值",String.valueOf(signal.getTotal_value()));
-//                Log.d("總讀取次數",String.valueOf(signal.getCount_value()));
-//                Log.d("平均專注力",String.valueOf(signal.getTotal_value()/signal.getCount_value()));
+
                 break;
             case MEDITATION:
                 tvMeditation.setText(getFormattedMessage("冥想數值: %d", signal));
@@ -223,8 +222,6 @@ public class AttentionTesting extends AppCompatActivity {
     @OnClick(R.id.btn_connect) void connect() {
         try {
             neuroSky.connect();
-
-
         } catch (BluetoothNotEnabledException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(LOG_TAG, e.getMessage());
@@ -239,7 +236,6 @@ public class AttentionTesting extends AppCompatActivity {
         neuroSky.stop();
         AlertDialog.Builder builder = new AlertDialog.Builder(AttentionTesting.this);
         builder.setMessage("本次專注力測驗結果："+test +"/100");
-
 
         builder.setNegativeButton("完成", new DialogInterface.OnClickListener() {
             @Override
