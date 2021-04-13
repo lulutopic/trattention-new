@@ -96,7 +96,7 @@ public class SchulteGridMed extends AppCompatActivity {
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
 
             }
         });
