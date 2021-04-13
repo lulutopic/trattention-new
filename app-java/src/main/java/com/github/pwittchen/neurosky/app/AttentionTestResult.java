@@ -116,7 +116,7 @@ public class AttentionTestResult extends AppCompatActivity {
         Map<String,Object> mindwave = new HashMap<>();
 //        user.put("user", userID);
         mindwave.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq2");
-        mindwave.put("attention_result", attention_result);//倒時候要把值改成 attention_result 先寫死寫圖表
+        mindwave.put("attention_result", attention_value);//倒時候要把值改成 attention_result 先寫死寫圖表
         mindwave.put("createdAt", createdAt);
         documentReference.set(mindwave).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
