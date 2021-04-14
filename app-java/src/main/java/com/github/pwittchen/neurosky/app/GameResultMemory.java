@@ -54,7 +54,8 @@ public class GameResultMemory extends AppCompatActivity {
         //        userID = fAuth.getCurrentUser().getUid();
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
-        fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+        fStore.collection("game_record").document("game_record_memory").collection("data")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                 .orderBy("createdAt")
                 .limitToLast(2)
                 .get()
@@ -67,11 +68,11 @@ public class GameResultMemory extends AppCompatActivity {
                                 compareList.add(document.get("secondRecord"));
                             }
                             if(recordList.size() == 2){
-                                lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
-                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                lastTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-2).toString());
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
-                                if(compareRecord > 0){
+                                if(compareRecord < 0){
                                     recordCompare.setText("比上次退步"+Math.abs(compareRecord));
                                 }
                                 else{
