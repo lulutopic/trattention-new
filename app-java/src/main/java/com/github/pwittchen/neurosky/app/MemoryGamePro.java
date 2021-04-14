@@ -58,6 +58,7 @@ public class MemoryGamePro extends AppCompatActivity {
     Integer[] questionArray = {5,5,5,4,4,4,1,1};
 
     //actual images
+    int yemppppp;
     int questionCard;//題目
     int image102,image107,image106,image101,image103,image105;
     int firstCard,secondCard;
@@ -65,7 +66,6 @@ public class MemoryGamePro extends AppCompatActivity {
     int cardNumber=1;
     int questionCount = 0;
     int i=0;
-    Timer timertest = new Timer();
 
 
 
