@@ -26,6 +26,7 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+
         <activity
             android:name=".MemoryGamePractice"
             android:label="@string/title_activity_memory_game_practice">
@@ -129,7 +130,13 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Home"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".InstructionHome"
             android:screenOrientation="landscape" />

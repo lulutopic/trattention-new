@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,7 @@ public class SchulteGridMed extends AppCompatActivity {
     private int focus_count;
     private int focus_row=1;
     private int focus_column=1;
-
+    private MediaPlayer music;
 
 
     //圖片的id設定的變數
@@ -63,7 +64,10 @@ public class SchulteGridMed extends AppCompatActivity {
         Log.d("pauseTotal",pauseTotal+"");
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.star);
+        music.setLooping(true);
+        music.start();
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +75,7 @@ public class SchulteGridMed extends AppCompatActivity {
             public void onClick(View view) {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridMed.this);
                 LayoutInflater inflater = SchulteGridMed.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -82,8 +86,10 @@ public class SchulteGridMed extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(SchulteGridMed.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
-
                             }
                         })
                         .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
@@ -92,6 +98,8 @@ public class SchulteGridMed extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -354,6 +362,9 @@ public class SchulteGridMed extends AppCompatActivity {
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
             startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
             finish();
 
         }

@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -35,9 +36,8 @@ import java.util.TimeZone;
 
 public class SchulteGridPro extends AppCompatActivity {
     private Long startTime, spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
-
+    private MediaPlayer music;
     private int focus_count, focus_row=1, focus_column=1;
-
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
     private String formattedTime;
@@ -79,7 +79,10 @@ public class SchulteGridPro extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +90,8 @@ public class SchulteGridPro extends AppCompatActivity {
             public void onClick(View view) {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
                 LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -98,6 +102,9 @@ public class SchulteGridPro extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(SchulteGridPro.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
 
                             }
@@ -108,6 +115,8 @@ public class SchulteGridPro extends AppCompatActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();

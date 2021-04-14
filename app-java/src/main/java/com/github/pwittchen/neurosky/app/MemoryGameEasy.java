@@ -31,10 +31,12 @@ public class MemoryGameEasy extends AppCompatActivity {
     private Long spentTime;
     private Long pauseTime=0L;
     private Long pauseTotal=0L;
-
     private ImageView temp;
     private ImageView collect;
     private int moved=1;
+    private MediaPlayer music;
+
+
     //圖片id變數
     ImageView iv_11,iv_12,iv_13,iv_14,
             iv_21,iv_22,iv_23,iv_24,
@@ -66,8 +68,9 @@ public class MemoryGameEasy extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
-        mediaPlayer.start();
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +80,7 @@ public class MemoryGameEasy extends AppCompatActivity {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
-                mediaPlayer.pause();
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -88,6 +91,8 @@ public class MemoryGameEasy extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGameEasy.this,GameHome.class);
                                 startActivity(intent);
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -98,7 +103,7 @@ public class MemoryGameEasy extends AppCompatActivity {
                                 handler.post(updateTimer);
                                 pauseTime=0L;
                                 //音樂繼續
-                                mediaPlayer.start();
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
@@ -135,6 +140,8 @@ public class MemoryGameEasy extends AppCompatActivity {
                 intent.putExtra("time",startTime);
                 intent.putExtra("pause",pauseTotal);
                 startActivity(intent);
+                music.release();
+                music=null;
                 finish();
             }
         });
@@ -596,12 +603,15 @@ public class MemoryGameEasy extends AppCompatActivity {
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
             Intent intent = new Intent();
+
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
             startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
             finish();
-
         }
     }
 
