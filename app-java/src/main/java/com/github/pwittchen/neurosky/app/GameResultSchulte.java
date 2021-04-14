@@ -55,8 +55,8 @@ public class GameResultSchulte extends AppCompatActivity {
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
         fStore.collection("game_record").document("game_record_schulte").collection("data")
-                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                 .orderBy("createdAt")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                 .limitToLast(2)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -67,15 +67,12 @@ public class GameResultSchulte extends AppCompatActivity {
                                 recordList.add(document.getString("record"));
                                 compareList.add(document.get("secondRecord"));
                             }
-                            Log.d("comparecord", recordList.toString());
-                            Log.d("comparecord", compareList.toString());
                             if(recordList.size() == 2 && compareList.size() == 2){
-                                lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
-                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                lastTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-2).toString());
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
-                                Log.d("comparecord", valueOf(compareRecord));
-                                if(compareRecord > 0){
+                                if(compareRecord < 0){
                                     recordCompare.setText("比上次退步"+Math.abs(compareRecord));
                                 }
                                 else{
