@@ -62,6 +62,7 @@ public class MemoryGamePro extends AppCompatActivity {
     //actual images
     int yemppppp;
     int tempp;
+    int pppp;
     int questionCard;//題目
     int image102,image107,image106,image101,image103,image105;
     int firstCard,secondCard;
