@@ -619,12 +619,13 @@ public class MemoryGamePro extends AppCompatActivity {
 //        userID = fAuth.getCurrentUser().getUid();
 //        DocumentReference documentReference = fStore.collection("game_record").document(userID);
             //自動產生 document id
-            DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("data").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
             gameresult.put("record", formattedTime);
             gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
+            gameresult.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq");
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
