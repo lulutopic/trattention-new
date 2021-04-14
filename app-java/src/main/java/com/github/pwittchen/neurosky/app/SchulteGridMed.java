@@ -185,7 +185,10 @@ public class SchulteGridMed extends MobileActivity {
                     }
                 }
                 //手勢控制向右
-                else if(gesture == WatchGesture.FOREARM_RIGHT){
+                else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
                     clearColumn(focus_column);
                     focus_column+=1;
                     switch(focus_column){
@@ -231,6 +234,7 @@ public class SchulteGridMed extends MobileActivity {
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP
                 ){
                     focus_count=(focus_row-1)*5+focus_column-1;
                     int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());

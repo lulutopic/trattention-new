@@ -177,7 +177,10 @@ public class ImagePairMed extends MobileActivity {
             public void run() {
 
                 //手勢控制向右
-                if(gesture == WatchGesture.FOREARM_RIGHT){
+                if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
                     switch(clicked){
                         case(0):
                             button1.get(0).setBackgroundResource(optiona);
@@ -205,7 +208,8 @@ public class ImagePairMed extends MobileActivity {
                 //手勢控制確認選取
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
-                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2) {
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP) {
                     //回傳題目的文字底色的文字標籤
                     Integer Tag = (Integer) FruitQuestion.getTag();
                     System.out.println(Tag);//2131165271 apple

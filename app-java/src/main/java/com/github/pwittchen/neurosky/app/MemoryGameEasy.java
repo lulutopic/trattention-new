@@ -61,6 +61,7 @@ public class MemoryGameEasy extends MobileActivity{
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
             WatchGesture.FINGER_SNAP,
+            WatchGesture.FINGER_SNAP_2,
             //手臂
             WatchGesture.FOREARM_LEFT,
             WatchGesture.FOREARM_RIGHT,
@@ -87,10 +88,10 @@ public class MemoryGameEasy extends MobileActivity{
             WatchGesture.JOINTTAP_UPPER_RING,
             WatchGesture.JOINTTAP_MIDDLE_LITTLE,
             //手臂快速移動
-            WatchGesture.MOVE_FOREARM_DOWN,
-            WatchGesture.MOVE_FOREARM_LEFT,
-            WatchGesture.MOVE_FOREARM_UP,
-            WatchGesture.MOVE_FOREARM_RIGHT,
+            //WatchGesture.MOVE_FOREARM_DOWN,
+            //WatchGesture.MOVE_FOREARM_LEFT,
+            //WatchGesture.MOVE_FOREARM_UP,
+            //WatchGesture.MOVE_FOREARM_RIGHT,
     };
 
 
@@ -193,7 +194,7 @@ public class MemoryGameEasy extends MobileActivity{
                         iv_41,iv_42,iv_43,iv_44};
                 ok.setVisibility(View.VISIBLE);
                 //手勢控制方向向上
-                if(gesture == WatchGesture.HANDBACK_UP){
+                if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -256,7 +257,7 @@ public class MemoryGameEasy extends MobileActivity{
                     }
                 }
                 //手勢控制方向向左
-                else if(gesture == WatchGesture.FOREARM_LEFT){
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -292,7 +293,10 @@ public class MemoryGameEasy extends MobileActivity{
                     Log.d("walktest-left:j",""+j);
                 }
                 //手勢控制方向向右
-                else if(gesture == WatchGesture.FOREARM_RIGHT){
+                else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -332,6 +336,7 @@ public class MemoryGameEasy extends MobileActivity{
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP
                 ){
                     if (moved==1) {
                         int theCard = Integer.parseInt((String) temp.getTag());
