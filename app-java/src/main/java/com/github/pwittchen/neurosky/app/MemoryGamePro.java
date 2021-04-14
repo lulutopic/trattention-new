@@ -73,7 +73,7 @@ public class MemoryGamePro extends AppCompatActivity {
     int cardNumber=1;
     int questionCount = 0;
     int i=0;
-
+int test;
 
 
 
