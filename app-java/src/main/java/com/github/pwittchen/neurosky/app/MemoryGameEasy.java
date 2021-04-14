@@ -23,7 +23,6 @@ import android.view.View;
 import java.util.Arrays;
 import java.util.Collections;
 
-
 public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
@@ -285,9 +284,6 @@ public class MemoryGameEasy extends AppCompatActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-
-                Log.d("walktest-left:i",""+i);
-                Log.d("walktest-left:j",""+j);
             };
 
         });
@@ -321,8 +317,6 @@ public class MemoryGameEasy extends AppCompatActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-                Log.d("walktest-up:i",""+i);
-                Log.d("walktest-up:j",""+j);
             };
 
         });

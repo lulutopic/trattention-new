@@ -65,14 +65,12 @@ public class GameResultImagePair extends AppCompatActivity {
                                 recordList.add(document.getString("record"));
                                 compareList.add(document.get("secondRecord"));
                             }
-                            Log.d("recordList", recordList.toString());
                             if(recordList.size() == 2 && compareList.size() == 2){
-                                lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
-                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                lastTimeRecord.setText(recordList.get(recordList.size()-1).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-2).toString());
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
-                                Log.d("comparecord", valueOf(compareRecord));
-                                if(compareRecord > 0){
+                                if(compareRecord < 0){
                                     recordCompare.setText("比上次退步"+Math.abs(compareRecord));
                                 }
                                 else{
