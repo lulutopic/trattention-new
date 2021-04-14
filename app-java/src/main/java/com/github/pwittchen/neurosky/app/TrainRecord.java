@@ -47,7 +47,7 @@ public class TrainRecord extends AppCompatActivity {
     TextView text_pair, text_schulte, text_memory;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    float count, ownImagePairAverage, ownSchulteAverage, ownMemoryAverage;
+    float count, ownImagePairAverage, ownSchulteAverage, ownMemoryAverage, countAll;
     private int list_size;
     public static final String TAG = "TAG";
     @Override
@@ -96,8 +96,13 @@ public class TrainRecord extends AppCompatActivity {
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList imagePairRecordList = new ArrayList<>();
                 ArrayList maxList = new ArrayList<>();
+                ArrayList maxALLUserList = new ArrayList<>();
+                ArrayList<BarEntry> bar_others=new ArrayList<>();
+                ArrayList<BarEntry> bar_own=new ArrayList<>();
+
                 //firebase 資料 折線圖
-                fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
                         .get()
@@ -117,7 +122,6 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //顯示
                                     text_all_line(values1);
-
                                     initX_line();
                                     initY_line();
 
@@ -127,7 +131,8 @@ public class TrainRecord extends AppCompatActivity {
                             }
                         });
                 //firebase 資料
-                fStore.collection("game_record").document("game_record_imagepair").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("secondRecord", Query.Direction.DESCENDING)
                         .limitToLast(1)
                         .get()
@@ -142,15 +147,34 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
-                                    ArrayList<BarEntry> bar_others=new ArrayList<>();
-                                    bar_others.add(new BarEntry(1,40.3f));
                                     count = Integer.parseInt(maxList.get(0).toString());
-                                    ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,count));
-                                    text_all_bar(bar_others,bar_own);
-                                    initX_bar();
-                                    initY_bar();
+                                    bar_others.add(new BarEntry(1,count));
 
+                                    //firebase 資料
+                                    fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                                            .orderBy("secondRecord", Query.Direction.DESCENDING)
+                                            .limitToLast(1)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if(document.get("secondRecord")!=null){
+                                                                maxALLUserList.add(document.get("secondRecord"));
+                                                            }
+                                                        }
+                                                        //柱狀圖
+                                                        countAll = Integer.parseInt(maxALLUserList.get(0).toString());
+                                                        bar_own.add(new BarEntry(2,countAll));
+                                                        text_all_bar(bar_others,bar_own);
+                                                        initX_bar();
+                                                        initY_bar();
+                                                    } else {
+                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                                    }
+                                                }
+                                            });
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
@@ -167,13 +191,19 @@ public class TrainRecord extends AppCompatActivity {
                 text_schulte.setTextColor(Blue);
                 text_memory.setTextColor(Yellow_light);
                 count = 0;
+                countAll = 0;
                 //折線圖
                 lineChart =(LineChart)findViewById(R.id.chart_line);
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList schulteRecordList = new ArrayList<>();
                 ArrayList maxList = new ArrayList<>();
+                ArrayList maxALLUserList = new ArrayList<>();
+                ArrayList<BarEntry> bar_others=new ArrayList<>();
+                ArrayList<BarEntry> bar_own=new ArrayList<>();
+
                 //firebase 資料 折線圖
-                fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_schulte").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
                         .get()
@@ -193,7 +223,6 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //顯示
                                     text_all_line(values1);
-
                                     initX_line();
                                     initY_line();
 
@@ -203,7 +232,8 @@ public class TrainRecord extends AppCompatActivity {
                             }
                         });
                 //firebase 資料
-                fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_schulte").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("secondRecord", Query.Direction.DESCENDING)
                         .limitToLast(1)
                         .get()
@@ -218,15 +248,34 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
-                                    ArrayList<BarEntry> bar_others=new ArrayList<>();
-                                    bar_others.add(new BarEntry(1,40.3f));
                                     count = Integer.parseInt(maxList.get(0).toString());
-                                    ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,count));
-                                    text_all_bar(bar_others,bar_own);
-                                    initX_bar();
-                                    initY_bar();
+                                    bar_others.add(new BarEntry(1,count));
 
+                                    //firebase 資料
+                                    fStore.collection("game_record").document("game_record_schulte").collection("data")
+                                            .orderBy("secondRecord", Query.Direction.DESCENDING)
+                                            .limitToLast(1)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if(document.get("secondRecord")!=null){
+                                                                maxALLUserList.add(document.get("secondRecord"));
+                                                            }
+                                                        }
+                                                        //柱狀圖
+                                                        countAll = Integer.parseInt(maxALLUserList.get(0).toString());
+                                                        bar_own.add(new BarEntry(2,countAll));
+                                                        text_all_bar(bar_others,bar_own);
+                                                        initX_bar();
+                                                        initY_bar();
+                                                    } else {
+                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                                    }
+                                                }
+                                            });
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
@@ -248,8 +297,13 @@ public class TrainRecord extends AppCompatActivity {
                 ArrayList<Entry> values1=new ArrayList<>();
                 ArrayList memoryRecordList = new ArrayList<>();
                 ArrayList maxList = new ArrayList<>();
+                ArrayList maxALLUserList = new ArrayList<>();
+                ArrayList<BarEntry> bar_others=new ArrayList<>();
+                ArrayList<BarEntry> bar_own=new ArrayList<>();
+
                 //firebase 資料 折線圖
-                fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_memory").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("createdAt")
                         .limitToLast(10)
                         .get()
@@ -269,7 +323,6 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //顯示
                                     text_all_line(values1);
-
                                     initX_line();
                                     initY_line();
 
@@ -279,7 +332,8 @@ public class TrainRecord extends AppCompatActivity {
                             }
                         });
                 //firebase 資料
-                fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                fStore.collection("game_record").document("game_record_memory").collection("data")
+                        .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
                         .orderBy("secondRecord", Query.Direction.DESCENDING)
                         .limitToLast(1)
                         .get()
@@ -294,15 +348,34 @@ public class TrainRecord extends AppCompatActivity {
                                     }
                                     //柱狀圖
                                     barChart =(BarChart) findViewById(R.id.chart_bar);
-                                    ArrayList<BarEntry> bar_others=new ArrayList<>();
-                                    bar_others.add(new BarEntry(1,40.3f));
                                     count = Integer.parseInt(maxList.get(0).toString());
-                                    ArrayList<BarEntry> bar_own=new ArrayList<>();
-                                    bar_own.add(new BarEntry(2,count));
-                                    text_all_bar(bar_others,bar_own);
-                                    initX_bar();
-                                    initY_bar();
+                                    bar_others.add(new BarEntry(1,count));
 
+                                    //firebase 資料
+                                    fStore.collection("game_record").document("game_record_memory").collection("data")
+                                            .orderBy("secondRecord", Query.Direction.DESCENDING)
+                                            .limitToLast(1)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            if(document.get("secondRecord")!=null){
+                                                                maxALLUserList.add(document.get("secondRecord"));
+                                                            }
+                                                        }
+                                                        //柱狀圖
+                                                        countAll = Integer.parseInt(maxALLUserList.get(0).toString());
+                                                        bar_own.add(new BarEntry(2,countAll));
+                                                        text_all_bar(bar_others,bar_own);
+                                                        initX_bar();
+                                                        initY_bar();
+                                                    } else {
+                                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                                    }
+                                                }
+                                            });
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
