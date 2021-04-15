@@ -101,7 +101,8 @@
                     android:padding="100dp"
                     android:letterSpacing="0.3"
                     android:text="@string/connect_intro"
-                    android:textSize="40px" />
+                    android:textSize="40px"
+                    />
                 <TextView
                     android:id="@+id/textView＿article"
                     android:layout_width="wrap_content"
@@ -111,9 +112,10 @@
                     android:background="@drawable/scrollview_shape_round"
                     android:padding="100dp"
                     android:letterSpacing="0.3"
-                    android:text="@string/article"
+                    android:text="專注力測驗文章讀取中"
                     android:textSize="40px"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    />
             </LinearLayout>
         </ScrollView>
 
