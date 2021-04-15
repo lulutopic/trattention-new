@@ -29,17 +29,22 @@
 
         <activity
             android:name=".MemoryGamePractice"
-            android:label="@string/title_activity_memory_game_practice">
-
+            android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".MemoryGameStart"
-            android:label="@string/title_activity_memory_game_start">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".MemoryGamePractice"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ImagePairGameStart"
+            android:screenOrientation="landscape" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".SchulteGridGameStart"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".MemoryGameStart"
+            android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".MainWatchActivity"
