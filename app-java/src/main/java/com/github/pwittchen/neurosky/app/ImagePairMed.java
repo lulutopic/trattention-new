@@ -78,7 +78,7 @@ public class ImagePairMed extends AppCompatActivity {
     private ImageView ImageButtonC;
     private ImageView ImageButtonD;
 
-    ImageView btn_right,btn_ok;
+    ImageView btn_right,btn_ok,btn_left;
 
     int count = 0; //計算遊戲答對題數
     int clicked = 0;
@@ -202,6 +202,37 @@ public class ImagePairMed extends AppCompatActivity {
             }
         });
 
+        btn_left.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(3).setBackgroundResource(optiond_border);
+                        System.out.println();
+                        clicked+=3;
+                        break;
+                    case(3):
+                        button1.get(3).setBackgroundResource(optiond);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        clicked--;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        clicked--;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked--;
+                        break;
+                }
+
+            }
+        });
+
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
@@ -268,13 +299,13 @@ public class ImagePairMed extends AppCompatActivity {
     //幫顏色設定標籤（判斷文字底色是否等於colorValues裡的顏色）
     private void deter(){
         String fruit = (String) FruitQuestion.getText();
-        if (fruit == "蘋果"){
+        if (fruit == "蘋果\napple"){
             FruitQuestion.setTag(apple);
         }
-        else if (fruit == "橘子"){
+        else if (fruit == "橘子\norange"){
             FruitQuestion.setTag(orange);
         }
-        else if (fruit == "梨子"){
+        else if (fruit == "梨子\npear"){
             FruitQuestion.setTag(pear);
         }
         else{
@@ -290,6 +321,7 @@ public class ImagePairMed extends AppCompatActivity {
         //按鈕選項
         btn_right=(ImageView)findViewById(R.id.right_arrow);
         btn_ok=(ImageView)findViewById(R.id.ok);
+        btn_left=(ImageView)findViewById(R.id.left_arrow);
 
         //ABC選項
         ImageButtonA = (ImageView) findViewById(R.id.optionA);
@@ -298,10 +330,10 @@ public class ImagePairMed extends AppCompatActivity {
         ImageButtonD = (ImageView) findViewById(R.id.optionD);
 
         //把顏色字串加入coloNames ArrayLists
-        FruitNames.add("蘋果");
-        FruitNames.add("橘子");
-        FruitNames.add("梨子");
-        FruitNames.add("芒果");
+        FruitNames.add("蘋果\napple");
+        FruitNames.add("橘子\norange");
+        FruitNames.add("梨子\npear");
+        FruitNames.add("芒果\nmango");
 //        FruitNames.add("奇異果");
 
         //把放在color.xml裡面的顏色指定給相對應的變數

@@ -13,7 +13,7 @@ public class SchulteGridPractice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schulte_game_practice);
+        //setContentView(R.layout.activity_schulte_game_practice);
         //設定隱藏標題
         getSupportActionBar().hide();
 

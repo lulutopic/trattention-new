@@ -55,7 +55,7 @@ public class ImagePairPro extends AppCompatActivity {
 
     private int optiona, optionb, optionc, optiona_border, optionb_border, optionc_border;
 
-    ImageView btn_right,btn_ok;
+    ImageView btn_right,btn_ok,btn_left;
 
 
     private TextView ImageButtonA, ImageButtonB, ImageButtonC;
@@ -176,6 +176,32 @@ public class ImagePairPro extends AppCompatActivity {
             }
         });
 
+        btn_left.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        System.out.println();
+                        clicked+=2;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        clicked--;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked--;
+                        break;
+                }
+
+            }
+        });
+
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
@@ -283,13 +309,13 @@ public class ImagePairPro extends AppCompatActivity {
     private void deter(){
         int col = colorTextView.getCurrentTextColor();
         if (col == -571050){
-            colorTextView.setTag("紅色");
+            colorTextView.setTag("紅色\nred");
         }
         else if (col == -5973084){
-            colorTextView.setTag("綠色");
+            colorTextView.setTag("綠色\ngreen");
         }
         else{
-            colorTextView.setTag("藍色");
+            colorTextView.setTag("藍色\nblue");
         }
     }
 
@@ -301,6 +327,7 @@ public class ImagePairPro extends AppCompatActivity {
         //按鈕選項
         btn_right=(ImageView)findViewById(R.id.right_arrow);
         btn_ok=(ImageView)findViewById(R.id.ok);
+        btn_left=(ImageView)findViewById(R.id.left_arrow);
 
         //ABC選項
         ImageButtonA = (TextView) findViewById(R.id.optionA);
@@ -308,9 +335,9 @@ public class ImagePairPro extends AppCompatActivity {
         ImageButtonC = (TextView) findViewById(R.id.optionC);
 
         //把顏色字串加入coloNames ArrayLists
-        colorNames.add("紅色");
-        colorNames.add("綠色");
-        colorNames.add("藍色");
+        colorNames.add("紅色\nred");
+        colorNames.add("綠色\ngreen");
+        colorNames.add("藍色\nblue");
 
         //把放在color.xml裡面的顏色指定給相對應的變數
         red = R.color.colorRed;

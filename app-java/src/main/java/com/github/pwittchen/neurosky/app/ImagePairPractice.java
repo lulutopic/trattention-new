@@ -13,7 +13,7 @@ public class ImagePairPractice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_Image_pair_game_practice);
+        //setContentView(R.layout.activity_Image_pair_game_practice);
         //設定隱藏標題
         getSupportActionBar().hide();
 
