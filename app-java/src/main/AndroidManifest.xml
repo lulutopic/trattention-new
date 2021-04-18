@@ -86,7 +86,15 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".GameHome"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        <!-- 初始畫面加上這段 -->
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".GameResult"
             android:screenOrientation="landscape" />
