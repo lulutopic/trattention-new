@@ -51,7 +51,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(ImagePairGameStart.this , MemoryGamePractice.class);
+                intent.setClass(ImagePairGameStart.this , ImagePairPractice.class);
                 startActivity(intent);
             }
         });
@@ -61,7 +61,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(ImagePairGameStart.this , MemoryGameEasy.class);
+                intent.setClass(ImagePairGameStart.this , ImagePairEasy.class);
                 startActivity(intent);
             }
         });

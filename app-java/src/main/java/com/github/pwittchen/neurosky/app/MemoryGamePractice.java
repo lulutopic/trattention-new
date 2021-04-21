@@ -166,9 +166,6 @@ public class MemoryGamePractice extends AppCompatActivity {
         frontOfCardsResources();
 
         //第一題的顏色
-
-
-
         Collections.shuffle(Arrays.asList(cardsArray));
 
 
@@ -582,7 +579,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(MemoryGamePractice.this, GameHome.class);
+                            intent.setClass(MemoryGamePractice.this, MemoryGameStart.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();

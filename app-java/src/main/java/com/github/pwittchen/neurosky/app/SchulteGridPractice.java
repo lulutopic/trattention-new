@@ -321,7 +321,7 @@ public class SchulteGridPractice extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(SchulteGridPractice.this, GameHome.class);
+                            intent.setClass(SchulteGridPractice.this, SchulteGridGameStart.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();

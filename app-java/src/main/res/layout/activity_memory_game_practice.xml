@@ -23,6 +23,14 @@
             app:srcCompat="@drawable/game_header_pause"
             android:layout_marginRight="20dp"
             />
+        <ImageView
+            android:id="@+id/imagetips"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/game_header_tips"
+            android:layout_marginRight="20dp"
+            />
 
 
     </LinearLayout>

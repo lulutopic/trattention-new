@@ -284,7 +284,7 @@ public class ImagePairPractice extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(ImagePairPractice.this, GameHome.class);
+                            intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();

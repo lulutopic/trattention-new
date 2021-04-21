@@ -54,7 +54,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SchulteGridGameStart.this , MemoryGamePractice.class);
+                intent.setClass(SchulteGridGameStart.this , SchulteGridPractice.class);
                 startActivity(intent);
             }
         });
@@ -64,7 +64,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SchulteGridGameStart.this , MemoryGameEasy.class);
+                intent.setClass(SchulteGridGameStart.this , SchulteGridEasy.class);
                 startActivity(intent);
             }
         });
