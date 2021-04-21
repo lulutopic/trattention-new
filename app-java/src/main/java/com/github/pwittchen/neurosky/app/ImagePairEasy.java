@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,9 +84,15 @@ public class ImagePairEasy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+
         setContentView(R.layout.activity_image_pair_easy);
-        //設定隱藏標題
-        getSupportActionBar().hide();
+
 
 
         //取得目前時間
