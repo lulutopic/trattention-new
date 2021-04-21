@@ -20,6 +20,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -420,18 +422,19 @@ public class MemoryGameEasy extends MobileActivity{
         });
     }
 
-
-
+public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
     private Long spentTime;
     private Long pauseTime=0L;
     private Long pauseTotal=0L;
-
     private ImageView temp;
     private ImageView collect;
     private int moved=1;
+    private MediaPlayer music;
+
+
     //圖片id變數
     ImageView iv_11,iv_12,iv_13,iv_14,
             iv_21,iv_22,iv_23,iv_24,
@@ -455,31 +458,31 @@ public class MemoryGameEasy extends MobileActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(R.layout.activity_memory_game_easy);
-        //設定隱藏標題
-        getSupportActionBar().hide();
+
         //取得目前時間
         startTime = System.currentTimeMillis();
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
-
-
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
-        mediaPlayer.start();//播放
-
-
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //頁面跳轉  點選 pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //stop music
-                mediaPlayer.pause();
-                //stop time
+                //時間暫停
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameEasy.this);
                 LayoutInflater inflater = MemoryGameEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -490,6 +493,8 @@ public class MemoryGameEasy extends MobileActivity{
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGameEasy.this,GameHome.class);
                                 startActivity(intent);
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -499,12 +504,13 @@ public class MemoryGameEasy extends MobileActivity{
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
-                                mediaPlayer.start();
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -523,10 +529,24 @@ public class MemoryGameEasy extends MobileActivity{
             }
         });
 
-
-
-
-
+        //下一關快速鍵
+        ImageView next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //停止計時器的執行緒
+                handler.removeCallbacks(updateTimer);
+                //頁面跳轉
+                Intent intent = new Intent();
+                intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
+                intent.putExtra("time",startTime);
+                intent.putExtra("pause",pauseTotal);
+                startActivity(intent);
+                music.release();
+                music=null;
+                finish();
+            }
+        });
 
         //game
         iv_11=(ImageView)findViewById(R.id.iv_11);
@@ -566,11 +586,7 @@ public class MemoryGameEasy extends MobileActivity{
         frontOfCardsResources();
 
         //第一題的顏色
-
-
-
         Collections.shuffle(Arrays.asList(cardsArray));
-
 
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
@@ -662,9 +678,6 @@ public class MemoryGameEasy extends MobileActivity{
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-
-                Log.d("walktest-left:i",""+i);
-                Log.d("walktest-left:j",""+j);
             };
 
         });
@@ -698,8 +711,6 @@ public class MemoryGameEasy extends MobileActivity{
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-                Log.d("walktest-up:i",""+i);
-                Log.d("walktest-up:j",""+j);
             };
 
         });
@@ -976,12 +987,15 @@ public class MemoryGameEasy extends MobileActivity{
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
             Intent intent = new Intent();
+
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
             startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
             finish();
-
         }
     }
 

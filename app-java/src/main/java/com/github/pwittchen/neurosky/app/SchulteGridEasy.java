@@ -13,10 +13,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -310,7 +313,7 @@ public class SchulteGridEasy extends MobileActivity {
     private int focus_count;
     private int focus_row=1;
     private int focus_column=1;
-
+    private MediaPlayer music; 
 
 
     //圖片的變數
@@ -334,27 +337,36 @@ public class SchulteGridEasy extends MobileActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+
         setContentView(R.layout.activity_schulte_grid);
-        //設定隱藏標題
-        getSupportActionBar().hide();
 
 
         //取得目前時間
         startTime = System.currentTimeMillis();
         //接續前段時間
         pauseTotal= getIntent().getLongExtra("pause",0);
-
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.giant);
+        music.setLooping(true);
+        music.start();
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //時間暫停
                 pauseTime=System.currentTimeMillis();
-                //stop time
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridEasy.this);
                 LayoutInflater inflater = SchulteGridEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -365,6 +377,9 @@ public class SchulteGridEasy extends MobileActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(SchulteGridEasy.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -374,11 +389,13 @@ public class SchulteGridEasy extends MobileActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -387,11 +404,9 @@ public class SchulteGridEasy extends MobileActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridEasy.this)
-                        .setTitle("小提示頁面")
-                        .setMessage("請依照數字順序點選");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridEasy.this);
                 LayoutInflater inflater = SchulteGridEasy.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_tips, null));
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_schulte_easy_tips, null));
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
@@ -592,6 +607,9 @@ public class SchulteGridEasy extends MobileActivity {
             Intent intent = new Intent();
             intent.setClass(SchulteGridEasy.this, SchulteGridMed.class);
             intent.putExtra("time",startTime);
+            //音樂釋放
+            music.release();
+            music=null;
             startActivity(intent);
             finish();
 

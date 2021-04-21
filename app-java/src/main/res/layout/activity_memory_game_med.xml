@@ -30,6 +30,13 @@
             app:srcCompat="@drawable/game_header_tips"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"/>
+        <ImageView
+            android:id="@+id/next"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/game_header_tips"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp"/>
 
     </LinearLayout>
 

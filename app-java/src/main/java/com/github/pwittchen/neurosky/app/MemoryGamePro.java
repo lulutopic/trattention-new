@@ -2,6 +2,7 @@ package com.github.pwittchen.neurosky.app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,10 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -416,10 +418,10 @@ public class MemoryGamePro extends MobileActivity {
     }
 
 
+public class MemoryGamePro extends AppCompatActivity {
+    private MediaPlayer music;
     protected Long startTime;
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal;
+    private Long spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
     private Chronometer timer;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
@@ -427,8 +429,7 @@ public class MemoryGamePro extends MobileActivity {
     FirebaseFirestore fStore;
     String createdAt;
     private String formattedTime;
-    private ImageView temp;
-    private ImageView collect;
+    private ImageView temp, collect;
     private int moved=1;
     ImageView iv_11,iv_12,iv_13,iv_14,
             iv_21,iv_22,iv_23,iv_24,
@@ -449,26 +450,26 @@ public class MemoryGamePro extends MobileActivity {
     int cardNumber=1;
     int questionCount = 0;
     int i=0;
-    Timer timertest = new Timer();
-
-
-
+    int test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(R.layout.activity_memory_game_hard);
 
         //計算當前時間
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
 
-        //設定隱藏標題
-        getSupportActionBar().hide();
+
 
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
@@ -482,17 +483,22 @@ public class MemoryGamePro extends MobileActivity {
         Collections.shuffle(Arrays.asList(questionArray));
         questionArray=Arrays.copyOf(questionArray,9);
         questionArray[8] =0;
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //設定第一題
         questionCard = questionArray[questionCount];
-
+        //點pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pauseTime=System.currentTimeMillis();
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
                 LayoutInflater inflater = MemoryGamePro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -503,6 +509,9 @@ public class MemoryGamePro extends MobileActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGamePro.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -512,11 +521,13 @@ public class MemoryGamePro extends MobileActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -676,8 +687,6 @@ public class MemoryGamePro extends MobileActivity {
                     temp.setImageResource(R.drawable.memorybackground);
                 }
 
-                Log.d("walktest-left:i",""+i);
-                Log.d("walktest-left:j",""+j);
             };
 
         });
@@ -711,14 +720,10 @@ public class MemoryGamePro extends MobileActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-                Log.d("walktest-up:i",""+i);
-                Log.d("walktest-up:j",""+j);
             };
-
         });
 
         down_arrow.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view){
                 moved=1;
@@ -733,7 +738,6 @@ public class MemoryGamePro extends MobileActivity {
                 }
                 temp = imageArray[i];
                 while (temp.getVisibility() == View.INVISIBLE) {
-
                     if(i==12 ||i==13||i==14||i==15) {
                         i = i-12;
                     }
@@ -749,9 +753,7 @@ public class MemoryGamePro extends MobileActivity {
                 if (temp != collect){
                     temp.setImageResource(R.drawable.memorybackground);
                 }
-
             };
-
         });
 
         ok.setVisibility(View.VISIBLE);
@@ -776,9 +778,6 @@ public class MemoryGamePro extends MobileActivity {
 
             }
         });
-
-
-
     }
 
     //set the conect image to the imageview
@@ -930,8 +929,6 @@ public class MemoryGamePro extends MobileActivity {
             iv_42.setImageResource(R.drawable.memoryback);
             iv_43.setImageResource(R.drawable.memoryback);
             iv_44.setImageResource(R.drawable.memoryback);
-
-
         }
         iv_11.setEnabled(true);
         iv_12.setEnabled(true);
@@ -972,7 +969,6 @@ public class MemoryGamePro extends MobileActivity {
                 iv_44.getVisibility() == View.INVISIBLE) {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
-            Log.d("Memorygame", "formattedTime " + formattedTime);
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePro.this);
             alertDialogBuilder
@@ -984,7 +980,11 @@ public class MemoryGamePro extends MobileActivity {
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameResultMemory.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
+
                         }
                     })
                     .setNegativeButton("離開",new DialogInterface.OnClickListener(){
@@ -993,6 +993,9 @@ public class MemoryGamePro extends MobileActivity {
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameHome.class);
                             startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
                             finish();
                         }
                     });
@@ -1002,11 +1005,13 @@ public class MemoryGamePro extends MobileActivity {
 //        userID = fAuth.getCurrentUser().getUid();
 //        DocumentReference documentReference = fStore.collection("game_record").document(userID);
             //自動產生 document id
-            DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_memory").collection("data").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
             gameresult.put("record", formattedTime);
+            gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
+            gameresult.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq");
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -1029,7 +1034,6 @@ public class MemoryGamePro extends MobileActivity {
         image102=R.drawable.memory102;
         image107=R.drawable.memory107;
         image106=R.drawable.memory106;
-
     }
 
     //固定要執行的方法
@@ -1038,24 +1042,22 @@ public class MemoryGamePro extends MobileActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            Long hour = (spentTime/1000)/3600;
+            hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = ((spentTime/1000)/60) % 60;
+            minutes = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            Long seconds = (spentTime/1000) % 60;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            seconds = (spentTime/1000) % 60;
+            //計算總秒數
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }
     };
-
-
-
 
     public void btnClick(View view) {
         timer.setBase(SystemClock.elapsedRealtime());//計時器清零
         int hour = (int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 1000 / 60);
         timer.setFormat("0"+String.valueOf(hour)+":%s");
     }
-
 }

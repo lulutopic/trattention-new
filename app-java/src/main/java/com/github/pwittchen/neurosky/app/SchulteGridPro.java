@@ -326,22 +326,16 @@ public class SchulteGridPro extends MobileActivity {
     }
 
 
-    private Long startTime;
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal;
-
-    private int focus_count;
-    private int focus_row=1;
-    private int focus_column=1;
-
-    private Chronometer timer;
+public class SchulteGridPro extends AppCompatActivity {
+    private Long startTime, spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
+    private MediaPlayer music;
+    private int focus_count, focus_row=1, focus_column=1;
     private Handler handler = new Handler();
     public static final String TAG = "TAG";
     private String formattedTime;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String createdAt, a;
+    String createdAt;
 
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
@@ -350,29 +344,31 @@ public class SchulteGridPro extends MobileActivity {
     View row1,row2,row3,row4,row5;
 
     int blue= Color.parseColor("#274C98");
-    int focus_color=getColorWithAlpha(blue, 0.6f);
-    int unfocus_color= getColorWithAlpha(blue, 0f);
+    int focus_color=getColorWithAlpha(blue, 0.6f), unfocus_color= getColorWithAlpha(blue, 0f), count = 0;
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
             ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
             ,R.drawable.grid23,R.drawable.grid24,R.drawable.grid25};
 
-    int count = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+
         setContentView(R.layout.activity_schulte_grid2);
-        //設定隱藏標題
-        getSupportActionBar().hide();
+
 
         //接續前段時間
         startTime= getIntent().getLongExtra("time",0);
         pauseTotal= getIntent().getLongExtra("pause",0);
-
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
@@ -381,8 +377,10 @@ public class SchulteGridPro extends MobileActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.TAIWAN);
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
-        Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
-
+        //音樂
+        music = MediaPlayer.create(this, R.raw.preview);
+        music.setLooping(true);
+        music.start();
         //暫停按鈕的觸發事件
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
@@ -390,7 +388,8 @@ public class SchulteGridPro extends MobileActivity {
             public void onClick(View view) {
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
-
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
                 LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -401,6 +400,9 @@ public class SchulteGridPro extends MobileActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(SchulteGridPro.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
 
                             }
@@ -411,11 +413,13 @@ public class SchulteGridPro extends MobileActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -424,11 +428,9 @@ public class SchulteGridPro extends MobileActivity {
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this)
-                        .setTitle("小提示頁面")
-                        .setMessage("請依照數字順序點選");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
                 LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_memory_tips, null));
+                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_schulte_pro_tips, null));
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
@@ -700,11 +702,13 @@ public class SchulteGridPro extends MobileActivity {
 //        userID = fAuth.getCurrentUser().getUid();
 //        DocumentReference documentReference = fStore.collection("game_record").document(userID);
             //自動產生 document id
-            DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq").document();
+            DocumentReference documentReference = fStore.collection("game_record").document("game_record_schulte").collection("data").document();
             Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
             gameresult.put("record", formattedTime);
+            gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
+            gameresult.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq");
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -725,12 +729,13 @@ public class SchulteGridPro extends MobileActivity {
             final TextView time = (Chronometer) findViewById(R.id.timer);
             spentTime = System.currentTimeMillis() - startTime - pauseTotal;
             //計算目前已過小時數
-            Long hour = (spentTime/1000)/3600;
+            hour = (spentTime/1000)/3600;
             //計算目前已過分鐘數
-            Long minius = ((spentTime/1000)/60) % 60;
+            minutes = ((spentTime/1000)/60) % 60;
             //計算目前已過秒數
-            Long seconds = (spentTime/1000) % 60;
-            formattedTime = String.format("%02d:%02d:%02d",hour, minius, seconds);
+            seconds = (spentTime/1000) % 60;
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
             time.setText(formattedTime);
             handler.postDelayed(this, 1000);
         }

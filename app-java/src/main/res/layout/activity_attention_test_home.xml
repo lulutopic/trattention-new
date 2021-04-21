@@ -41,7 +41,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="450dp"
         android:layout_marginHorizontal="100dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/scrollview_shape_round"
@@ -115,7 +115,8 @@
                 android:layout_height="340dp"
                 android:background="@drawable/button_blue_shape_round"
                 android:elevation="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="30dp">
 
 
                 <TextView

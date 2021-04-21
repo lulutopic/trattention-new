@@ -2,12 +2,10 @@ package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
 import android.os.Handler;
 
 import android.os.Looper;
@@ -16,10 +14,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
+import android.os.SystemClock;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import android.view.View;
 
 import java.util.Arrays;
@@ -403,6 +405,10 @@ public class MemoryGameMed extends MobileActivity {
     private Long pauseTotal;
     private Chronometer timer;
     private Handler handler = new Handler();
+    private MediaPlayer music;
+    private ImageView temp;
+    private ImageView collect;
+    private int moved=1;
 
     private ImageView temp;
     private ImageView collect;
@@ -432,12 +438,18 @@ public class MemoryGameMed extends MobileActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(R.layout.activity_memory_game_med);
 
         //音樂
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.popcorn);
-
-        //頁面跳轉 點選 pause
+        music = MediaPlayer.create(this, R.raw.popcorn);
+        music.setLooping(true);
+        music.start();
+        //點pause
         ImageView button4 = findViewById(R.id.imagepause);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,7 +458,10 @@ public class MemoryGameMed extends MobileActivity {
                 mediaPlayer.pause();
                 pauseTime=System.currentTimeMillis();
                 //stop time
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
+                //音樂暫停
+                music.pause();
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGameMed.this);
                 LayoutInflater inflater = MemoryGameMed.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
@@ -457,6 +472,9 @@ public class MemoryGameMed extends MobileActivity {
                                 Intent intent = new Intent();
                                 intent.setClass(MemoryGameMed.this,GameHome.class);
                                 startActivity(intent);
+                                //音樂釋放
+                                music.release();
+                                music=null;
                                 finish();
                             }
                         })
@@ -466,13 +484,13 @@ public class MemoryGameMed extends MobileActivity {
                                 pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
                                 pauseTime=0L;
-                                mediaPlayer.start();
-
+                                //音樂繼續
+                                music.start();
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(455, 400);
+                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -489,6 +507,24 @@ public class MemoryGameMed extends MobileActivity {
             }
         });
 
+        //下一關快速鍵
+        ImageView next = findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //停止計時器的執行緒
+                handler.removeCallbacks(updateTimer);
+                //頁面跳轉
+                Intent intent = new Intent();
+                intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
+                intent.putExtra("time",startTime);
+                intent.putExtra("pause",pauseTotal);
+                music.release();
+                music =null;
+                startActivity(intent);
+                finish();
+            }
+        });
 
         //設定隱藏標題
         getSupportActionBar().hide();
@@ -999,6 +1035,9 @@ public class MemoryGameMed extends MobileActivity {
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
             startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
             finish();
 
         }

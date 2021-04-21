@@ -55,7 +55,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, ImagePairEasy.class);
+                intent.setClass(GameHome.this, ImagePairGameStart.class);
                 startActivity(intent);
             }
         });
@@ -65,7 +65,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, SchulteGridEasy.class);
+                intent.setClass(GameHome.this, SchulteGridGameStart.class);
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, MemoryGameEasy.class);
+                intent.setClass(GameHome.this, MemoryGameStart.class);
                 startActivity(intent);
             }
         });

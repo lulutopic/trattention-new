@@ -1,6 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
-import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,27 +11,45 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+
 import com.github.pwittchen.neurosky.library.NeuroSky;
 import com.github.pwittchen.neurosky.library.exception.BluetoothNotEnabledException;
 import com.github.pwittchen.neurosky.library.listener.ExtendedDeviceMessageListener;
 import com.github.pwittchen.neurosky.library.message.enums.BrainWave;
 import com.github.pwittchen.neurosky.library.message.enums.Signal;
 import com.github.pwittchen.neurosky.library.message.enums.State;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
-//MainActivity類別實作AppCompatActivity 介面
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+
 public class AttentionTesting extends AppCompatActivity {
 
+    FirebaseFirestore fStore;
     private final static String LOG_TAG = "NeuroSky";
     public static String test ="神奇專注力數值";
     private NeuroSky neuroSky;
@@ -39,7 +57,7 @@ public class AttentionTesting extends AppCompatActivity {
     @BindView(R.id.tv_state) TextView tvState;
     @BindView(R.id.tv_attention) TextView tvAttention;
     @BindView(R.id.tv_meditation) TextView tvMeditation;
-//    @BindView(R.id.tv_blink) TextView tvBlink;
+
 
 
     @Override
@@ -55,6 +73,8 @@ public class AttentionTesting extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
         setContentView(R.layout.activity_attention_testing);
+
+        getArticle();
 
         //header:頁面跳轉->回首頁
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -78,17 +98,13 @@ public class AttentionTesting extends AppCompatActivity {
             }
         });
 
-        ButterKnife.bind(this);
 
-        //初始樣式設定：隱藏閱讀完畢按鈕
-        Button connect_btn=(Button) findViewById(R.id.btn_stop_monitoring);
-        connect_btn.setVisibility(View.GONE);
+        ButterKnife.bind(this);
         neuroSky = createNeuroSky();
     }
 
     //開始測試
     @Override protected void onResume() {
-
         super.onResume();
         if (neuroSky != null && neuroSky.isConnected()) {
             neuroSky.start();
@@ -127,6 +143,9 @@ public class AttentionTesting extends AppCompatActivity {
             //連線成功後樣式設定：顯示閱讀完畢、隱藏開始測驗按鈕
             Button stop_btn=(Button) findViewById(R.id.btn_stop_monitoring);
             stop_btn.setVisibility(View.VISIBLE);
+
+            View question=(View) findViewById(R.id.testing);
+            question.setVisibility(View.VISIBLE);
 
             Button connect_btn=(Button) findViewById(R.id.btn_connect);
             connect_btn.setVisibility(View.GONE);
@@ -173,8 +192,6 @@ public class AttentionTesting extends AppCompatActivity {
 
 
     private void handleSignalChange(final Signal signal) {
-        //src:libary/src/main/java/message/enums/Signal
-
         switch (signal) {
             case ATTENTION:
                 int temp=signal.getTotal_value()/signal.getCount_value();
@@ -183,16 +200,12 @@ public class AttentionTesting extends AppCompatActivity {
                 signal.setTotal_value((signal.getTotal_value()+signal.getValue()));
                 test=String.valueOf(signal.getTotal_value()/signal.getCount_value());
 
-//                Log.d("總專注力數值",String.valueOf(signal.getTotal_value()));
-//                Log.d("總讀取次數",String.valueOf(signal.getCount_value()));
-//                Log.d("平均專注力",String.valueOf(signal.getTotal_value()/signal.getCount_value()));
+
                 break;
             case MEDITATION:
                 tvMeditation.setText(getFormattedMessage("冥想數值: %d", signal));
                 break;
-//     case BLINK:
-//        tvBlink.setText(getFormattedMessage("blink: %d", signal));
-//        break;
+
         }
 
 
@@ -202,11 +215,6 @@ public class AttentionTesting extends AppCompatActivity {
     private String getFormattedMessage(String messageFormat, Signal signal) {
         return String.format(Locale.getDefault(), messageFormat, signal.getValue());
     }
-
-
-
-
-
 
 
     //腦波儀：a b 波，獨力數值
@@ -223,8 +231,6 @@ public class AttentionTesting extends AppCompatActivity {
     @OnClick(R.id.btn_connect) void connect() {
         try {
             neuroSky.connect();
-
-
         } catch (BluetoothNotEnabledException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(LOG_TAG, e.getMessage());
@@ -239,7 +245,6 @@ public class AttentionTesting extends AppCompatActivity {
         neuroSky.stop();
         AlertDialog.Builder builder = new AlertDialog.Builder(AttentionTesting.this);
         builder.setMessage("本次專注力測驗結果："+test +"/100");
-
 
         builder.setNegativeButton("完成", new DialogInterface.OnClickListener() {
             @Override
@@ -256,8 +261,45 @@ public class AttentionTesting extends AppCompatActivity {
 
     }
 
-//    @OnClick(R.id.btn_disconnect) void disconnect() {
-//        neuroSky.disconnect();
-//    }
+    private void getArticle() {
+        fStore = FirebaseFirestore.getInstance();
+        ArrayList<String> articleList = new ArrayList<>();
+        fStore.collection("article")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document:task.getResult()) {
+                                articleList.add(document.getId());
+                            }
+                            Collections.shuffle(articleList);
+                            setArticle(articleList.get(0));
+
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+
+                        }
+                    }
+                });
+    }
+
+
+    private void setArticle(String article) {
+
+        fStore = FirebaseFirestore.getInstance();
+        TextView connect_article_textView=(TextView) findViewById(R.id.textView＿article);
+        TextView question=(TextView)findViewById(R.id.question);
+
+        DocumentReference documentReference = fStore.collection("article").document(article);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                connect_article_textView.setText(documentSnapshot.getString("content").replaceAll("\\\\n","\n"));
+                question.setText("請問文章中有幾個「"+documentSnapshot.getString("question")+"」呢");
+            }
+        });
+    };
 
 }
