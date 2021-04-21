@@ -72,7 +72,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.giant);
+        music = MediaPlayer.create(this, R.raw.bit2);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件
