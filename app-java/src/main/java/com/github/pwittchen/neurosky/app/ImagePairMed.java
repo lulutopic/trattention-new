@@ -103,7 +103,7 @@ public class ImagePairMed extends AppCompatActivity {
         createdAt = sdf.format(new Date()); //-prints-> 2015-01-22T03:23:26Z
         Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
         //音樂
-        music = MediaPlayer.create(this, R.raw.bit2);
+        music = MediaPlayer.create(this, R.raw.test);
         music.setLooping(true);
         music.start();
         //頁面跳轉  點選 pause
