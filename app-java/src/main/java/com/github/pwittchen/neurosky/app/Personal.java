@@ -39,6 +39,7 @@ public class Personal extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
         setContentView(R.layout.activity_personal);
+
         fStore = FirebaseFirestore.getInstance();
         //取得各格 id 進一步設定要放值的地方
         mEmail = (EditText) findViewById(R.id.email);
