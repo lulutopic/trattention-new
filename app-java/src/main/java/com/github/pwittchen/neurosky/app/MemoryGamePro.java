@@ -418,7 +418,6 @@ public class MemoryGamePro extends MobileActivity {
     }
 
 
-public class MemoryGamePro extends AppCompatActivity {
     private MediaPlayer music;
     protected Long startTime;
     private Long spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;

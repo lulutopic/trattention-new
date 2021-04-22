@@ -422,7 +422,6 @@ public class MemoryGameEasy extends MobileActivity{
         });
     }
 
-public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();

@@ -410,9 +410,6 @@ public class MemoryGameMed extends MobileActivity {
     private ImageView collect;
     private int moved=1;
 
-    private ImageView temp;
-    private ImageView collect;
-    private int moved=1;
 
     ImageView iv_11,iv_12,iv_13,iv_14,iv_15,
             iv_21,iv_22,iv_23,iv_24,iv_25,
@@ -455,7 +452,7 @@ public class MemoryGameMed extends MobileActivity {
             @Override
             public void onClick(View view) {
                 //stop music
-                mediaPlayer.pause();
+                music.pause();
                 pauseTime=System.currentTimeMillis();
                 //stop time
                 pauseTime=System.currentTimeMillis();

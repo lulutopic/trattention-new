@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -326,7 +329,7 @@ public class SchulteGridPro extends MobileActivity {
     }
 
 
-public class SchulteGridPro extends AppCompatActivity {
+
     private Long startTime, spentTime, pauseTime=0L, pauseTotal, hour, minutes, seconds, totalSeconds;
     private MediaPlayer music;
     private int focus_count, focus_row=1, focus_column=1;
