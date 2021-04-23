@@ -122,14 +122,15 @@
                 android:id="@+id/one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/one"
                 android:background="@drawable/grid1"/>
@@ -137,7 +138,8 @@
                 android:id="@+id/three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/two"
                 android:background="@drawable/grid1"/>
@@ -145,7 +147,7 @@
                 android:id="@+id/four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/three"
                 android:background="@drawable/grid1"/>
@@ -156,19 +158,20 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row1"
-            android:paddingTop="10dp">
+            >
             <ImageView
                 android:id="@+id/five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/six"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/five"
                 android:background="@drawable/grid1"/>
@@ -176,7 +179,8 @@
                 android:id="@+id/seven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/six"
                 android:background="@drawable/grid1"/>
@@ -184,7 +188,7 @@
                 android:id="@+id/eight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/seven"
                 android:background="@drawable/grid1"/>
@@ -195,19 +199,20 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row2"
-            android:paddingTop="10dp">
+            >
             <ImageView
                 android:id="@+id/nine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/ten"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/nine"
                 android:background="@drawable/grid1"/>
@@ -215,7 +220,8 @@
                 android:id="@+id/eleven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/ten"
                 android:background="@drawable/grid1"/>
@@ -223,7 +229,7 @@
                 android:id="@+id/twelve"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/eleven"
                 android:background="@drawable/grid1"/>
@@ -234,19 +240,20 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row3"
-            android:paddingTop="10dp">
+            >
             <ImageView
                 android:id="@+id/thirteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:padding="10dp"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/fourteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/thirteen"
                 android:background="@drawable/grid1"/>
@@ -254,7 +261,8 @@
                 android:id="@+id/fifteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/fourteen"
                 android:background="@drawable/grid1"/>
@@ -262,7 +270,7 @@
                 android:id="@+id/sixteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:padding="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/fifteen"
                 android:background="@drawable/grid1"/>
