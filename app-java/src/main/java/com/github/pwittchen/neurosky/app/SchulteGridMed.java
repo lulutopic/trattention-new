@@ -38,9 +38,9 @@ public class SchulteGridMed extends AppCompatActivity {
 
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-            seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive;
+            seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour;
     ImageView btn_down,btn_right,btn_ok;
-    View row1,row2,row3,row4,row5;
+    View row1,row2,row3,row4;
 
     int blue= Color.parseColor("#274C98");
     int focus_color=getColorWithAlpha(blue, 0.6f);
@@ -49,7 +49,7 @@ public class SchulteGridMed extends AppCompatActivity {
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
             ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
-            ,R.drawable.grid23,R.drawable.grid24,R.drawable.grid25};
+            ,R.drawable.grid23,R.drawable.grid24};
 
     int count = 0;
 
@@ -156,7 +156,6 @@ public class SchulteGridMed extends AppCompatActivity {
         twentytwo=(ImageView)findViewById(R.id.twentytwo);
         twentythree=(ImageView)findViewById(R.id.twentythree);
         twentyfour=(ImageView)findViewById(R.id.twentyfour);
-        twentyfive=(ImageView)findViewById(R.id.twentyfive);
 
         btn_down=(ImageView)findViewById(R.id.down_arrow);
         btn_right=(ImageView)findViewById(R.id.right_arrow);
@@ -166,14 +165,13 @@ public class SchulteGridMed extends AppCompatActivity {
         row2 =(View)findViewById(R.id.row2);
         row3 =(View)findViewById(R.id.row3);
         row4 =(View)findViewById(R.id.row4);
-        row5 =(View)findViewById(R.id.row5);
 
 
 
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,
-                fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+                fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
 
         //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
@@ -187,10 +185,9 @@ public class SchulteGridMed extends AppCompatActivity {
         //初始設定：選取第一行、第一列
         row1.setBackgroundColor(focus_color);
         UnShuffle[0].setBackgroundColor(focus_color);
-        UnShuffle[5].setBackgroundColor(focus_color);
-        UnShuffle[10].setBackgroundColor(focus_color);
-        UnShuffle[15].setBackgroundColor(focus_color);
-        UnShuffle[20].setBackgroundColor(focus_color);
+        UnShuffle[6].setBackgroundColor(focus_color);
+        UnShuffle[12].setBackgroundColor(focus_color);
+        UnShuffle[18].setBackgroundColor(focus_color);
 
         //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
@@ -209,9 +206,6 @@ public class SchulteGridMed extends AppCompatActivity {
                         row4.setBackgroundColor(focus_color);
                         break;
                     case(5):
-                        row5.setBackgroundColor(focus_color);
-                        break;
-                    case(6):
                         focus_row=1;
                         row1.setBackgroundColor(focus_color);
                         break;
@@ -227,39 +221,40 @@ public class SchulteGridMed extends AppCompatActivity {
                 switch(focus_column){
                     case(2):
                         UnShuffle[1].setBackgroundColor(focus_color);
-                        UnShuffle[6].setBackgroundColor(focus_color);
-                        UnShuffle[11].setBackgroundColor(focus_color);
-                        UnShuffle[16].setBackgroundColor(focus_color);
-                        UnShuffle[21].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        UnShuffle[19].setBackgroundColor(focus_color);
                         break;
                     case(3):
                         UnShuffle[2].setBackgroundColor(focus_color);
-                        UnShuffle[7].setBackgroundColor(focus_color);
-                        UnShuffle[12].setBackgroundColor(focus_color);
-                        UnShuffle[17].setBackgroundColor(focus_color);
-                        UnShuffle[22].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        UnShuffle[20].setBackgroundColor(focus_color);
                         break;
                     case(4):
                         UnShuffle[3].setBackgroundColor(focus_color);
-                        UnShuffle[8].setBackgroundColor(focus_color);
-                        UnShuffle[13].setBackgroundColor(focus_color);
-                        UnShuffle[18].setBackgroundColor(focus_color);
-                        UnShuffle[23].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
+                        UnShuffle[21].setBackgroundColor(focus_color);
                         break;
                     case(5):
                         UnShuffle[4].setBackgroundColor(focus_color);
-                        UnShuffle[9].setBackgroundColor(focus_color);
-                        UnShuffle[14].setBackgroundColor(focus_color);
-                        UnShuffle[19].setBackgroundColor(focus_color);
-                        UnShuffle[24].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[16].setBackgroundColor(focus_color);
+                        UnShuffle[22].setBackgroundColor(focus_color);
                         break;
                     case(6):
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[17].setBackgroundColor(focus_color);
+                        UnShuffle[23].setBackgroundColor(focus_color);
+                        break;
+                    case(7):
                         focus_column=1;
                         UnShuffle[0].setBackgroundColor(focus_color);
-                        UnShuffle[5].setBackgroundColor(focus_color);
-                        UnShuffle[10].setBackgroundColor(focus_color);
-                        UnShuffle[15].setBackgroundColor(focus_color);
-                        UnShuffle[20].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        UnShuffle[18].setBackgroundColor(focus_color);
                         break;
                 }
 
@@ -270,7 +265,7 @@ public class SchulteGridMed extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                focus_count=(focus_row-1)*5+focus_column-1;
+                focus_count=(focus_row-1)*6+focus_column-1;
                 int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
                 doStuff(UnShuffle[focus_count],theCard);
             }
@@ -292,50 +287,48 @@ public class SchulteGridMed extends AppCompatActivity {
             case(4):
                 row4.setBackgroundColor(unfocus_color);
                 break;
-            case(5):
-                row5.setBackgroundColor(unfocus_color);
-                break;
         }
     }
 
     private void clearColumn(int focus_column){
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen, fourteen,fifteen,sixteen,
-                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
         switch(focus_column){
             case(1):
                 UnShuffle[0].setBackgroundColor(unfocus_color);
-                UnShuffle[5].setBackgroundColor(unfocus_color);
-                UnShuffle[10].setBackgroundColor(unfocus_color);
-                UnShuffle[15].setBackgroundColor(unfocus_color);
-                UnShuffle[20].setBackgroundColor(unfocus_color);
+                UnShuffle[6].setBackgroundColor(unfocus_color);
+                UnShuffle[12].setBackgroundColor(unfocus_color);
+                UnShuffle[18].setBackgroundColor(unfocus_color);
                 break;
             case(2):
                 UnShuffle[1].setBackgroundColor(unfocus_color);
-                UnShuffle[6].setBackgroundColor(unfocus_color);
-                UnShuffle[11].setBackgroundColor(unfocus_color);
-                UnShuffle[16].setBackgroundColor(unfocus_color);
-                UnShuffle[21].setBackgroundColor(unfocus_color);
+                UnShuffle[7].setBackgroundColor(unfocus_color);
+                UnShuffle[13].setBackgroundColor(unfocus_color);
+                UnShuffle[19].setBackgroundColor(unfocus_color);
                 break;
             case(3):
                 UnShuffle[2].setBackgroundColor(unfocus_color);
-                UnShuffle[7].setBackgroundColor(unfocus_color);
-                UnShuffle[12].setBackgroundColor(unfocus_color);
-                UnShuffle[17].setBackgroundColor(unfocus_color);
-                UnShuffle[22].setBackgroundColor(unfocus_color);
+                UnShuffle[8].setBackgroundColor(unfocus_color);
+                UnShuffle[14].setBackgroundColor(unfocus_color);
+                UnShuffle[20].setBackgroundColor(unfocus_color);
                 break;
             case(4):
                 UnShuffle[3].setBackgroundColor(unfocus_color);
-                UnShuffle[8].setBackgroundColor(unfocus_color);
-                UnShuffle[13].setBackgroundColor(unfocus_color);
-                UnShuffle[18].setBackgroundColor(unfocus_color);
-                UnShuffle[23].setBackgroundColor(unfocus_color);
+                UnShuffle[9].setBackgroundColor(unfocus_color);
+                UnShuffle[15].setBackgroundColor(unfocus_color);
+                UnShuffle[21].setBackgroundColor(unfocus_color);
                 break;
             case(5):
                 UnShuffle[4].setBackgroundColor(unfocus_color);
-                UnShuffle[9].setBackgroundColor(unfocus_color);
-                UnShuffle[14].setBackgroundColor(unfocus_color);
-                UnShuffle[19].setBackgroundColor(unfocus_color);
-                UnShuffle[24].setBackgroundColor(unfocus_color);
+                UnShuffle[10].setBackgroundColor(unfocus_color);
+                UnShuffle[16].setBackgroundColor(unfocus_color);
+                UnShuffle[22].setBackgroundColor(unfocus_color);
+                break;
+            case(6):
+                UnShuffle[5].setBackgroundColor(unfocus_color);
+                UnShuffle[11].setBackgroundColor(unfocus_color);
+                UnShuffle[17].setBackgroundColor(unfocus_color);
+                UnShuffle[23].setBackgroundColor(unfocus_color);
                 break;
         }
     }
@@ -361,7 +354,7 @@ public class SchulteGridMed extends AppCompatActivity {
     }
 
     private void checkEnd() {
-        if (count == 25) {
+        if (count == 24) {
             //設定計時器的執行緒結束
             handler.removeCallbacks(updateTimer);
             //頁面跳轉

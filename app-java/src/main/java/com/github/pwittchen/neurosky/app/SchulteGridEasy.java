@@ -42,7 +42,7 @@ public class SchulteGridEasy extends AppCompatActivity {
     ImageView btn_down,btn_right,btn_ok;
     View row1,row2,row3,row4;
 
-    int blue= Color.parseColor("#274C98");
+    int blue= Color.parseColor("#244f98");
     int focus_color=getColorWithAlpha(blue, 0.6f);
     int unfocus_color= getColorWithAlpha(blue, 0f);
 

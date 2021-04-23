@@ -22,7 +22,8 @@
             android:textColor="@color/white"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="30dp"
+            android:layout_toLeftOf="@id/timer"/>
         <ImageView
             android:id="@+id/imagepause"
             android:layout_width="100dp"
@@ -40,21 +41,20 @@
             android:layout_alignParentRight="true"
             app:srcCompat="@drawable/game_header_tips"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="50dp"/>
-            <Chronometer
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:format="00:00:00"
-                android:textSize="50sp"
-                android:textStyle="italic"
-                android:textColor="@color/yellow"
-                android:letterSpacing="0.1"
-                android:padding="10dp">
-            </Chronometer>
-    </RelativeLayout>
-    <RelativeLayout
+            android:layout_marginRight="50dp" />
+        <Chronometer
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:format="00:00:00"
+            android:textSize="50sp"
+            android:textStyle="italic"
+            android:textColor="@color/yellow"
+            android:letterSpacing="0.1">
+        </Chronometer>
+    </RelativeLayout>    <RelativeLayout
         android:id="@+id/control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
