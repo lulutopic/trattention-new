@@ -10,6 +10,8 @@ import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -54,9 +56,15 @@ public class SchulteGridEasy extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //隱藏title
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+
         setContentView(R.layout.activity_schulte_grid);
-        //設定隱藏標題
-        getSupportActionBar().hide();
+
         //取得目前時間
         startTime = System.currentTimeMillis();
         //接續前段時間
@@ -64,7 +72,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.giant);
+        music = MediaPlayer.create(this, R.raw.bit2);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件

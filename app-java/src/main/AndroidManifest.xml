@@ -32,7 +32,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".MemoryGamePractice"
+            android:name=".ImagePairPractice"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".SchulteGridPractice"
             android:screenOrientation="landscape" >
         </activity>
         <activity
@@ -66,7 +70,8 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Login"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        </activity>
         <activity
             android:name=".AttentionTestResult"
             android:screenOrientation="landscape" />
@@ -81,7 +86,15 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".GameHome"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+        <!-- 初始畫面加上這段 -->
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".GameResult"
             android:screenOrientation="landscape" />
@@ -96,9 +109,6 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".GameStopButton"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".GameVideo"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MemoryGameEasy"
@@ -136,11 +146,6 @@
         <activity
             android:name=".Home"
             android:screenOrientation="landscape" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".InstructionHome"
