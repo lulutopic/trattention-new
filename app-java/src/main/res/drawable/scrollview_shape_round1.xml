@@ -2,6 +2,5 @@
     android:shape="rectangle" >
     <!-- rounded corner -->
     <corners android:radius="10dp" />
-    <solid android:color="@color/lightgray" />
-    <stroke android:color="@color/gray" android:width="7dp"/>
+    <solid android:color="@color/colorAccent" />
 </shape>

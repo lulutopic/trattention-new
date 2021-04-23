@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ImagePairEasy"
+    tools:context=".ImagePairPro"
     android:background="@color/background">
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="@color/colorPrimaryDark"
         android:layout_alignParentTop="true">
         <TextView
             android:id="@+id/logo"
@@ -19,10 +19,9 @@
             android:text="Trattention"
             android:textSize="50dp"
             android:textStyle="bold"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imagepause"
             android:layout_marginLeft="30dp"/>
         <ImageView
             android:id="@+id/imagepause"
@@ -42,98 +41,41 @@
             app:srcCompat="@drawable/game_header_tips"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="50dp"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/scrollview_shape_round"
-        android:layout_below="@+id/header"
-        android:layout_margin="40dp"
-        android:layout_alignParentRight="true"
-        android:elevation="10dp">
-        <ImageView
-            android:id="@+id/pair_bg"
-            android:layout_width="500dp"
-            android:layout_height="400dp"
-            android:background="@drawable/pair_bg"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-        <TextView
-            android:id="@+id/question"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="color"
-            android:textStyle="italic"
-            android:textSize="70dp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"/>
-        <TextView
-            android:id="@+id/optionA"
-            android:layout_width="200dp"
-            android:layout_height="170dp"
-            android:padding="30dp"
-            android:layout_below="@+id/pair_bg"
-            android:background="@drawable/optiona"
-            android:text="黑"
-            android:textSize="50dp"
-            android:clickable="true"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/optionB"
-            android:layout_width="200dp"
-            android:layout_height="170dp"
-            android:padding="30dp"
-            android:layout_below="@+id/pair_bg"
-            android:layout_toRightOf="@+id/optionA"
-            android:background="@drawable/optionb"
-            android:text="黑"
-            android:textSize="50dp"
-            android:clickable="true"
-            android:gravity="center" />
-        <TextView
-            android:id="@+id/optionC"
-            android:layout_width="200dp"
-            android:layout_height="170dp"
-            android:padding="30dp"
-            android:layout_below="@+id/pair_bg"
-            android:layout_toRightOf="@+id/optionB"
-            android:background="@drawable/optionc"
-            android:text="黑"
-            android:textSize="50dp"
-            android:clickable="true"
-            android:gravity="center" />
+            <Chronometer
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:format="00:00:00"
+                android:textSize="50sp"
+                android:textStyle="italic"
+                android:textColor="@color/yellow"
+                android:letterSpacing="0.1"
+                android:padding="10dp">
+            </Chronometer>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/content"
-        android:background="@drawable/scrollview_shape_round"
-        android:layout_centerVertical="true"
+        android:elevation="11dp"
+        android:layout_alignTop="@+id/content"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="50dp"
-        android:elevation="10dp">
-        <Chronometer
-            android:id="@+id/timer"
+        android:layout_below="@id/header">
+        <ImageView
+            android:id="@+id/left_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:format="00:00:00"
-            android:textSize="60dp"
-            android:textColor="@color/blue"
-            android:letterSpacing="0.1"
-            android:layout_margin="50dp"
-            android:background="@drawable/scrollview_shape_round1"
-            android:padding="9dp">
-        </Chronometer>
+            android:scaleType="center"
+            android:src="@drawable/left_arrow"
+            android:layout_margin="20dp"/>
         <ImageView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="center"
-            android:layout_below="@+id/timer"
+            android:layout_toRightOf="@+id/left_arrow"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ok"
             android:layout_margin="20dp"/>
@@ -142,18 +84,74 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="center"
-            android:layout_below="@+id/timer"
             android:layout_toRightOf="@+id/ok"
             android:src="@drawable/right_arrow"
             android:layout_margin="20dp"/>
-        <ImageView
-            android:id="@+id/left_arrow"
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:background="@drawable/scrollview_shape_round"
+        android:layout_margin="40dp"
+        android:elevation="10dp">
+        <TextView
+            android:id="@+id/question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:layout_below="@+id/timer"
-            android:layout_toLeftOf="@+id/ok"
-            android:src="@drawable/left_arrow"
-            android:layout_margin="20dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pair_bg"
+            android:gravity="center"
+            android:paddingBottom="50dp"
+            android:text="color"
+            android:textColor="@color/gray"
+            android:textSize="50sp"
+            android:textStyle="italic"/>
+        <LinearLayout
+            android:id="@+id/answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_below="@+id/question"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:id="@+id/optionA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:layout_below="@+id/pair_bg"
+                android:background="@drawable/optiona"
+                android:text="黑"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/optionB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:layout_below="@+id/pair_bg"
+                android:layout_toRightOf="@+id/optionA"
+                android:background="@drawable/optionb"
+                android:text="黑"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/optionC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:layout_below="@+id/pair_bg"
+                android:layout_toRightOf="@+id/optionB"
+                android:background="@drawable/optionc"
+                android:text="黑"
+                android:textSize="30sp"
+                android:clickable="true"
+                android:gravity="center" />
+
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
