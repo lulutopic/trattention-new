@@ -189,12 +189,7 @@ public class SchulteGridPro extends AppCompatActivity {
         //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
 
-        //初始設定：選取第一行、第一列
-        row1.setBackgroundColor(focus_color);
-        UnShuffle[0].setBackgroundColor(focus_color);
-        UnShuffle[6].setBackgroundColor(focus_color);
-        UnShuffle[12].setBackgroundColor(focus_color);
-        UnShuffle[18].setBackgroundColor(focus_color);
+
 
         for(int i = 0; i < ImageArray.length; i++){
             NumArray[i].setImageResource(ImageArray[i]);
@@ -202,6 +197,13 @@ public class SchulteGridPro extends AppCompatActivity {
             String s = String.valueOf(i);
             NumArray[i].setTag(s);
         }
+
+        //初始設定：選取第一行、第一列
+        row1.setBackgroundColor(focus_color);
+        UnShuffle[0].setBackgroundColor(focus_color);
+        UnShuffle[6].setBackgroundColor(focus_color);
+        UnShuffle[12].setBackgroundColor(focus_color);
+        UnShuffle[18].setBackgroundColor(focus_color);
 
         //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
