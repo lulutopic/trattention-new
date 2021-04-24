@@ -63,14 +63,14 @@
         android:layout_below="@+id/header"
         android:layout_margin="40dp"
         android:elevation="10dp"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
         <RelativeLayout
             android:id="@+id/control"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="11dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true">
+            android:layout_centerHorizontal="true">
             <ImageView
                 android:id="@+id/up_arrow"
                 android:layout_width="wrap_content"
@@ -149,25 +149,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/three"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/five"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/four"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/six"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/five"
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
         <RelativeLayout
@@ -177,11 +159,29 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row1">
             <ImageView
-                android:id="@+id/seven"
+                android:id="@+id/five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/grid1"/>
+            <ImageView
+                android:id="@+id/six"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/five"
+                android:background="@drawable/grid1"/>
+            <ImageView
+                android:id="@+id/seven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/six"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/eight"
@@ -189,17 +189,21 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/seven"
                 android:background="@drawable/grid1"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/row3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/row2">
             <ImageView
                 android:id="@+id/nine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/eight"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/ten"
@@ -229,17 +233,17 @@
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/row3"
+            android:id="@+id/row4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/row2">
+            android:layout_below="@+id/row3">
             <ImageView
                 android:id="@+id/thirteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_marginRight="20dp"
+                android:padding="10dp"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/fourteen"
@@ -265,83 +269,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/fifteen"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/seventeen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/sixteen"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/eighteen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/seventeen"
-                android:background="@drawable/grid1"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/row4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/row3">
-            <ImageView
-                android:id="@+id/nineteen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twenty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/nineteen"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentyone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twenty"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentytwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twentyone"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentythree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twentytwo"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentyfour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/twentythree"
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
     </RelativeLayout>

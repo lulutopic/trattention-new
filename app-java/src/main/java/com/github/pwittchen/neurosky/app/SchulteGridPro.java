@@ -198,6 +198,7 @@ public class SchulteGridPro extends AppCompatActivity {
 
         for(int i = 0; i < ImageArray.length; i++){
             NumArray[i].setImageResource(ImageArray[i]);
+            NumArray[i].setBackgroundColor(unfocus_color);
             String s = String.valueOf(i);
             NumArray[i].setTag(s);
         }
