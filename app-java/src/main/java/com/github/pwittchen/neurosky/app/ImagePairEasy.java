@@ -172,6 +172,24 @@ public class ImagePairEasy extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    music.start();
+                }
+
+            }
+        });
     }
 
 

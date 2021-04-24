@@ -30,7 +30,7 @@
             android:layout_height="100dp"
             android:layout_marginLeft="50dp"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/game_header_pause"
+            android:src="@drawable/game_header_pause"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/imagetips"/>
         <ImageView
@@ -38,10 +38,19 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerVertical="true"
+            android:src="@drawable/game_header_tips"
+            android:layout_toLeftOf="@+id/imagebgm"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+        <ImageView
+            android:id="@+id/imagebgm"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            app:srcCompat="@drawable/game_header_tips"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="50dp" />
+            android:src="@drawable/bgm_on"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
         <Chronometer
             android:id="@+id/timer"
             android:layout_width="wrap_content"
@@ -54,7 +63,8 @@
             android:textColor="@color/yellow"
             android:letterSpacing="0.1">
         </Chronometer>
-    </RelativeLayout>    <RelativeLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
