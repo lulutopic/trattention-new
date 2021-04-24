@@ -357,11 +357,11 @@ public class SchulteGridPro extends AppCompatActivity {
     }
 
     private void doStuff(ImageView iv, int card){
-        if(count == card && count != 24){
+        if(count == card && count != 22){
             iv.setImageResource(R.drawable.gridblank);
             count = count + 2;
         }
-        else if(count == card && count == 24){
+        else if(count == card && count == 22){
             iv.setImageResource(R.drawable.gridblank);
             count = 1;
         }
@@ -372,7 +372,7 @@ public class SchulteGridPro extends AppCompatActivity {
     }
 
     private void checkEnd() {
-        if (count == 24) {
+        if (count == 25) {
             //設定計時器的執行緒結束
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
