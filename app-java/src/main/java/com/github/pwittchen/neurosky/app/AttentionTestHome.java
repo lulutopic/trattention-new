@@ -42,8 +42,8 @@ import java.util.ArrayList;
 public class AttentionTestHome extends AppCompatActivity {
     LineChart lineChart;
     public static final String TAG = "TAG";
-    int Blue=Color.parseColor("#99CCF7");
-    int Yellow=Color.parseColor("#fff5b8");
+    int Blue=Color.parseColor("#8BB2D4");
+    int Yellow=Color.parseColor("#F4E1A5");
     private int list_size;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;

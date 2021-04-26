@@ -66,9 +66,8 @@ public class SchulteGridMed extends AppCompatActivity {
 
         setContentView(R.layout.activity_schulte_grid1);
 
-        //取得目前時間
-        startTime = System.currentTimeMillis();
         //接續前段時間
+        startTime= getIntent().getLongExtra("time",0);
         pauseTotal= getIntent().getLongExtra("pause",0);
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);

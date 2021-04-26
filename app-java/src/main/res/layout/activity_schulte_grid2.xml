@@ -169,16 +169,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/four"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/six"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/five"
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
         <RelativeLayout
@@ -188,11 +179,20 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row1">
             <ImageView
-                android:id="@+id/seven"
+                android:id="@+id/six"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/grid1"/>
+            <ImageView
+                android:id="@+id/seven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/six"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/eight"
@@ -218,25 +218,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/nine"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/eleven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/ten"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twelve"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/eleven"
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
         <RelativeLayout
@@ -246,11 +228,29 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/row2">
             <ImageView
-                android:id="@+id/thirteen"
+                android:id="@+id/eleven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/grid1"/>
+            <ImageView
+                android:id="@+id/twelve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/eleven"
+                android:background="@drawable/grid1"/>
+            <ImageView
+                android:id="@+id/thirteen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/twelve"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/fourteen"
@@ -267,17 +267,21 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/fourteen"
                 android:background="@drawable/grid1"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/row4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/row3">
             <ImageView
                 android:id="@+id/sixteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/fifteen"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/seventeen"
@@ -294,21 +298,17 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/seventeen"
                 android:background="@drawable/grid1"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/row4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/row3">
             <ImageView
                 android:id="@+id/nineteen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/eighteen"
                 android:background="@drawable/grid1"/>
             <ImageView
                 android:id="@+id/twenty"
@@ -316,43 +316,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/nineteen"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentyone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twenty"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentytwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twentyone"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentythree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toRightOf="@+id/twentytwo"
-                android:background="@drawable/grid1"/>
-            <ImageView
-                android:id="@+id/twentyfour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/twentythree"
                 android:background="@drawable/grid1"/>
         </RelativeLayout>
     </RelativeLayout>
