@@ -52,7 +52,7 @@ public class SchulteGridPro extends AppCompatActivity {
     //圖片的id設定的變數
     ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty;
     ImageView btn_down,btn_right,btn_ok;
-    ImageView btn_down,btn_up,btn_right,btn_left,btn_ok;
+    ImageView btn_up,btn_left;
     View row1,row2,row3,row4;
 
     int blue= Color.parseColor("#274C98");
