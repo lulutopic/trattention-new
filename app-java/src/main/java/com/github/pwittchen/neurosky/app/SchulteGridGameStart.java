@@ -29,7 +29,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
         setContentView(R.layout.activity_schulte_game_start);
 
         VideoView video = (VideoView) findViewById(R.id.videoView);
-        video.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/trattention-f3daa.appspot.com/o/video.mp4?alt=media&token=e7832ebd-8eab-4dff-b17b-a51ca1b3d1d7"));
+        video.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/trattention-f3daa.appspot.com/o/%E6%9C%AA%E5%91%BD%E5%90%8D%E7%B0%A1%E5%A0%B1.mp4?alt=media&token=284a96fa-7119-462a-af02-86a470b2900a"));
         video.setMediaController(new MediaController(this));
         video.start();
 
