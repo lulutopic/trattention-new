@@ -34,6 +34,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class SchulteGridPro extends AppCompatActivity {
@@ -48,9 +50,9 @@ public class SchulteGridPro extends AppCompatActivity {
     String createdAt;
 
     //圖片的id設定的變數
-    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-            seventeen,eighteen,nineteen,twenty;
+    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty;
     ImageView btn_down,btn_right,btn_ok;
+    ImageView btn_down,btn_up,btn_right,btn_left,btn_ok;
     View row1,row2,row3,row4;
 
     int blue= Color.parseColor("#274C98");
@@ -158,6 +160,7 @@ public class SchulteGridPro extends AppCompatActivity {
                 }
                 else{
                     button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
                     music.start();
                 }
 
@@ -186,7 +189,9 @@ public class SchulteGridPro extends AppCompatActivity {
         twenty=(ImageView)findViewById(R.id.twenty);
 
         btn_down=(ImageView)findViewById(R.id.down_arrow);
+        btn_up=(ImageView)findViewById(R.id.up_arrow);
         btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_left=(ImageView)findViewById(R.id.left_arrow);
         btn_ok=(ImageView)findViewById(R.id.ok);
 
         row1 =(View)findViewById(R.id.row1);
@@ -222,6 +227,7 @@ public class SchulteGridPro extends AppCompatActivity {
         btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row+=1;
                 switch(focus_row){
@@ -241,10 +247,37 @@ public class SchulteGridPro extends AppCompatActivity {
                 }
             }
         });
+
+        //向上的按鈕
+        btn_up.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                setBtnStyle(view);
+                clearRow(focus_row);
+                focus_row-=1;
+                switch(focus_row){
+                    case(0):
+                        focus_row=4;
+                        row4.setBackgroundColor(focus_color);
+                        break;
+                    case(1):
+                        row1.setBackgroundColor(focus_color);
+                        break;
+                    case(2):
+                        row2.setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        row3.setBackgroundColor(focus_color);
+                        break;
+                }
+            }
+        });
+
         //向右的按鈕
         btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                setBtnStyle(view);
                 clearColumn(focus_column);
                 focus_column+=1;
                 switch(focus_column){
@@ -290,10 +323,61 @@ public class SchulteGridPro extends AppCompatActivity {
             }
         });
 
+        //向左的按鈕
+        btn_left.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                setBtnStyle(view);
+                clearColumn(focus_column);
+                focus_column-=1;
+                switch(focus_column){
+                    case(0):
+                        focus_column=6;
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[17].setBackgroundColor(focus_color);
+                        UnShuffle[23].setBackgroundColor(focus_color);
+                        break;
+                    case(1):
+                        UnShuffle[0].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        UnShuffle[18].setBackgroundColor(focus_color);
+                        break;
+                    case(2):
+                        UnShuffle[1].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        UnShuffle[19].setBackgroundColor(focus_color);
+                        break;
+                    case(3):
+                        UnShuffle[2].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        UnShuffle[20].setBackgroundColor(focus_color);
+                        break;
+                    case(4):
+                        UnShuffle[3].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
+                        UnShuffle[21].setBackgroundColor(focus_color);
+                        break;
+                    case(5):
+                        UnShuffle[4].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[16].setBackgroundColor(focus_color);
+                        UnShuffle[22].setBackgroundColor(focus_color);
+                        break;
+                }
+
+            }
+        });
+
         //確認的按鈕
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                setBtnStyle(view);
                 focus_count=(focus_row-1)*6+focus_column-1;
                 int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
                 doStuff(UnShuffle[focus_count],theCard);
@@ -370,7 +454,20 @@ public class SchulteGridPro extends AppCompatActivity {
         newColor = Color.argb(alpha, r, g, b);
         return newColor;
     }
-
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
     private void doStuff(ImageView iv, int card){
         if(count == card && count != 22){
             iv.setImageResource(R.drawable.gridblank);
