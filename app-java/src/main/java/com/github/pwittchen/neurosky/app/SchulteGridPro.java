@@ -50,9 +50,9 @@ public class SchulteGridPro extends AppCompatActivity {
     String createdAt;
 
     //圖片的id設定的變數
-    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-            seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour;
-    ImageView btn_down,btn_up,btn_right,btn_left,btn_ok;
+    ImageView one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty;
+    ImageView btn_down,btn_right,btn_ok;
+    ImageView btn_up,btn_left;
     View row1,row2,row3,row4;
 
     int blue= Color.parseColor("#274C98");
@@ -60,8 +60,7 @@ public class SchulteGridPro extends AppCompatActivity {
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
-            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20,R.drawable.grid21,R.drawable.grid22
-            ,R.drawable.grid23,R.drawable.grid24};
+            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,10 +187,6 @@ public class SchulteGridPro extends AppCompatActivity {
         eighteen=(ImageView)findViewById(R.id.eighteen);
         nineteen=(ImageView)findViewById(R.id.nineteen);
         twenty=(ImageView)findViewById(R.id.twenty);
-        twentyone=(ImageView)findViewById(R.id.twentyone);
-        twentytwo=(ImageView)findViewById(R.id.twentytwo);
-        twentythree=(ImageView)findViewById(R.id.twentythree);
-        twentyfour=(ImageView)findViewById(R.id.twentyfour);
 
         btn_down=(ImageView)findViewById(R.id.down_arrow);
         btn_up=(ImageView)findViewById(R.id.up_arrow);
@@ -205,9 +200,9 @@ public class SchulteGridPro extends AppCompatActivity {
         row4 =(View)findViewById(R.id.row4);
 
         ImageView[] NumArray = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
+                seventeen,eighteen,nineteen,twenty};
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,
-                fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
+                fourteen,fifteen,sixteen,seventeen,eighteen,nineteen,twenty};
 
         //NumArray隨機排序
         Collections.shuffle(Arrays.asList(NumArray));
@@ -408,7 +403,7 @@ public class SchulteGridPro extends AppCompatActivity {
 
     private void clearColumn(int focus_column){
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen, fourteen,fifteen,sixteen,
-                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour};
+                seventeen,eighteen,nineteen,twenty};
         switch(focus_column){
             case(1):
                 UnShuffle[0].setBackgroundColor(unfocus_color);

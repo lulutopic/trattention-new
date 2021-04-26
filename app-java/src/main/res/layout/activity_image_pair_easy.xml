@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:src="@drawable/game_header_pause"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/imagetips"/>
+            android:layout_toLeftOf="@+id/imagetips" />
         <ImageView
             android:id="@+id/imagetips"
             android:layout_width="100dp"
