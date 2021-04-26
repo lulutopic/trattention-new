@@ -28,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class Personal extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    EditText mEmail, mName, mAge;
+    TextView mEmail, mName, mAge, mGender;
     String userID;
 
     @Override
@@ -41,9 +41,10 @@ public class Personal extends AppCompatActivity {
         setContentView(R.layout.activity_personal);
         fStore = FirebaseFirestore.getInstance();
         //取得各格 id 進一步設定要放值的地方
-        mEmail = (EditText) findViewById(R.id.email);
-        mName = (EditText) findViewById(R.id.name);
+        mEmail = findViewById(R.id.email);
+        mName = findViewById(R.id.name);
         mAge = findViewById(R.id.age);
+        mGender = findViewById(R.id.gender);
 //        userID = fAuth.getCurrentUser().getUid();
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
@@ -54,6 +55,7 @@ public class Personal extends AppCompatActivity {
                 mEmail.setText(documentSnapshot.getString("email"));
                 mName.setText(documentSnapshot.getString("name"));
                 mAge.setText(documentSnapshot.getString("age"));
+                mGender.setText(documentSnapshot.getString("gender"));
             }
         });
 
