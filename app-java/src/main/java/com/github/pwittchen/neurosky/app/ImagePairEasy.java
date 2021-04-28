@@ -1,7 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
@@ -9,10 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -78,6 +76,7 @@ public class ImagePairEasy extends MobileActivity {
             WatchGesture.MOVE_FOREARM_UP,
             WatchGesture.MOVE_FOREARM_RIGHT,
     };
+
     @Override
     public void onWatchGestureReceived(WatchGesture gesture) {
         Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
@@ -235,20 +234,6 @@ public class ImagePairEasy extends MobileActivity {
         });
     }
 
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(ImagePairEasy.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text){
         if (Looper.myLooper() == Looper.getMainLooper()) {

@@ -313,20 +313,6 @@ public class SchulteGridPro extends MobileActivity {
         });
     }
 
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(SchulteGridPro.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text){
         if (Looper.myLooper() == Looper.getMainLooper()) {

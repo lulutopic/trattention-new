@@ -2,7 +2,6 @@ package com.github.pwittchen.neurosky.app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
@@ -11,10 +10,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -45,7 +42,44 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 public class ImagePairPro extends MobileActivity {
-        @Override
+
+    private final String MGTAG = MainActivity.class.getSimpleName();
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+    @Override
     public void onWatchGestureReceived(WatchGesture gesture) {
         Log.d(MGTAG, "onWatchGestureReceived: " + gesture.name());
         setResultText(gesture);
@@ -140,29 +174,46 @@ public class ImagePairPro extends MobileActivity {
                         || gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE || gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX) {
                         setBtnStyle(btn_right);
-                    switch (clicked) {
-                        case (0):
-                            button1.get(0).setBackgroundResource(optiona);
-                            button1.get(1).setBackgroundResource(optionb_border);
-                            System.out.println();
-                            clicked++;
-                            break;
-                        case (1):
-                            button1.get(1).setBackgroundResource(optionb);
-                            button1.get(2).setBackgroundResource(optionc_border);
-                            clicked++;
-                            break;
-                        case (2):
-                            button1.get(2).setBackgroundResource(optionc);
-                            button1.get(0).setBackgroundResource(optiona_border);
-                            clicked -= 2;
-                            break;
-                    }
+                        switch(clicked){
+                            case(0):
+                                button1.get(0).setBackgroundResource(optiona);
+                                button1.get(1).setBackgroundResource(optionb_border);
+                                System.out.println();
+                                clicked++;
+                                break;
+                            case(1):
+                                button1.get(1).setBackgroundResource(optionb);
+                                button1.get(2).setBackgroundResource(optionc_border);
+                                clicked++;
+                                break;
+                            case(2):
+                                button1.get(2).setBackgroundResource(optionc);
+                                button1.get(0).setBackgroundResource(optiona_border);
+                                clicked-=2;
+                                break;
+                        }
                 }
                 //手勢控制向左
                 else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT) {
-                        setBtnStyle(btn_left);
-
+                    setBtnStyle(btn_left);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            System.out.println();
+                            clicked+=2;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            clicked--;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked--;
+                            break;
+                    }
                 }
                 //手勢控制確認選取
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
@@ -173,7 +224,7 @@ public class ImagePairPro extends MobileActivity {
                         //回傳題目的文字底色的文字標籤
                         String Tag = (String) colorTextView.getTag();
                         //如果選項Ａ的文字意思等於標籤Ａ
-                        if (button1.get(clicked).getText() == Tag) {
+                        if(button1.get(clicked).getText() == Tag){
                             count++;
                             getRandomColor();
                             deter();
@@ -184,20 +235,6 @@ public class ImagePairPro extends MobileActivity {
         });
     }
 
-    public void setDefinedGestures() {
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-
-    public void setListeners() {
-        ((Button) findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(ImagePairPro.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -215,10 +252,10 @@ public class ImagePairPro extends MobileActivity {
     }
 
     private MediaPlayer music;
-    private Long spentTime, pauseTime = 0L, pauseTotal = 0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
+    private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
     private Chronometer timer; //已經過時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
-    private String formattedTime, recordSeconds;
+    private String formattedTime;
     public static final String TAG = "TAG";
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -236,50 +273,12 @@ public class ImagePairPro extends MobileActivity {
 
     private int optiona, optionb, optionc, optiona_border, optionb_border, optionc_border;
 
-    ImageView btn_right, btn_ok, btn_left;
+    ImageView btn_right,btn_ok,btn_left;
 
 
     private TextView ImageButtonA, ImageButtonB, ImageButtonC;
 
-    int count = 0; //計算遊戲答對題數
-    int clicked = 0;
-
-    private final String MGTAG = MainActivity.class.getSimpleName();
-
-    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
-            //彈指
-            WatchGesture.FINGER_SNAP,
-            //手臂
-            WatchGesture.FOREARM_LEFT,
-            WatchGesture.FOREARM_RIGHT,
-            //手背
-            WatchGesture.HANDBACK_UP,
-            WatchGesture.HANDBACK_DOWN,
-            WatchGesture.HANDBACK_LEFT,
-            WatchGesture.HANDBACK_RIGHT,
-            WatchGesture.MOVE_FOREARM_DOWN,
-            //拇指中指捏捏
-            WatchGesture.THUMBTAP_MIDDLE,
-            //三指捏捏
-            WatchGesture.THUMBTAP_INDEX_MIDDLE,
-            //拇指食指捏捏
-            WatchGesture.THUMBTAP_INDEX,
-            //指頭
-            WatchGesture.JOINTTAP_LOWER_THUMB,
-            WatchGesture.JOINTTAP_UPPER_THUMB,
-            WatchGesture.JOINTTAP_MIDDLE_INDEX,
-            WatchGesture.JOINTTAP_UPPER_INDEX,
-            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
-            WatchGesture.JOINTTAP_UPPER_MIDDLE,
-            WatchGesture.JOINTTAP_MIDDLE_RING,
-            WatchGesture.JOINTTAP_UPPER_RING,
-            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
-            //手臂快速移動
-            WatchGesture.MOVE_FOREARM_DOWN,
-            WatchGesture.MOVE_FOREARM_LEFT,
-            WatchGesture.MOVE_FOREARM_UP,
-            WatchGesture.MOVE_FOREARM_RIGHT,
-    };
+    int clicked = 0, count = 0; //計算遊戲答對題數
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,10 +295,11 @@ public class ImagePairPro extends MobileActivity {
         setContentView(R.layout.activity_image_pair_pro);
 
 
+
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //接續前段時間
-        startTime = getIntent().getLongExtra("time", 0);
+        startTime= getIntent().getLongExtra("time",0);
         //音樂
         music = MediaPlayer.create(this, R.raw.star);
         music.setLooping(true);
@@ -310,7 +310,7 @@ public class ImagePairPro extends MobileActivity {
             @Override
             public void onClick(View view) {
                 //stop time
-                pauseTime = System.currentTimeMillis();
+                pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
@@ -318,24 +318,24 @@ public class ImagePairPro extends MobileActivity {
                 LayoutInflater inflater = ImagePairPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
                 alertDialogBuilder
-                        .setNeutralButton("離開", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(DialogInterface dialogInterface,int i){
                                 Intent intent = new Intent();
-                                intent.setClass(ImagePairPro.this, GameHome.class);
+                                intent.setClass(ImagePairPro.this,GameHome.class);
                                 startActivity(intent);
                                 //音樂釋放
                                 music.release();
-                                music = null;
+                                music=null;
                                 finish();
                             }
                         })
-                        .setNegativeButton("繼續", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                pauseTotal += System.currentTimeMillis() - pauseTime;
+                            public void onClick(DialogInterface dialogInterface,int i){
+                                pauseTotal+=System.currentTimeMillis()-pauseTime;
                                 handler.post(updateTimer);
-                                pauseTime = 0L;
+                                pauseTime=0L;
                                 //音樂繼續
                                 music.start();
                             }
@@ -391,81 +391,83 @@ public class ImagePairPro extends MobileActivity {
     }
 
     //監聽事件的函式
-    private void setupViewsAndListeners() {
+    private void setupViewsAndListeners(){
         button1.get(0).setBackgroundResource(optiona_border);
-        btn_right.setOnClickListener(new View.OnClickListener() {
+        btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
-            public void onClick(View v) {
-                switch (clicked) {
-                    case (0):
+            public void onClick(View v){
+                setBtnStyle(v);
+                switch(clicked){
+                    case(0):
                         button1.get(0).setBackgroundResource(optiona);
                         button1.get(1).setBackgroundResource(optionb_border);
                         System.out.println();
                         clicked++;
                         break;
-                    case (1):
+                    case(1):
                         button1.get(1).setBackgroundResource(optionb);
                         button1.get(2).setBackgroundResource(optionc_border);
                         clicked++;
                         break;
-                    case (2):
+                    case(2):
                         button1.get(2).setBackgroundResource(optionc);
                         button1.get(0).setBackgroundResource(optiona_border);
-                        clicked -= 2;
+                        clicked-=2;
                         break;
                 }
 
             }
         });
 
-        // btn_left.setOnClickListener(new View.OnClickListener(){
-        //     @Override
-        //     //設定點擊事件
-        //     public void onClick(View v){
-        //         switch(clicked){
-        //             case(0):
-        //                 button1.get(0).setBackgroundResource(optiona);
-        //                 button1.get(2).setBackgroundResource(optionc_border);
-        //                 System.out.println();
-        //                 clicked+=2;
-        //                 break;
-        //             case(2):
-        //                 button1.get(2).setBackgroundResource(optionc);
-        //                 button1.get(1).setBackgroundResource(optionb_border);
-        //                 clicked--;
-        //                 break;
-        //             case(1):
-        //                 button1.get(1).setBackgroundResource(optionb);
-        //                 button1.get(0).setBackgroundResource(optiona_border);
-        //                 clicked--;
-        //                 break;
-        //         }
-
-        //     }
-        // });
-
-        btn_ok.setOnClickListener(new View.OnClickListener() {
+        btn_left.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
-            public void onClick(View v) {
+            public void onClick(View v){
+                setBtnStyle(v);
+                switch(clicked){
+                    case(0):
+                        button1.get(0).setBackgroundResource(optiona);
+                        button1.get(2).setBackgroundResource(optionc_border);
+                        System.out.println();
+                        clicked+=2;
+                        break;
+                    case(2):
+                        button1.get(2).setBackgroundResource(optionc);
+                        button1.get(1).setBackgroundResource(optionb_border);
+                        clicked--;
+                        break;
+                    case(1):
+                        button1.get(1).setBackgroundResource(optionb);
+                        button1.get(0).setBackgroundResource(optiona_border);
+                        clicked--;
+                        break;
+                }
+
+            }
+        });
+
+        btn_ok.setOnClickListener(new View.OnClickListener(){
+            @Override
+            //設定點擊事件
+            public void onClick(View v){
+                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 String Tag = (String) colorTextView.getTag();
                 //如果選項Ａ的文字意思等於標籤Ａ
-                if (button1.get(clicked).getText() == Tag) {
+                if(button1.get(clicked).getText() == Tag){
                     count++;
                     getRandomColor();
                     deter();
                     checkEnd();
                 }
-
             }
         });
 
     }
 
     //三個串列的隨機排列
-    private void getRandomColor() {
+    private void getRandomColor(){
         //Collections.shuffle 隨機排列三個串列
         Collections.shuffle(colorNames);
         Collections.shuffle(colorValues);
@@ -488,37 +490,36 @@ public class ImagePairPro extends MobileActivity {
         button.get(1).setTextColor(colorValues.get(1));
         button.get(2).setTextColor(colorValues.get(2));
     }
-
     //檢查是否遊戲完成並且題目跳轉
-    private void checkEnd() {
-        if (count == 10) {
+    private void checkEnd(){
+        if(count == 10){
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
             alertDialogBuilder
                     .setMessage("恭喜!遊戲結束~")
                     .setCancelable(false)
-                    .setPositiveButton("查看結果", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("查看結果",new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameResultImagePair.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();
-                            music = null;
+                            music=null;
                             finish();
                         }
                     })
-                    .setNegativeButton("離開", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("離開",new DialogInterface.OnClickListener(){
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameHome.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();
-                            music = null;
+                            music=null;
                             finish();
                         }
                     });
@@ -529,13 +530,12 @@ public class ImagePairPro extends MobileActivity {
 //        DocumentReference documentReference = fStore.collection("game_record").document(userID);
             //自動產生 document id
             DocumentReference documentReference = fStore.collection("game_record").document("game_record_imagepair").collection("data").document();
-            Map<String, Object> gameresult = new HashMap<>();
+            Map<String,Object> gameresult = new HashMap<>();
 //        user.put("user", userID);
-            recordSeconds = String.valueOf(totalSeconds);
             gameresult.put("record", formattedTime);
-            gameresult.put("secondRecord", recordSeconds);
+            gameresult.put("secondRecord", totalSeconds);
             gameresult.put("createdAt", createdAt);
-            gameresult.put("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq");
+            gameresult.put("user","MELJmK6vYxeoKCrWhvJyy4Xfriq");
             documentReference.set(gameresult).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -551,29 +551,32 @@ public class ImagePairPro extends MobileActivity {
     }
 
     //幫顏色設定標籤（判斷文字底色是否等於colorValues裡的顏色）
-    private void deter() {
+    private void deter(){
         int col = colorTextView.getCurrentTextColor();
-        if (col == -571050) {
+        if (col == -571050){
             colorTextView.setTag("紅色\nred");
-        } else if (col == -5973084) {
+        }
+        else if (col == -5973084){
             colorTextView.setTag("綠色\ngreen");
-        } else {
+        }
+        else{
             colorTextView.setTag("藍色\nblue");
         }
     }
 
     //接前端的id
-    private void populateBothArraylists() {
+    private void populateBothArraylists(){
         //question
         colorTextView = (TextView) findViewById(R.id.question);
 
         //按鈕選項
-        btn_right = (ImageView) findViewById(R.id.right_arrow);
-        btn_ok = (ImageView) findViewById(R.id.ok);
+        btn_right=(ImageView)findViewById(R.id.right_arrow);
+        btn_ok=(ImageView)findViewById(R.id.ok);
+        btn_left=(ImageView)findViewById(R.id.left_arrow);
 
         //ABC選項
         ImageButtonA = (TextView) findViewById(R.id.optionA);
-        ImageButtonB = (TextView) findViewById(R.id.optionB);
+        ImageButtonB = (TextView)findViewById(R.id.optionB);
         ImageButtonC = (TextView) findViewById(R.id.optionC);
 
         //把顏色字串加入coloNames ArrayLists
@@ -595,9 +598,9 @@ public class ImagePairPro extends MobileActivity {
         optionc_border = R.drawable.optionc_border;
 
         //Add color values to the arraylist [-571050, -5973084, -9328385]
-        colorValues.add(ContextCompat.getColor(this, red));
-        colorValues.add(ContextCompat.getColor(this, green));
-        colorValues.add(ContextCompat.getColor(this, blue));
+        colorValues.add(ContextCompat.getColor(this,red));
+        colorValues.add(ContextCompat.getColor(this,green));
+        colorValues.add(ContextCompat.getColor(this,blue));
 
         //把ＡＢＣ選項加入到button ArrayLists
         button.add(ImageButtonA);
@@ -608,25 +611,6 @@ public class ImagePairPro extends MobileActivity {
         button1.add(ImageButtonB);
         button1.add(ImageButtonC);
     }
-
-    //計時器的計時方法
-    private Runnable updateTimer = new Runnable() {
-        public void run() {
-            final TextView time = (Chronometer) findViewById(R.id.timer);
-            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
-            //計算目前已過小時數
-            hour = (spentTime / 1000) / 3600;
-            //計算目前已過分鐘數
-            minutes = ((spentTime / 1000) / 60) % 60;
-            //計算目前已過秒數
-            seconds = (spentTime / 1000) % 60;
-            totalSeconds = spentTime / 1000;
-            formattedTime = String.format("%02d:%02d:%02d", hour, minutes, seconds);
-            time.setText(formattedTime);
-            handler.postDelayed(this, 1000);
-        }
-    };
-
     private void setBtnStyle(View view){
         view.setBackgroundResource(R.drawable.buttonshadow);
         Timer t = new Timer(false);
@@ -641,6 +625,21 @@ public class ImagePairPro extends MobileActivity {
             }
         }, 500);
     }
+    //計時器的計時方法
+    private Runnable updateTimer = new Runnable() {
+        public void run() {
+            final TextView time = (Chronometer) findViewById(R.id.timer);
+            spentTime = System.currentTimeMillis() - startTime - pauseTotal;
+            //計算目前已過小時數
+            hour = (spentTime/1000)/3600;
+            //計算目前已過分鐘數
+            minutes = ((spentTime/1000)/60) % 60;
+            //計算目前已過秒數
+            seconds = (spentTime/1000) % 60;
+            totalSeconds = spentTime/1000;
+            formattedTime = String.format("%02d:%02d:%02d",hour, minutes, seconds);
+            time.setText(formattedTime);
+            handler.postDelayed(this, 1000);
+        }
+    };
 }
-
-

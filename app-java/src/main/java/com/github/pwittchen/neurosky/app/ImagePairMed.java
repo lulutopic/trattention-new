@@ -1,21 +1,15 @@
 package com.github.pwittchen.neurosky.app;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -23,24 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.madgaze.watchsdk.MobileActivity;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
+
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -254,20 +241,6 @@ public class ImagePairMed extends MobileActivity {
         });
     }
 
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(ImagePairMed.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text){
         if (Looper.myLooper() == Looper.getMainLooper()) {

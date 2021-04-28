@@ -6,13 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -266,21 +264,6 @@ public class SchulteGridEasy extends MobileActivity {
             }
         });
 
-    }
-
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(SchulteGridEasy.this);
-            }
-        });
     }
 
     public void setText(final int resId, final String text){
