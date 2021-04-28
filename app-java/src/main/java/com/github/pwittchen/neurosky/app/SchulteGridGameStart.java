@@ -1,6 +1,7 @@
 package com.github.pwittchen.neurosky.app;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -29,9 +29,18 @@ public class SchulteGridGameStart extends AppCompatActivity {
         setContentView(R.layout.activity_schulte_game_start);
 
         VideoView video = (VideoView) findViewById(R.id.videoView);
-        video.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/trattention-f3daa.appspot.com/o/video.mp4?alt=media&token=e7832ebd-8eab-4dff-b17b-a51ca1b3d1d7"));
-        video.setMediaController(new MediaController(this));
+        String uriPath = "android.resource://"+  getPackageName() + "/raw/"+R.raw.test;
+        Uri uri = Uri.parse(uriPath);
+        video.setVideoURI(uri);
         video.start();
+
+        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                video.start();
+            }
+        });
+
 
         //header:頁面跳轉->回首頁
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -50,7 +59,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SchulteGridGameStart.this , InstructionHome.class);
+                intent.setClass(SchulteGridGameStart.this , SafariHome.class);
                 startActivity(intent);
             }
         });

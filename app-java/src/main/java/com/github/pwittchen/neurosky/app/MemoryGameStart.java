@@ -50,7 +50,7 @@ public class MemoryGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MemoryGameStart.this , InstructionHome.class);
+                intent.setClass(MemoryGameStart.this , SafariHome.class);
                 startActivity(intent);
             }
         });

@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.view.Window;
@@ -513,8 +514,6 @@ public class MemoryGameEasy extends MobileActivity{
             }
         });
 
-
-
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -528,22 +527,22 @@ public class MemoryGameEasy extends MobileActivity{
             }
         });
 
-        //下一關快速鍵
-        ImageView next = findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //停止計時器的執行緒
-                handler.removeCallbacks(updateTimer);
-                //頁面跳轉
-                Intent intent = new Intent();
-                intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
-                intent.putExtra("time",startTime);
-                intent.putExtra("pause",pauseTotal);
-                startActivity(intent);
-                music.release();
-                music=null;
-                finish();
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
             }
         });
 
@@ -1036,6 +1035,9 @@ public class MemoryGameEasy extends MobileActivity{
             handler.postDelayed(this, 1000);
         }
     };
+
+
+
 
 
     public void btnClick(View view) {

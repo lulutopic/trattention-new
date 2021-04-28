@@ -93,7 +93,7 @@ public class AttentionTesting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(AttentionTesting.this , InstructionHome.class);
+                intent.setClass(AttentionTesting.this , SafariHome.class);
                 startActivity(intent);
             }
         });
@@ -138,7 +138,7 @@ public class AttentionTesting extends AppCompatActivity {
     }
     //STATE_CHANGE: 1(正在連線) 2(練線成功) 0(停止連線)
     private void handleStateChange(final State state) {
-        if (neuroSky != null && state.equals(State.CONNECTED)) {
+//        if (neuroSky != null && state.equals(State.CONNECTED)) {
             neuroSky.start();
             //連線成功後樣式設定：顯示閱讀完畢、隱藏開始測驗按鈕
             Button stop_btn=(Button) findViewById(R.id.btn_stop_monitoring);
@@ -185,7 +185,7 @@ public class AttentionTesting extends AppCompatActivity {
 
             handler.postDelayed(runnable, 1500);
 
-        }
+//        }
 
         tvState.setText(state.toString());
     }

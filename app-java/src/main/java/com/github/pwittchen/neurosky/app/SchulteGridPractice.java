@@ -63,7 +63,7 @@ public class SchulteGridPractice extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_schulte_grid);
+        setContentView(R.layout.activity_schulte_grid_practice);
 
         //取得目前時間
         startTime = System.currentTimeMillis();

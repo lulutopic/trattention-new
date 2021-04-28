@@ -1,19 +1,16 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,11 +26,7 @@ import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -42,8 +35,8 @@ import java.util.ArrayList;
 public class AttentionTestHome extends AppCompatActivity {
     LineChart lineChart;
     public static final String TAG = "TAG";
-    int Blue=Color.parseColor("#99CCF7");
-    int Yellow=Color.parseColor("#fff5b8");
+    int Blue=Color.parseColor("#5B7F9F");
+    int Yellow=Color.parseColor("#F4E1A5");
     private int list_size;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -85,7 +78,7 @@ public class AttentionTestHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(AttentionTestHome.this , InstructionHome.class);
+                intent.setClass(AttentionTestHome.this , SafariHome.class);
                 startActivity(intent);
             }
         });

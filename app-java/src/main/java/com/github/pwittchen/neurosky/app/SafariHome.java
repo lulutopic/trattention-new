@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class InstructionHome extends AppCompatActivity {
+public class SafariHome extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class InstructionHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(InstructionHome.this, Home.class);
+                intent.setClass(SafariHome.this, Home.class);
                 startActivity(intent);
             }
         });
@@ -40,7 +40,7 @@ public class InstructionHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(InstructionHome.this, SafariBrain.class);
+                intent.setClass(SafariHome.this, SafariBrain.class);
                 startActivity(intent);
             }
         });
@@ -51,7 +51,7 @@ public class InstructionHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(InstructionHome.this, SafariApp.class);
+                intent.setClass(SafariHome.this, SafariApp.class);
                 startActivity(intent);
             }
         });
@@ -61,7 +61,7 @@ public class InstructionHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(InstructionHome.this, SafariWatch.class);
+                intent.setClass(SafariHome.this, SafariWatch.class);
                 startActivity(intent);
             }
         });

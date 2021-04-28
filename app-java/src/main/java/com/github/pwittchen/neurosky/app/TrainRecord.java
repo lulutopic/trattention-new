@@ -43,7 +43,8 @@ import static java.lang.String.valueOf;
 public class TrainRecord extends AppCompatActivity {
     LineChart lineChart;
     BarChart barChart;
-    int Blue=Color.parseColor("#244F98"), Yellow=Color.parseColor("#FED900"), Yellow_light=Color.parseColor("#ffe445"), White =Color.parseColor("#ffffff");
+    int Blue=Color.parseColor("#5B7F9F"),BlueDark = Color.parseColor("#274C98"), Yellow=Color.parseColor("#F4E1A5"),Orange = Color.parseColor("#F4D3A5"), Yellow_light=Color.parseColor("#ffe445"), White =Color.parseColor("#ffffff")
+            ,Red = Color.parseColor("#FCBABA"),Green = Color.parseColor("#A0D7D9");
     TextView text_pair, text_schulte, text_memory;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -77,17 +78,118 @@ public class TrainRecord extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(TrainRecord.this , InstructionHome.class);
+                intent.setClass(TrainRecord.this , SafariHome.class);
                 startActivity(intent);
             }
         });
 
-        //image pair 圖表
         text_pair=(TextView)findViewById(R.id.text_pair);
+        text_schulte=(TextView)findViewById(R.id.text_schulte);
+        text_memory=(TextView)findViewById(R.id.text_memory);
+        
+        //初始圖表設定(圖型配對)
+        text_pair.setTextColor(BlueDark);
+        text_schulte.setTextColor(Yellow_light);
+        text_memory.setTextColor(Yellow_light);
+        count = 0;
+        //折線圖
+        lineChart =(LineChart)findViewById(R.id.chart_line);
+        ArrayList<Entry> values1=new ArrayList<>();
+        ArrayList imagePairRecordList = new ArrayList<>();
+        ArrayList maxList = new ArrayList<>();
+        ArrayList maxALLUserList = new ArrayList<>();
+        ArrayList<BarEntry> bar_others=new ArrayList<>();
+        ArrayList<BarEntry> bar_own=new ArrayList<>();
+
+        //firebase 資料 折線圖
+        fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                .orderBy("createdAt")
+                .limitToLast(10)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("secondRecord")!=null){
+                                    imagePairRecordList.add(document.get("secondRecord"));
+                                }
+                            }
+                            list_size = imagePairRecordList.size();
+                            for(int i = 1; i <= imagePairRecordList.size() ; i++){
+                                float f1 =Float.parseFloat(valueOf(imagePairRecordList.get(i-1)));
+                                values1.add(new Entry(i,f1));
+                            }
+                            //顯示
+                            text_all_line(values1);
+                            initX_line();
+                            initY_line();
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        //firebase 資料
+        fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                .orderBy("secondRecord", Query.Direction.DESCENDING)
+                .limitToLast(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("secondRecord")!=null){
+                                    maxList.add(document.get("secondRecord"));
+                                }
+                            }
+                            //柱狀圖
+                            barChart =(BarChart) findViewById(R.id.chart_bar);
+                            count = Integer.parseInt(maxList.get(0).toString());
+                            bar_others.add(new BarEntry(1,count));
+
+                            //firebase 資料
+                            fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                                    .orderBy("secondRecord", Query.Direction.DESCENDING)
+                                    .limitToLast(1)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if(document.get("secondRecord")!=null){
+                                                        maxALLUserList.add(document.get("secondRecord"));
+                                                    }
+                                                }
+                                                //柱狀圖
+                                                countAll = Integer.parseInt(maxALLUserList.get(0).toString());
+                                                bar_own.add(new BarEntry(2,countAll));
+                                                text_all_bar(bar_others,bar_own);
+                                                initX_bar();
+                                                initY_bar();
+                                            } else {
+                                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+        //圖型配對圖表
+
         text_pair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text_pair.setTextColor(Blue);
+                text_pair.setTextColor(BlueDark);
                 text_schulte.setTextColor(Yellow_light);
                 text_memory.setTextColor(Yellow_light);
                 count = 0;
@@ -183,12 +285,11 @@ public class TrainRecord extends AppCompatActivity {
             }
         });
         //舒爾特方格圖表
-        text_schulte=(TextView)findViewById(R.id.text_schulte);
         text_schulte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 text_pair.setTextColor(Yellow_light);
-                text_schulte.setTextColor(Blue);
+                text_schulte.setTextColor(BlueDark);
                 text_memory.setTextColor(Yellow_light);
                 count = 0;
                 countAll = 0;
@@ -284,13 +385,12 @@ public class TrainRecord extends AppCompatActivity {
             }
         });
         //記憶力遊戲圖表
-        text_memory=(TextView)findViewById(R.id.text_memory);
         text_memory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 text_pair.setTextColor(Yellow_light);
                 text_schulte.setTextColor(Yellow_light);
-                text_memory.setTextColor(Blue);
+                text_memory.setTextColor(BlueDark);
                 count = 0;
                 //折線圖
                 lineChart =(LineChart)findViewById(R.id.chart_line);
@@ -389,8 +489,8 @@ public class TrainRecord extends AppCompatActivity {
         set1=new LineDataSet(values1,"遊戲秒數");
 
         set1.setMode(LineDataSet.Mode.LINEAR);//LINEAR是立方曲線
-        set1.setColor(Yellow);//線的顏色
-        set1.setLineWidth(2);
+        set1.setColor(Orange);//線的顏色
+        set1.setLineWidth(4);
         set1.setCircleRadius(4); //焦點圓心的大小
         set1.setHighlightEnabled(false);//禁用點擊高亮線
         set1.setValueFormatter(new DefaultValueFormatter(0));//座標點數字的小數位數1位
@@ -418,11 +518,11 @@ public class TrainRecord extends AppCompatActivity {
     }
     private void text_all_bar(ArrayList<BarEntry> values1,ArrayList<BarEntry> values2) {
         BarDataSet bardataset1=new BarDataSet(values1,"其他使用者");
-        bardataset1.setColor(Yellow);//设置第一组数据颜色
+        bardataset1.setColor(Green);//设置第一组数据颜色
         bardataset1.setDrawValues(false);
 
         BarDataSet bardataset2=new BarDataSet(values2,"我的最佳秒數");
-        bardataset2.setColor(Yellow_light);//设置第一组数据颜色
+        bardataset2.setColor(Red);//设置第一组数据颜色
         bardataset2.setDrawValues(false);
 
         //右下方description label：設置圖表資訊
@@ -439,7 +539,7 @@ public class TrainRecord extends AppCompatActivity {
 
         //創建LineData 對象，
         BarData data =new BarData(totalBarData);
-        data.setBarWidth(0.3f);
+        data.setBarWidth(0.2f);
 
         barChart.setBackgroundColor(Blue);//顯示整個圖表背景顏色 (預設灰底)
         barChart.setScaleEnabled(false);
@@ -482,8 +582,8 @@ public class TrainRecord extends AppCompatActivity {
         xAxis.setTextSize(12);//X軸標籤大小
 
         xAxis.setLabelCount(2);//X軸標籤個數
-        xAxis.setSpaceMin(0.5f);//折線起點距離左側Y軸距離
-        xAxis.setSpaceMax(0.5f);//折線終點距離右側Y軸距離
+        xAxis.setSpaceMin(0.8f);//折線起點距離左側Y軸距離
+        xAxis.setSpaceMax(0.8f);//折線終點距離右側Y軸距離
     }
     private void initY_bar() {
         YAxis rightAxis = barChart.getAxisRight();//獲取右側的軸線

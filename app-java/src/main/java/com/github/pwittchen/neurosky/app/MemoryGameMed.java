@@ -504,24 +504,43 @@ public class MemoryGameMed extends MobileActivity {
             }
         });
 
-        //下一關快速鍵
-        ImageView next = findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //停止計時器的執行緒
-                handler.removeCallbacks(updateTimer);
-                //頁面跳轉
-                Intent intent = new Intent();
-                intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
-                intent.putExtra("time",startTime);
-                intent.putExtra("pause",pauseTotal);
-                music.release();
-                music =null;
-                startActivity(intent);
-                finish();
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
             }
         });
+
+//        //下一關快速鍵
+//        ImageView next = findViewById(R.id.next);
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //停止計時器的執行緒
+//                handler.removeCallbacks(updateTimer);
+//                //頁面跳轉
+//                Intent intent = new Intent();
+//                intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
+//                intent.putExtra("time",startTime);
+//                intent.putExtra("pause",pauseTotal);
+//                music.release();
+//                music =null;
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
         //設定隱藏標題
         getSupportActionBar().hide();
