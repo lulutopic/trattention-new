@@ -178,89 +178,28 @@ public class SchulteGridPro extends MobileActivity {
     private void setResultText(final WatchGesture gesture){
         setText(R.id.result, gesture.toString());
         ImageView[] UnShuffle = {one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve,thirteen,fourteen,fifteen,sixteen,
-                seventeen,eighteen,nineteen,twenty,twentyone,twentytwo,twentythree,twentyfour,twentyfive};
+                seventeen,eighteen,nineteen,twenty};
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //手勢控制向下
                 if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
-                    clearRow(focus_row);
-                    focus_row+=1;
-                    switch(focus_row){
-                        case(2):
-                            row2.setBackgroundColor(focus_color);
-                            break;
-                        case(3):
-                            row3.setBackgroundColor(focus_color);
-                            break;
-                        case(4):
-                            row4.setBackgroundColor(focus_color);
-                            break;
-                        case(5):
-                            row5.setBackgroundColor(focus_color);
-                            break;
-                        case(6):
-                            focus_row=1;
-                            row1.setBackgroundColor(focus_color);
-                            break;
-                    }
+
                 }
                 //手勢控制向右
                 else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
                         || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
                         ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
-                    clearColumn(focus_column);
-                    focus_column+=1;
-                    switch(focus_column){
-                        case(2):
-                            UnShuffle[1].setBackgroundColor(focus_color);
-                            UnShuffle[6].setBackgroundColor(focus_color);
-                            UnShuffle[11].setBackgroundColor(focus_color);
-                            UnShuffle[16].setBackgroundColor(focus_color);
-                            UnShuffle[21].setBackgroundColor(focus_color);
-                            break;
-                        case(3):
-                            UnShuffle[2].setBackgroundColor(focus_color);
-                            UnShuffle[7].setBackgroundColor(focus_color);
-                            UnShuffle[12].setBackgroundColor(focus_color);
-                            UnShuffle[17].setBackgroundColor(focus_color);
-                            UnShuffle[22].setBackgroundColor(focus_color);
-                            break;
-                        case(4):
-                            UnShuffle[3].setBackgroundColor(focus_color);
-                            UnShuffle[8].setBackgroundColor(focus_color);
-                            UnShuffle[13].setBackgroundColor(focus_color);
-                            UnShuffle[18].setBackgroundColor(focus_color);
-                            UnShuffle[23].setBackgroundColor(focus_color);
-                            break;
-                        case(5):
-                            UnShuffle[4].setBackgroundColor(focus_color);
-                            UnShuffle[9].setBackgroundColor(focus_color);
-                            UnShuffle[14].setBackgroundColor(focus_color);
-                            UnShuffle[19].setBackgroundColor(focus_color);
-                            UnShuffle[24].setBackgroundColor(focus_color);
-                            break;
-                        case(6):
-                            focus_column=1;
-                            UnShuffle[0].setBackgroundColor(focus_color);
-                            UnShuffle[5].setBackgroundColor(focus_color);
-                            UnShuffle[10].setBackgroundColor(focus_color);
-                            UnShuffle[15].setBackgroundColor(focus_color);
-                            UnShuffle[20].setBackgroundColor(focus_color);
-                            break;
-                    }
+
                 }
                 //手勢控制確認選取
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
-                        || gesture == WatchGesture.FINGER_SNAP
-                ){
-                    focus_count=(focus_row-1)*5+focus_column-1;
-                    int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
-                    doStuff(UnShuffle[focus_count],theCard);
+                        || gesture == WatchGesture.FINGER_SNAP){
+
                 }
             }
         });

@@ -34,33 +34,10 @@
             android:src="@drawable/game_header_pause"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/imagetips"/>
+
         <ImageView
             android:id="@+id/imagetips"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/game_header_tips"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"/>
-        <TextView
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="650dp"
-            android:layout_marginRight="5dp"
-            android:textColor="#FFFFFF"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:id="@+id/result"
-            android:text="Nil" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/text7"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:background="@color/background"
-        android:layout_weight="1"
-        android:gravity="center">
             android:layout_height="100dp"
             android:layout_centerVertical="true"
             android:src="@drawable/game_header_tips"
@@ -99,12 +76,14 @@
         android:elevation="10dp"
         android:layout_centerHorizontal="true"
         android:gravity="center">
+
         <RelativeLayout
             android:id="@+id/control"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="11dp"
             android:layout_centerHorizontal="true">
+
             <ImageView
                 android:id="@+id/up_arrow"
                 android:layout_width="wrap_content"
