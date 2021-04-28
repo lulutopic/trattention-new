@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".GameStopButton">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#FFFFFF"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp">
 
         <ImageView
             android:id="@+id/imageexit"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            app:srcCompat="@drawable/game_stop_exit" />
+            app:srcCompat="@drawable/game_stop_exit"
+            android:layout_alignParentLeft="true"/>
 
         <ImageView
             android:id="@+id/imageplay"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/game_stop_play" />
-    </LinearLayout>
+            app:srcCompat="@drawable/game_stop_play"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
 
 
 

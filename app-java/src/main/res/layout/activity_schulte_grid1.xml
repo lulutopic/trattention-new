@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SchulteGridMed"
-    android:background="@color/lightgray">
+    android:background="@drawable/bg_main">
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 android:scaleType="center"
                 android:src="@drawable/up_arrow"
                 android:padding="5dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
             <ImageView
                 android:id="@+id/down_arrow"
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                 android:scaleType="center"
                 android:src="@drawable/down_arrow"
                 android:padding="5dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
             <ImageView
                 android:id="@+id/ok"
                 android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ok"
                 android:padding="5dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
             <ImageView
                 android:id="@+id/left_arrow"
                 android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                 android:layout_toRightOf="@+id/ok"
                 android:src="@drawable/left_arrow"
                 android:padding="5dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
             <ImageView
                 android:id="@+id/right_arrow"
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:layout_toRightOf="@+id/left_arrow"
                 android:src="@drawable/right_arrow"
                 android:padding="5dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="10dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/row1"

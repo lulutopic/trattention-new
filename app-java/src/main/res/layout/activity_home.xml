@@ -48,7 +48,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
         android:layout_margin="40dp"
-        android:elevation="10dp"
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
@@ -57,21 +56,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/home_start"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="25dp"
+            android:elevation="10dp"/>
         <ImageView
             android:id="@+id/focus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/start"
             app:srcCompat="@drawable/home_focus"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="20dp"
+            android:elevation="10dp"/>
         <ImageView
             android:id="@+id/record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/start"
             app:srcCompat="@drawable/home_record"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:elevation="10dp"/>
         <ImageView
             android:id="@+id/personal"
             android:layout_width="wrap_content"
@@ -80,7 +82,8 @@
             app:srcCompat="@drawable/home_personal"
             android:layout_toRightOf="@id/record"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="50dp"/>
+            android:layout_marginLeft="50dp"
+            android:elevation="10dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

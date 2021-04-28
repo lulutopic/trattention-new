@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Personal"
-    android:background="@color/background">
+    android:background="@drawable/bg_main">
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -23,7 +23,8 @@
             android:textColor="@color/white"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="30dp"
+            android:elevation="10dp"/>
         <ImageView
             android:id="@+id/imagehome"
             android:layout_width="100dp"
@@ -32,7 +33,8 @@
             android:layout_centerVertical="true"
             android:src="@drawable/header_home"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/imagesafari" />
+            android:layout_toLeftOf="@+id/imagesafari"
+            android:elevation="10dp"/>
         <ImageView
             android:id="@+id/imagesafari"
             android:layout_width="100dp"
@@ -41,9 +43,9 @@
             android:src="@drawable/header_safari"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:elevation="10dp"/>
     </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/view"
         android:layout_width="wrap_content"
@@ -60,11 +62,12 @@
             android:maxEms="1"
             android:ellipsize="end"
             android:hint="清輸入帳號"
-            android:textColor="@color/darkgray"
+            android:textColor="@color/white"
             android:inputType="textMultiLine"
             android:textSize="30sp"
             android:paddingTop="30dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:elevation="10dp"/>
         <TextView
             android:id="@+id/age"
             android:layout_width="wrap_content"
@@ -74,10 +77,11 @@
             android:background="@drawable/personal_age"
             android:gravity="center"
             android:text="20"
-            android:textColor="@color/darkgray"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:paddingTop="30dp"
-            android:layout_toRightOf="@id/name"/>
+            android:layout_toRightOf="@id/name"
+            android:elevation="10dp"/>
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -86,11 +90,12 @@
             android:layout_marginLeft="50dp"
             android:background="@drawable/personal_name"
             android:text="李振維"
-            android:textColor="@color/darkgray"
+            android:textColor="@color/white"
             android:gravity="center"
             android:textSize="30sp"
             android:paddingTop="30dp"
-            android:layout_toRightOf="@id/email"/>
+            android:layout_toRightOf="@id/email"
+            android:elevation="10dp"/>
         <TextView
             android:id="@+id/gender"
             android:layout_width="wrap_content"
@@ -99,44 +104,31 @@
             android:layout_marginLeft="50dp"
             android:background="@drawable/personal_gender"
             android:text="男"
-            android:textColor="@color/darkgray"
+            android:textColor="@color/white"
             android:gravity="center"
             android:textSize="30sp"
             android:paddingTop="30dp"
-            android:layout_toRightOf="@id/age"/>
+            android:layout_toRightOf="@id/age"
+            android:elevation="10dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view"
         android:layout_centerHorizontal="true"
-        android:layout_margin="100dp">
+        android:layout_margin="50dp">
         <Button
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_red_shape_round"
+            android:background="@drawable/button_yellow_shape_round"
             android:letterSpacing="0.2"
             android:textColor="@color/darkgray"
             android:text="登出"
             android:textSize="20sp"
-            android:elevation="5dp"
-            android:layout_marginRight="50dp"
-            android:paddingHorizontal="30dp"
-            android:paddingVertical="20dp"/>
-        <Button
-            android:id="@+id/btn_home_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_blue_shape_round"
-            android:letterSpacing="0.2"
-            android:textColor="@color/darkgray"
-            android:text="確認"
-            android:textSize="20sp"
-            android:elevation="5dp"
-            android:layout_marginLeft="50dp"
+            android:elevation="11dp"
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
-            android:layout_toRightOf="@id/logout"/>
+            android:layout_marginHorizontal="20dp"/>
     </RelativeLayout>
 </RelativeLayout>

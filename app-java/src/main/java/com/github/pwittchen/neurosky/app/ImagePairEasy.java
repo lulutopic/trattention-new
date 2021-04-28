@@ -131,32 +131,30 @@ public class ImagePairEasy extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairEasy.this);
                 LayoutInflater inflater = ImagePairEasy.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(ImagePairEasy.this,GameHome.class);
-                                startActivity(intent);
-                                //音樂釋放
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
+                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        Intent intent = new Intent();
+                        intent.setClass(ImagePairEasy.this,GameHome.class);
+                        startActivity(intent);
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+                });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 

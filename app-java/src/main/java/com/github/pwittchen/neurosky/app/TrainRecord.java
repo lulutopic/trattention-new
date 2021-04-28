@@ -43,7 +43,7 @@ import static java.lang.String.valueOf;
 public class TrainRecord extends AppCompatActivity {
     LineChart lineChart;
     BarChart barChart;
-    int Blue=Color.parseColor("#8BB2D4"),BlueDark = Color.parseColor("#274C98"), Yellow=Color.parseColor("#F4E1A5"),Orange = Color.parseColor("#F4D3A5"), Yellow_light=Color.parseColor("#ffe445"), White =Color.parseColor("#ffffff")
+    int Blue=Color.parseColor("#5B7F9F"),BlueDark = Color.parseColor("#274C98"), Yellow=Color.parseColor("#F4E1A5"),Orange = Color.parseColor("#F4D3A5"), Yellow_light=Color.parseColor("#ffe445"), White =Color.parseColor("#ffffff")
             ,Red = Color.parseColor("#FCBABA"),Green = Color.parseColor("#A0D7D9");
     TextView text_pair, text_schulte, text_memory;
     FirebaseAuth fAuth;

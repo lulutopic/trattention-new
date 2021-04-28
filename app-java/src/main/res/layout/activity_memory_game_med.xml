@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MemoryGameMed"
-    android:background="@color/lightgray">
+    android:background="@drawable/bg_main">
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -71,7 +71,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/scrollview_shape_round"
         android:layout_below="@+id/header"
-        android:layout_margin="40dp"
+        android:layout_margin="50dp"
         android:elevation="10dp"
         android:layout_centerHorizontal="true"
         android:gravity="center">

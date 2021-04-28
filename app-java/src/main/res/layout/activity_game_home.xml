@@ -22,7 +22,8 @@
             android:textColor="@color/white"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"/>
+            android:layout_marginLeft="30dp"
+            android:elevation="4dp"/>
         <ImageView
             android:id="@+id/imagehome"
             android:layout_width="100dp"
@@ -31,7 +32,8 @@
             android:layout_centerVertical="true"
             android:src="@drawable/header_home"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/imagesafari" />
+            android:layout_toLeftOf="@+id/imagesafari"
+            android:elevation="11dp"/>
         <ImageView
             android:id="@+id/imagesafari"
             android:layout_width="100dp"
@@ -40,7 +42,8 @@
             android:src="@drawable/header_safari"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:elevation="11dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -52,8 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="今天要進行哪一種訓練呢？"
+            android:textStyle="bold"
             android:textSize="40sp"
-            android:textColor="@color/blue"
+            android:textColor="@color/darkgray"
             android:letterSpacing="0.3"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/select"
@@ -70,7 +74,8 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/game_home_pair"
                 android:layout_marginRight="40dp"
-                android:layout_below="@+id/ask"/>
+                android:layout_below="@+id/ask"
+                android:elevation="10dp"/>
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
@@ -79,7 +84,8 @@
                 app:srcCompat="@drawable/game_home_grid"
                 android:layout_marginRight="40dp"
                 android:layout_below="@+id/ask"
-                android:layout_toRightOf="@id/imageView1"/>
+                android:layout_toRightOf="@id/imageView1"
+                android:elevation="10dp"/>
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
@@ -87,7 +93,8 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/game_home_memory"
                 android:layout_below="@+id/ask"
-                android:layout_toRightOf="@id/imageView2"/>
+                android:layout_toRightOf="@id/imageView2"
+                android:elevation="10dp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

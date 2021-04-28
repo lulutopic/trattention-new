@@ -60,7 +60,7 @@ public class SchulteGridPro extends AppCompatActivity {
 
     int[] ImageArray = {R.drawable.grid1,R.drawable.grid2,R.drawable.grid3,R.drawable.grid4,R.drawable.grid5,R.drawable.grid6,R.drawable.grid7
             ,R.drawable.grid8,R.drawable.grid9,R.drawable.grid10,R.drawable.grid11,R.drawable.grid12,R.drawable.grid13,R.drawable.grid14
-            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19};
+            ,R.drawable.grid15,R.drawable.grid16,R.drawable.grid17,R.drawable.grid18,R.drawable.grid19,R.drawable.grid20};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,9 +219,9 @@ public class SchulteGridPro extends AppCompatActivity {
         //初始設定：選取第一行、第一列
         row1.setBackgroundColor(focus_color);
         UnShuffle[0].setBackgroundColor(focus_color);
-        UnShuffle[6].setBackgroundColor(focus_color);
-        UnShuffle[12].setBackgroundColor(focus_color);
-        UnShuffle[18].setBackgroundColor(focus_color);
+        UnShuffle[5].setBackgroundColor(focus_color);
+        UnShuffle[10].setBackgroundColor(focus_color);
+        UnShuffle[15].setBackgroundColor(focus_color);
 
         //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
@@ -283,40 +283,34 @@ public class SchulteGridPro extends AppCompatActivity {
                 switch(focus_column){
                     case(2):
                         UnShuffle[1].setBackgroundColor(focus_color);
-                        UnShuffle[7].setBackgroundColor(focus_color);
-                        UnShuffle[13].setBackgroundColor(focus_color);
-                        UnShuffle[19].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[16].setBackgroundColor(focus_color);
                         break;
                     case(3):
                         UnShuffle[2].setBackgroundColor(focus_color);
-                        UnShuffle[8].setBackgroundColor(focus_color);
-                        UnShuffle[14].setBackgroundColor(focus_color);
-                        UnShuffle[20].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        UnShuffle[17].setBackgroundColor(focus_color);
                         break;
                     case(4):
                         UnShuffle[3].setBackgroundColor(focus_color);
-                        UnShuffle[9].setBackgroundColor(focus_color);
-                        UnShuffle[15].setBackgroundColor(focus_color);
-                        UnShuffle[21].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        UnShuffle[18].setBackgroundColor(focus_color);
                         break;
                     case(5):
                         UnShuffle[4].setBackgroundColor(focus_color);
-                        UnShuffle[10].setBackgroundColor(focus_color);
-                        UnShuffle[16].setBackgroundColor(focus_color);
-                        UnShuffle[22].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        UnShuffle[19].setBackgroundColor(focus_color);
                         break;
                     case(6):
-                        UnShuffle[5].setBackgroundColor(focus_color);
-                        UnShuffle[11].setBackgroundColor(focus_color);
-                        UnShuffle[17].setBackgroundColor(focus_color);
-                        UnShuffle[23].setBackgroundColor(focus_color);
-                        break;
-                    case(7):
                         focus_column=1;
                         UnShuffle[0].setBackgroundColor(focus_color);
-                        UnShuffle[6].setBackgroundColor(focus_color);
-                        UnShuffle[12].setBackgroundColor(focus_color);
-                        UnShuffle[18].setBackgroundColor(focus_color);
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
                         break;
                 }
 
@@ -332,41 +326,35 @@ public class SchulteGridPro extends AppCompatActivity {
                 focus_column-=1;
                 switch(focus_column){
                     case(0):
-                        focus_column=6;
-                        UnShuffle[5].setBackgroundColor(focus_color);
-                        UnShuffle[11].setBackgroundColor(focus_color);
-                        UnShuffle[17].setBackgroundColor(focus_color);
-                        UnShuffle[23].setBackgroundColor(focus_color);
+                        focus_column=5;
+                        UnShuffle[4].setBackgroundColor(focus_color);
+                        UnShuffle[9].setBackgroundColor(focus_color);
+                        UnShuffle[14].setBackgroundColor(focus_color);
+                        UnShuffle[19].setBackgroundColor(focus_color);
                         break;
                     case(1):
                         UnShuffle[0].setBackgroundColor(focus_color);
-                        UnShuffle[6].setBackgroundColor(focus_color);
-                        UnShuffle[12].setBackgroundColor(focus_color);
-                        UnShuffle[18].setBackgroundColor(focus_color);
+                        UnShuffle[5].setBackgroundColor(focus_color);
+                        UnShuffle[10].setBackgroundColor(focus_color);
+                        UnShuffle[15].setBackgroundColor(focus_color);
                         break;
                     case(2):
                         UnShuffle[1].setBackgroundColor(focus_color);
-                        UnShuffle[7].setBackgroundColor(focus_color);
-                        UnShuffle[13].setBackgroundColor(focus_color);
-                        UnShuffle[19].setBackgroundColor(focus_color);
+                        UnShuffle[6].setBackgroundColor(focus_color);
+                        UnShuffle[11].setBackgroundColor(focus_color);
+                        UnShuffle[16].setBackgroundColor(focus_color);
                         break;
                     case(3):
                         UnShuffle[2].setBackgroundColor(focus_color);
-                        UnShuffle[8].setBackgroundColor(focus_color);
-                        UnShuffle[14].setBackgroundColor(focus_color);
-                        UnShuffle[20].setBackgroundColor(focus_color);
+                        UnShuffle[7].setBackgroundColor(focus_color);
+                        UnShuffle[12].setBackgroundColor(focus_color);
+                        UnShuffle[17].setBackgroundColor(focus_color);
                         break;
                     case(4):
                         UnShuffle[3].setBackgroundColor(focus_color);
-                        UnShuffle[9].setBackgroundColor(focus_color);
-                        UnShuffle[15].setBackgroundColor(focus_color);
-                        UnShuffle[21].setBackgroundColor(focus_color);
-                        break;
-                    case(5):
-                        UnShuffle[4].setBackgroundColor(focus_color);
-                        UnShuffle[10].setBackgroundColor(focus_color);
-                        UnShuffle[16].setBackgroundColor(focus_color);
-                        UnShuffle[22].setBackgroundColor(focus_color);
+                        UnShuffle[8].setBackgroundColor(focus_color);
+                        UnShuffle[13].setBackgroundColor(focus_color);
+                        UnShuffle[18].setBackgroundColor(focus_color);
                         break;
                 }
 
@@ -378,7 +366,7 @@ public class SchulteGridPro extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 setBtnStyle(view);
-                focus_count=(focus_row-1)*6+focus_column-1;
+                focus_count=(focus_row-1)*5+focus_column-1;
                 int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
                 doStuff(UnShuffle[focus_count],theCard);
             }
@@ -407,39 +395,33 @@ public class SchulteGridPro extends AppCompatActivity {
         switch(focus_column){
             case(1):
                 UnShuffle[0].setBackgroundColor(unfocus_color);
-                UnShuffle[6].setBackgroundColor(unfocus_color);
-                UnShuffle[12].setBackgroundColor(unfocus_color);
-                UnShuffle[18].setBackgroundColor(unfocus_color);
+                UnShuffle[5].setBackgroundColor(unfocus_color);
+                UnShuffle[10].setBackgroundColor(unfocus_color);
+                UnShuffle[15].setBackgroundColor(unfocus_color);
                 break;
             case(2):
                 UnShuffle[1].setBackgroundColor(unfocus_color);
-                UnShuffle[7].setBackgroundColor(unfocus_color);
-                UnShuffle[13].setBackgroundColor(unfocus_color);
-                UnShuffle[19].setBackgroundColor(unfocus_color);
+                UnShuffle[6].setBackgroundColor(unfocus_color);
+                UnShuffle[11].setBackgroundColor(unfocus_color);
+                UnShuffle[16].setBackgroundColor(unfocus_color);
                 break;
             case(3):
                 UnShuffle[2].setBackgroundColor(unfocus_color);
-                UnShuffle[8].setBackgroundColor(unfocus_color);
-                UnShuffle[14].setBackgroundColor(unfocus_color);
-                UnShuffle[20].setBackgroundColor(unfocus_color);
+                UnShuffle[7].setBackgroundColor(unfocus_color);
+                UnShuffle[12].setBackgroundColor(unfocus_color);
+                UnShuffle[17].setBackgroundColor(unfocus_color);
                 break;
             case(4):
                 UnShuffle[3].setBackgroundColor(unfocus_color);
-                UnShuffle[9].setBackgroundColor(unfocus_color);
-                UnShuffle[15].setBackgroundColor(unfocus_color);
-                UnShuffle[21].setBackgroundColor(unfocus_color);
+                UnShuffle[8].setBackgroundColor(unfocus_color);
+                UnShuffle[13].setBackgroundColor(unfocus_color);
+                UnShuffle[18].setBackgroundColor(unfocus_color);
                 break;
             case(5):
                 UnShuffle[4].setBackgroundColor(unfocus_color);
-                UnShuffle[10].setBackgroundColor(unfocus_color);
-                UnShuffle[16].setBackgroundColor(unfocus_color);
-                UnShuffle[22].setBackgroundColor(unfocus_color);
-                break;
-            case(6):
-                UnShuffle[5].setBackgroundColor(unfocus_color);
-                UnShuffle[11].setBackgroundColor(unfocus_color);
-                UnShuffle[17].setBackgroundColor(unfocus_color);
-                UnShuffle[23].setBackgroundColor(unfocus_color);
+                UnShuffle[9].setBackgroundColor(unfocus_color);
+                UnShuffle[14].setBackgroundColor(unfocus_color);
+                UnShuffle[19].setBackgroundColor(unfocus_color);
                 break;
         }
     }
@@ -469,11 +451,11 @@ public class SchulteGridPro extends AppCompatActivity {
         }, 500);
     }
     private void doStuff(ImageView iv, int card){
-        if(count == card && count != 22){
+        if(count == card && count != 18){
             iv.setImageResource(R.drawable.gridblank);
             count = count + 2;
         }
-        else if(count == card && count == 22){
+        else if(count == card && count == 18){
             iv.setImageResource(R.drawable.gridblank);
             count = 1;
         }
@@ -484,7 +466,7 @@ public class SchulteGridPro extends AppCompatActivity {
     }
 
     private void checkEnd() {
-        if (count == 25) {
+        if (count == 21) {
             //設定計時器的執行緒結束
             handler.removeCallbacks(updateTimer);
             //頁面跳轉

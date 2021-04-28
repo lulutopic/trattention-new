@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
-    android:background="@color/lightgray">
+    android:background="@drawable/bg_main">
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -41,7 +41,8 @@
             android:text="登入"
             android:textStyle="bold"
             android:textColor="@color/blue"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:letterSpacing="0.2"/>
         <EditText
             android:id="@+id/email"
             android:layout_width="wrap_content"
@@ -82,12 +83,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/password"
-            android:layout_marginTop="110dp"
-            android:text="登入"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/button_yellow_shape_round"
+            android:paddingHorizontal="30dp"
+            android:letterSpacing="0.2"
             android:textColor="@color/blue"
-            android:textStyle="normal"
-            android:background="@drawable/button_shape_round"/>
+            android:text="確認"
+            android:textSize="20sp"
+            android:elevation="5dp"
+            android:layout_below="@id/registration" />
 
     </RelativeLayout>
 
