@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -60,7 +59,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SchulteGridGameStart.this , InstructionHome.class);
+                intent.setClass(SchulteGridGameStart.this , SafariHome.class);
                 startActivity(intent);
             }
         });

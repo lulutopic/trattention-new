@@ -58,7 +58,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
-            android:text="Ｑ：為什麼我點甚麼都沒反應ヾ(;ﾟ;Д;ﾟ;)ﾉﾞ"
+            android:text="Ｑ：為什麼我點甚麼都沒反應？ﾞ"
             android:textStyle="bold"
             android:textSize="30sp"
             android:textColor="@color/blue"
@@ -72,7 +72,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:paddingLeft="85dp"
-            android:text="Ａ：我也不知道建議您可以打電話申訴！TEL:0222223333(*ﾟ∀ﾟ*)"
+            android:text="Ａ：我也不知道建議您可以打電話申訴！TEL:0222223333"
             android:textStyle="bold"
 
             android:textSize="25sp"
@@ -101,7 +101,7 @@
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="30dp"
-                    android:text="Ｑ：請問我一天可以遊玩幾次！？(❍ᴥ❍ʋ)"
+                    android:text="Ｑ：請問我一天可以遊玩幾次？"
                     android:textStyle="bold"
                     android:textSize="30sp"
                     android:textColor="@color/blue"
@@ -115,7 +115,7 @@
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="85dp"
-                android:text="Ａ：可以玩10次唷!　(*ﾟ∀ﾟ*)"
+                android:text="Ａ：沒有限制次數喔！"
                 android:textStyle="bold"
 
                 android:textSize="25sp"
@@ -123,11 +123,6 @@
                 android:visibility="gone"
                 />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/confuse" />
     </LinearLayout>
 
 </LinearLayout>

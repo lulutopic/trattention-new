@@ -42,7 +42,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(GameHome.this , InstructionHome.class);
+                intent.setClass(GameHome.this , SafariHome.class);
                 startActivity(intent);
             }
         });

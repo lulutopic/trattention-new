@@ -41,7 +41,7 @@ public class Hello extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Hello.this , InstructionHome.class);
+                intent.setClass(Hello.this , SafariHome.class);
                 startActivity(intent);
             }
         });

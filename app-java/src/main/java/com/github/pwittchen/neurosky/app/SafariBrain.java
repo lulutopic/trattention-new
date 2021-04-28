@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ public class SafariBrain extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_safari);
+        setContentView(R.layout.activity_safaribrain);
 
         //header:頁面跳轉->home
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
@@ -42,7 +41,7 @@ public class SafariBrain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SafariBrain.this , InstructionHome.class);
+                intent.setClass(SafariBrain.this , SafariHome.class);
                 startActivity(intent);
             }
         });
@@ -57,10 +56,13 @@ public class SafariBrain extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 if(btn_A1.getVisibility()==View.GONE) {
                     btn_A1.setVisibility(View.VISIBLE);
+                    v.setBackgroundResource(R.drawable.safariback_active);
                 }
                 else{
+                    v.setBackgroundResource(R.drawable.safariback);
                     btn_A1.setVisibility(View.GONE);
                 }
             }
@@ -71,9 +73,11 @@ public class SafariBrain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btn_A2.getVisibility()==View.GONE) {
+                    v.setBackgroundResource(R.drawable.safariback_active);
                     btn_A2.setVisibility(View.VISIBLE);
                 }
                 else{
+                    v.setBackgroundResource(R.drawable.safariback);
                     btn_A2.setVisibility(View.GONE);
                 }
             }

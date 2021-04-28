@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".GameVideo">
+    tools:context=".SafariBrain">
 
     <LinearLayout
         android:id="@+id/header"
@@ -58,7 +58,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:paddingLeft="30dp"
-            android:text="Ｑ：為什麼我連結不了ヾ(;ﾟ;Д;ﾟ;)ﾉﾞ"
+            android:text="Ｑ：為什麼我連結不了？"
             android:textStyle="bold"
             android:textSize="30sp"
             android:textColor="@color/blue"
@@ -72,7 +72,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:paddingLeft="85dp"
-            android:text="Ａ：麻煩您重新連結試試！(*ﾟ∀ﾟ*)"
+            android:text="Ａ：麻煩您重新連結試試！"
             android:textStyle="bold"
 
             android:textSize="25sp"
@@ -115,7 +115,7 @@
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="85dp"
-                android:text="Ａ：本系統不限次數唷！佛心系統　(*ﾟ∀ﾟ*)"
+                android:text="Ａ：本系統不限次數唷！"
                 android:textStyle="bold"
 
                 android:textSize="25sp"
@@ -123,11 +123,7 @@
                 android:visibility="gone"
                 />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/confuse" />
+
     </LinearLayout>
 
 </LinearLayout>

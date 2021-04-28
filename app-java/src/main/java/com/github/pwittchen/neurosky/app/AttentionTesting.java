@@ -93,7 +93,7 @@ public class AttentionTesting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(AttentionTesting.this , InstructionHome.class);
+                intent.setClass(AttentionTesting.this , SafariHome.class);
                 startActivity(intent);
             }
         });

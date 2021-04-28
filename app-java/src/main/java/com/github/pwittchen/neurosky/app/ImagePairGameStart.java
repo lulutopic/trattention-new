@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +48,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(ImagePairGameStart.this , InstructionHome.class);
+                intent.setClass(ImagePairGameStart.this , SafariHome.class);
                 startActivity(intent);
             }
         });
