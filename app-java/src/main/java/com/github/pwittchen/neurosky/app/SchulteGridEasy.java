@@ -3,13 +3,9 @@ package com.github.pwittchen.neurosky.app;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
-import android.os.SystemClock;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,13 +23,12 @@ import androidx.appcompat.app.AlertDialog;
 
 
 
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.google.android.gms.common.util.HttpUtils;
+
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
 import com.madgaze.watchsdk.WatchException;
@@ -169,24 +164,104 @@ public class SchulteGridEasy extends MobileActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //手勢控制向下
-                if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
-
-
+                //手勢控制向上
+                if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
+                    setBtnStyle(btn_up);
+                    clearRow(focus_row);
+                    focus_row-=1;
+                    switch(focus_row){
+                        case(0):
+                            focus_row=3;
+                            row3.setBackgroundColor(focus_color);
+                            break;
+                        case(1):
+                            row1.setBackgroundColor(focus_color);
+                            break;
+                        case(2):
+                            row2.setBackgroundColor(focus_color);
+                            break;
+                    }
                 }
+                //手勢控制向下
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                    setBtnStyle(btn_down);
+                    clearRow(focus_row);
+                    focus_row+=1;
+                    switch(focus_row){
+                        case(2):
+                            row2.setBackgroundColor(focus_color);
+                            break;
+                        case(3):
+                            row3.setBackgroundColor(focus_color);
+                            break;
+                        case(4):
+                            focus_row=1;
+                            row1.setBackgroundColor(focus_color);
+                            break;
+                    }
+                }
+                //手勢控制向左
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(btn_left);
+                    clearColumn(focus_column);
+                    focus_column-=1;
+                    switch(focus_column){
+                        case(0):
+                            focus_column=3;
+                            UnShuffle[2].setBackgroundColor(focus_color);
+                            UnShuffle[5].setBackgroundColor(focus_color);
+                            UnShuffle[8].setBackgroundColor(focus_color);
+
+                            break;
+                        case(1):
+                            UnShuffle[0].setBackgroundColor(focus_color);
+                            UnShuffle[3].setBackgroundColor(focus_color);
+                            UnShuffle[6].setBackgroundColor(focus_color);
+                            break;
+                        case(2):
+                            UnShuffle[1].setBackgroundColor(focus_color);
+                            UnShuffle[4].setBackgroundColor(focus_color);
+                            UnShuffle[7].setBackgroundColor(focus_color);
+                            break;
+                    }
+                }
+
                 //手勢控制向右
                 else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
                         || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
                         ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
-
+                    setBtnStyle(btn_right);
+                    clearColumn(focus_column);
+                    focus_column+=1;
+                    switch(focus_column){
+                        case(2):
+                            UnShuffle[1].setBackgroundColor(focus_color);
+                            UnShuffle[4].setBackgroundColor(focus_color);
+                            UnShuffle[7].setBackgroundColor(focus_color);
+                            break;
+                        case(3):
+                            UnShuffle[2].setBackgroundColor(focus_color);
+                            UnShuffle[5].setBackgroundColor(focus_color);
+                            UnShuffle[8].setBackgroundColor(focus_color);
+                            break;
+                        case(4):
+                            focus_column=1;
+                            UnShuffle[0].setBackgroundColor(focus_color);
+                            UnShuffle[3].setBackgroundColor(focus_color);
+                            UnShuffle[6].setBackgroundColor(focus_color);
+                            break;
+                    }
                 }
                 //手勢控制確認選取
                 else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
                         || gesture == WatchGesture.FINGER_SNAP){
-
+                    setBtnStyle(btn_ok);
+                    focus_count=(focus_row-1)*3+focus_column-1;
+                    int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
+                    doStuff(UnShuffle[focus_count],theCard);
                 }
             }
         });
@@ -196,8 +271,6 @@ public class SchulteGridEasy extends MobileActivity {
     public void setDefinedGestures(){
         setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
     }
-
-
 
 
     public void setListeners(){
@@ -224,8 +297,6 @@ public class SchulteGridEasy extends MobileActivity {
             }
         });
     }
-
-
 
 
     private Long startTime; //初始時間
@@ -269,7 +340,6 @@ public class SchulteGridEasy extends MobileActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
         setContentView(R.layout.activity_schulte_grid);
-
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -419,7 +489,7 @@ public class SchulteGridEasy extends MobileActivity {
             }
         });
 
-        //向下的按鈕
+        //向上的按鈕
         btn_up.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

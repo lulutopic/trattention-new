@@ -25,8 +25,6 @@ public class GameHome extends AppCompatActivity {
 
         setContentView(R.layout.activity_game_home);
 
-
-
         //header:頁面跳轉->home
         ImageView btn_home=(ImageView)findViewById(R.id.imagehome);
         btn_home.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +63,7 @@ public class GameHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent();
-                intent.setClass(GameHome.this, SchulteGridEasy.class);
+                intent.setClass(GameHome.this, SchulteGridGameStart.class);
                 startActivity(intent);
             }
         });
