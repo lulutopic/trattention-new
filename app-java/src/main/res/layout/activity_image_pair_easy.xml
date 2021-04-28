@@ -80,7 +80,7 @@
             android:scaleType="center"
             android:src="@drawable/left_arrow"
             android:layout_margin="20dp"
-            android:elevation="1dp"/>
+            android:padding="10dp"/>
         <ImageView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/ok"
             android:layout_margin="20dp"
-            android:elevation="12dp"/>
+            android:padding="10dp"/>
         <ImageView
             android:id="@+id/right_arrow"
             android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
             android:layout_toRightOf="@+id/ok"
             android:src="@drawable/right_arrow"
             android:layout_margin="20dp"
-            android:elevation="12dp"/>
+            android:padding="10dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/content"

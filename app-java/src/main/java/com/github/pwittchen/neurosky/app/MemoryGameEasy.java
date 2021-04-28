@@ -25,6 +25,8 @@ import android.view.View;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MemoryGameEasy extends AppCompatActivity {
     protected Long startTime;
@@ -150,24 +152,6 @@ public class MemoryGameEasy extends AppCompatActivity {
             }
         });
 
-//        //下一關快速鍵
-//        ImageView next = findViewById(R.id.next);
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //停止計時器的執行緒
-//                handler.removeCallbacks(updateTimer);
-//                //頁面跳轉
-//                Intent intent = new Intent();
-//                intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
-//                intent.putExtra("time",startTime);
-//                intent.putExtra("pause",pauseTotal);
-//                startActivity(intent);
-//                music.release();
-//                music=null;
-//                finish();
-//            }
-//        });
 
         //game
         iv_11=(ImageView)findViewById(R.id.iv_11);
@@ -232,6 +216,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -274,6 +259,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -310,6 +296,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
@@ -345,6 +332,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -382,6 +370,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if (moved==1) {
+                    setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
                     //如果當前選取的不是已經選取過的
                     if (temp != collect) {
@@ -647,6 +636,20 @@ public class MemoryGameEasy extends AppCompatActivity {
         image208=R.drawable.memory208;
     }
 
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {

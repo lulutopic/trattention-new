@@ -87,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:scaleType="center"
                 android:src="@drawable/up_arrow"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:padding="10dp"/>
             <ImageView
                 android:id="@+id/down_arrow"
                 android:layout_width="wrap_content"
@@ -95,7 +96,8 @@
                 android:layout_toRightOf="@+id/up_arrow"
                 android:scaleType="center"
                 android:src="@drawable/down_arrow"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:padding="10dp"/>
             <ImageView
                 android:id="@+id/ok"
                 android:layout_width="wrap_content"
@@ -104,7 +106,8 @@
                 android:layout_toRightOf="@+id/down_arrow"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ok"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:padding="10dp"/>
             <ImageView
                 android:id="@+id/left_arrow"
                 android:layout_width="wrap_content"
@@ -112,7 +115,8 @@
                 android:scaleType="center"
                 android:layout_toRightOf="@+id/ok"
                 android:src="@drawable/left_arrow"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:padding="10dp"/>
             <ImageView
                 android:id="@+id/right_arrow"
                 android:layout_width="wrap_content"
@@ -120,7 +124,8 @@
                 android:scaleType="center"
                 android:layout_toRightOf="@+id/left_arrow"
                 android:src="@drawable/right_arrow"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:padding="10dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/row1"

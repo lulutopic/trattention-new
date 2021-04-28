@@ -37,6 +37,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ImagePairMed extends AppCompatActivity {
     private MediaPlayer music;
@@ -203,6 +205,7 @@ public class ImagePairMed extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -234,6 +237,7 @@ public class ImagePairMed extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -398,7 +402,20 @@ public class ImagePairMed extends AppCompatActivity {
         button1.add(ImageButtonC);
         button1.add(ImageButtonD);
     }
-
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
     //計時器的計時方法
     private Runnable updateTimer = new Runnable() {
         public void run() {

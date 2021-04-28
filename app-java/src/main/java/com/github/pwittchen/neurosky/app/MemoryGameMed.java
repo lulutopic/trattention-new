@@ -19,6 +19,8 @@ import android.view.View;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MemoryGameMed extends AppCompatActivity {
@@ -142,24 +144,6 @@ public class MemoryGameMed extends AppCompatActivity {
             }
         });
 
-//        //下一關快速鍵
-//        ImageView next = findViewById(R.id.next);
-//        next.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //停止計時器的執行緒
-//                handler.removeCallbacks(updateTimer);
-//                //頁面跳轉
-//                Intent intent = new Intent();
-//                intent.setClass( MemoryGameMed.this, MemoryGamePro.class);
-//                intent.putExtra("time",startTime);
-//                intent.putExtra("pause",pauseTotal);
-//                music.release();
-//                music =null;
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
 
         //設定隱藏標題
         getSupportActionBar().hide();
@@ -280,6 +264,7 @@ public class MemoryGameMed extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -319,6 +304,7 @@ public class MemoryGameMed extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3||i==4) {
@@ -356,6 +342,7 @@ public class MemoryGameMed extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -393,6 +380,7 @@ public class MemoryGameMed extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if (moved==1) {
+                    setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
                     //如果當前選取的不是已經選取過的
                     if (temp != collect) {
@@ -701,6 +689,20 @@ public class MemoryGameMed extends AppCompatActivity {
         image210=R.drawable.memory210;
     }
 
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {

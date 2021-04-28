@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ImagePairPro extends AppCompatActivity {
     private MediaPlayer music;
@@ -181,6 +183,7 @@ public class ImagePairPro extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -207,6 +210,7 @@ public class ImagePairPro extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -233,6 +237,7 @@ public class ImagePairPro extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 String Tag = (String) colorTextView.getTag();
                 //如果選項Ａ的文字意思等於標籤Ａ
@@ -393,7 +398,20 @@ public class ImagePairPro extends AppCompatActivity {
         button1.add(ImageButtonB);
         button1.add(ImageButtonC);
     }
-
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
     //計時器的計時方法
     private Runnable updateTimer = new Runnable() {
         public void run() {
