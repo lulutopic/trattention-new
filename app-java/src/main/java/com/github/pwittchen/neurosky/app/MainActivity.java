@@ -1,19 +1,14 @@
 package com.github.pwittchen.neurosky.app;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.madgaze.watchsdk.MGWatch;
@@ -21,9 +16,9 @@ import com.madgaze.watchsdk.MobileActivity;
 import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
-public class Home extends MobileActivity {
 
-    private final String MGTAG = MainActivity.class.getSimpleName();
+public class MainActivity extends MobileActivity {
+    private final String TAG = MainActivity.class.getSimpleName();
 
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
@@ -36,6 +31,7 @@ public class Home extends MobileActivity {
             WatchGesture.HANDBACK_DOWN,
             WatchGesture.HANDBACK_LEFT,
             WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
             //拇指中指捏捏
             WatchGesture.THUMBTAP_MIDDLE,
             //三指捏捏
@@ -52,31 +48,46 @@ public class Home extends MobileActivity {
             WatchGesture.JOINTTAP_MIDDLE_RING,
             WatchGesture.JOINTTAP_UPPER_RING,
             WatchGesture.JOINTTAP_MIDDLE_LITTLE,
-
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
     };
 
 
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setDefinedGestures();
+        setListeners();
+    }
+
     @Override
     public void onWatchGestureReceived(WatchGesture gesture) {
-        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        Log.d(TAG, "onWatchGestureReceived: "+gesture.name());
         setResultText(gesture);
     }
 
     @Override
     public void onWatchGestureError(WatchException error) {
-        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        Log.d(TAG, "onWatchGestureError: "+error.getMessage());
         setStatusText(error.getMessage());
     }
 
     @Override
     public void onWatchDetectionOn() {
-        Log.d(MGTAG, "onWatchDetectionOn: ");
+        Log.d(TAG, "onWatchDetectionOn: ");
         setStatusText("Listening");
     }
 
     @Override
     public void onWatchDetectionOff() {
-        Log.d(MGTAG, "onWatchDetectionOff: ");
+        Log.d(TAG, "onWatchDetectionOff: ");
         setStatusText("Idle");
     }
 
@@ -141,7 +152,7 @@ public class Home extends MobileActivity {
     }
 
     private void setResultText(final WatchGesture gesture){
-
+        setText(R.id.result, gesture.toString());
     }
 
     public void setDefinedGestures(){
@@ -149,44 +160,46 @@ public class Home extends MobileActivity {
     }
 
     public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Connect Required")
+                .setMessage("Watch is not connected. Connect to MAD Gaze Watch now.")
+                .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(Home.this);
+                        MGWatch.connect(MainActivity.this);
                     }
                 })
                 .setCancelable(false);
         dialog.show();
     }
+
     public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Training Required")
+                .setMessage("The required gestures for this application have not been trained. Do you want to train now?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(Home.this);
+                        MGWatch.trainRequiredGestures(MainActivity.this);
                     }
                 })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
+                        setStatusText("Training Required");
                         ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
                         dialog.dismiss();
                     }
                 });
         dialog.show();
     }
+
     public void setListeners(){
         ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(Home.this);
+                MGWatch.trainRequiredGestures(MainActivity.this);
             }
         });
     }
@@ -206,77 +219,4 @@ public class Home extends MobileActivity {
         });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        //隱藏title
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-
-
-        //header:頁面跳轉->點選導覽列的小燈泡->指南
-        ImageView btn_safari = findViewById(R.id.imagesafari);
-        btn_safari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(Home.this, SafariHome.class);
-                startActivity(intent);
-            }
-        });
-        //頁面跳轉->選擇遊戲
-        ImageView btn_start = findViewById(R.id.start);
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(Home.this, GameHome.class);
-                startActivity(intent);
-            }
-        });
-
-        //頁面跳轉->選擇專注力分析
-        ImageView btn_focus =(ImageView)findViewById(R.id.focus);
-        btn_focus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.setClass(Home.this, AttentionTestHome.class);
-                startActivity(intent);
-            }
-        });
-
-
-        //頁面跳轉->訓練記錄
-        ImageView btn_record = findViewById(R.id.record);
-        btn_record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(Home.this, TrainRecord.class);
-                startActivity(intent);
-            }
-        });
-
-        //頁面跳轉->個人化設置
-        ImageView btn_personal = findViewById(R.id.personal);
-        btn_personal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent();
-                intent.setClass(Home.this, Personal.class);
-                startActivity(intent);
-
-            }
-
-
-
-        });
-    }
 }

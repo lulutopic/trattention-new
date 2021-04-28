@@ -19,8 +19,6 @@ import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AlertDialog;
 
-
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Timer;

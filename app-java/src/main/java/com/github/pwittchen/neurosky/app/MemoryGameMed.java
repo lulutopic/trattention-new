@@ -128,7 +128,7 @@ public class MemoryGameMed extends MobileActivity {
     @Override
     public void onWatchDisconnected() {
         setStatusText("Watch Disconnected");
-        showConnectDialog();
+
     }
 
     @Override
@@ -140,12 +140,10 @@ public class MemoryGameMed extends MobileActivity {
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
-            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
-            showTrainingDialog();
             return;
         }
 
@@ -161,8 +159,12 @@ public class MemoryGameMed extends MobileActivity {
 
     private void setResultText(final WatchGesture gesture){
         setText(R.id.result, gesture.toString());
-
         ImageView ok = findViewById(R.id.ok);
+        ImageView right_arrow = findViewById(R.id.right_arrow);
+        ImageView  left_arrow= findViewById(R.id.left_arrow);
+        ImageView up_arrow = findViewById(R.id.up_arrow);
+        ImageView down_arrow = findViewById(R.id.down_arrow);
+
         ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
                 iv_21,iv_22,iv_23,iv_24,iv_25,
                 iv_31,iv_32,iv_33,iv_34,iv_35,
@@ -173,9 +175,9 @@ public class MemoryGameMed extends MobileActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 //手勢控制方向向上
                 if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
+                    setBtnStyle(up_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -208,6 +210,7 @@ public class MemoryGameMed extends MobileActivity {
                 }
                 //手勢控制方向向下
                 else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                    setBtnStyle(down_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -239,6 +242,7 @@ public class MemoryGameMed extends MobileActivity {
                 }
                 //手勢控制方向向左
                 else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(left_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -278,6 +282,7 @@ public class MemoryGameMed extends MobileActivity {
                         || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
                         ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                    setBtnStyle(right_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -319,6 +324,7 @@ public class MemoryGameMed extends MobileActivity {
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
                         || gesture == WatchGesture.FINGER_SNAP){
+                    setBtnStyle(ok);
                     if (moved==1) {
                         int theCard = Integer.parseInt((String) temp.getTag());
                         //如果當前選取的不是已經選取過的
@@ -335,53 +341,6 @@ public class MemoryGameMed extends MobileActivity {
                         ok.setVisibility(View.INVISIBLE);
                     }
                 }
-            }
-        });
-    }
-
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-    public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(MemoryGameMed.this);
-                    }
-                })
-                .setCancelable(false);
-        dialog.show();
-    }
-    public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(MemoryGameMed.this);
-                    }
-                })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
-                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
-                        dialog.dismiss();
-                    }
-                });
-        dialog.show();
-    }
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(MemoryGameMed.this);
             }
         });
     }

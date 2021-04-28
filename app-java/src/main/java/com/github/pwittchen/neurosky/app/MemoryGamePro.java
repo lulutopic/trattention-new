@@ -137,7 +137,6 @@ public class MemoryGamePro extends MobileActivity {
     @Override
     public void onWatchDisconnected() {
         setStatusText("Watch Disconnected");
-        showConnectDialog();
     }
 
     @Override
@@ -149,12 +148,10 @@ public class MemoryGamePro extends MobileActivity {
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
-            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
-            showTrainingDialog();
             return;
         }
 
@@ -188,6 +185,7 @@ public class MemoryGamePro extends MobileActivity {
                 ok.setVisibility(View.VISIBLE);
                 //手勢控制方向向上
                 if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
+                    setBtnStyle(up_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -215,13 +213,10 @@ public class MemoryGamePro extends MobileActivity {
                     if (temp != collect){
                         temp.setImageResource(R.drawable.memorybackground);
                     }
-                    Log.d("walktest-up:i",""+i);
-                    Log.d("walktest-up:j",""+j);
-
-
                 }
                 //手勢控制方向向下
                 else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                    setBtnStyle(down_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -234,7 +229,6 @@ public class MemoryGamePro extends MobileActivity {
                     }
                     temp = imageArray[i];
                     while (temp.getVisibility() == View.INVISIBLE) {
-
                         if(i==12 ||i==13||i==14||i==15) {
                             i = i-12;
                         }
@@ -250,11 +244,10 @@ public class MemoryGamePro extends MobileActivity {
                     if (temp != collect){
                         temp.setImageResource(R.drawable.memorybackground);
                     }
-
-
                 }
                 //手勢控制方向向左
                 else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(left_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -285,15 +278,13 @@ public class MemoryGamePro extends MobileActivity {
                     if (temp != collect){
                         temp.setImageResource(R.drawable.memorybackground);
                     }
-
-                    Log.d("walktest-left:i",""+i);
-                    Log.d("walktest-left:j",""+j);
                 }
                 //手勢控制方向向右
                 else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
                         || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
                         ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                    setBtnStyle(right_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -335,6 +326,7 @@ public class MemoryGamePro extends MobileActivity {
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
                         || gesture == WatchGesture.FINGER_SNAP
                 ){
+                    setBtnStyle(ok);
                     if (moved==1) {
                         int theCard = Integer.parseInt((String) temp.getTag());
                         //如果當前選取的不是已經選取過的
@@ -355,53 +347,6 @@ public class MemoryGamePro extends MobileActivity {
         });
     }
 
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-    public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(MemoryGamePro.this);
-                    }
-                })
-                .setCancelable(false);
-        dialog.show();
-    }
-    public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(MemoryGamePro.this);
-                    }
-                })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
-                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
-                        dialog.dismiss();
-                    }
-                });
-        dialog.show();
-    }
-
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(MemoryGamePro.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text){
         if (Looper.myLooper() == Looper.getMainLooper()) {

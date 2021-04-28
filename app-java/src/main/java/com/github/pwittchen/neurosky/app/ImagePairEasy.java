@@ -1,7 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
