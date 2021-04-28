@@ -78,7 +78,7 @@ public class TrainRecord extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(TrainRecord.this , InstructionHome.class);
+                intent.setClass(TrainRecord.this , SafariHome.class);
                 startActivity(intent);
             }
         });
