@@ -41,7 +41,7 @@ public class SafariApp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(SafariApp.this , InstructionHome.class);
+                intent.setClass(SafariApp.this , SafariHome.class);
                 startActivity(intent);
             }
         });
@@ -56,10 +56,13 @@ public class SafariApp extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 if(btn_A1.getVisibility()==View.GONE) {
                     btn_A1.setVisibility(View.VISIBLE);
+                    v.setBackgroundResource(R.drawable.safariback_active);
                 }
                 else{
+                    v.setBackgroundResource(R.drawable.safariback);
                     btn_A1.setVisibility(View.GONE);
                 }
             }
@@ -70,9 +73,11 @@ public class SafariApp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btn_A2.getVisibility()==View.GONE) {
+                    v.setBackgroundResource(R.drawable.safariback_active);
                     btn_A2.setVisibility(View.VISIBLE);
                 }
                 else{
+                    v.setBackgroundResource(R.drawable.safariback);
                     btn_A2.setVisibility(View.GONE);
                 }
             }

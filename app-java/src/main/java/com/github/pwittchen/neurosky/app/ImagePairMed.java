@@ -182,6 +182,7 @@ public class ImagePairMed extends AppCompatActivity {
                 }
                 else{
                     button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
                     music.start();
                 }
 
