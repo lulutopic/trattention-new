@@ -70,7 +70,7 @@
             android:paddingHorizontal="50dp"
             android:letterSpacing="0.2"
             android:textColor="@color/white"
-            android:text="進入練習"
+            android:text="開始練習"
             android:textSize="20sp"
             android:elevation="10dp"
             android:layout_marginHorizontal="30dp"/>

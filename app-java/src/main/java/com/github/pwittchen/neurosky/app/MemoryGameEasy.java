@@ -1,17 +1,14 @@
 package com.github.pwittchen.neurosky.app;
 
 
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
-import android.os.Environment;
 import android.os.Handler;
 
 import android.os.Looper;
@@ -20,44 +17,28 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.view.View;
 
-import java.io.File;
-import java.io.IOException;
+import com.madgaze.watchsdk.MobileActivity;
+
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
 import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
-
-import java.util.concurrent.TimeUnit;
-
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
-import android.app.Activity;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-public class MemoryGameEasy extends MobileActivity{
-    
-
+public class MemoryGameEasy extends MobileActivity {
     //手錶
     private final String MGTAG = MainActivity.class.getSimpleName();
 
@@ -151,7 +132,6 @@ public class MemoryGameEasy extends MobileActivity{
     @Override
     public void onWatchDisconnected() {
         setStatusText("Watch Disconnected");
-        showConnectDialog();
     }
 
     @Override
@@ -163,12 +143,10 @@ public class MemoryGameEasy extends MobileActivity{
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
-            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
-            showTrainingDialog();
             return;
         }
 
@@ -297,9 +275,9 @@ public class MemoryGameEasy extends MobileActivity{
                 }
                 //手勢控制方向向右
                 else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
-                || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
-                ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
-                || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
                     moved=1;
                     ok.setVisibility(View.VISIBLE);
                     int j=i;
@@ -361,52 +339,6 @@ public class MemoryGameEasy extends MobileActivity{
         });
     }
 
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-    public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(MemoryGameEasy.this);
-                    }
-                })
-                .setCancelable(false);
-        dialog.show();
-    }
-    public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(MemoryGameEasy.this);
-                    }
-                })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
-                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
-                        dialog.dismiss();
-                    }
-                });
-        dialog.show();
-    }
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(MemoryGameEasy.this);
-            }
-        });
-    }
 
     public void setText(final int resId, final String text){
         if (Looper.myLooper() == Looper.getMainLooper()) {
@@ -422,7 +354,6 @@ public class MemoryGameEasy extends MobileActivity{
             }
         });
     }
-
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
@@ -546,6 +477,7 @@ public class MemoryGameEasy extends MobileActivity{
             }
         });
 
+
         //game
         iv_11=(ImageView)findViewById(R.id.iv_11);
         iv_12=(ImageView)findViewById(R.id.iv_12);
@@ -584,7 +516,11 @@ public class MemoryGameEasy extends MobileActivity{
         frontOfCardsResources();
 
         //第一題的顏色
+
+
+
         Collections.shuffle(Arrays.asList(cardsArray));
+
 
         //Listener 等待使用者點擊此事件
         //override 覆蓋掉原本android studio 上層物件
@@ -605,6 +541,7 @@ public class MemoryGameEasy extends MobileActivity{
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -647,6 +584,7 @@ public class MemoryGameEasy extends MobileActivity{
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -683,6 +621,7 @@ public class MemoryGameEasy extends MobileActivity{
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
@@ -718,6 +657,7 @@ public class MemoryGameEasy extends MobileActivity{
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -755,6 +695,7 @@ public class MemoryGameEasy extends MobileActivity{
             @Override
             public void onClick(View view){
                 if (moved==1) {
+                    setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
                     //如果當前選取的不是已經選取過的
                     if (temp != collect) {
@@ -772,6 +713,7 @@ public class MemoryGameEasy extends MobileActivity{
 
             }
         });
+
 
     }
 
@@ -892,6 +834,8 @@ public class MemoryGameEasy extends MobileActivity{
             }else if(clickedFirst==15){
                 iv_44.setVisibility(View.INVISIBLE);
             }
+
+
             if(clickedSecond==0){
                 iv_11.setVisibility(View.INVISIBLE);
             }else if(clickedSecond==1){
@@ -942,6 +886,7 @@ public class MemoryGameEasy extends MobileActivity{
             iv_42.setImageResource(R.drawable.memoryback);
             iv_43.setImageResource(R.drawable.memoryback);
             iv_44.setImageResource(R.drawable.memoryback);
+
 
         }
         iv_11.setEnabled(true);
@@ -1016,6 +961,20 @@ public class MemoryGameEasy extends MobileActivity{
         image208=R.drawable.memory208;
     }
 
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {

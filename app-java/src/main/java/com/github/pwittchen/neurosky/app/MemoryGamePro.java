@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
@@ -633,6 +634,7 @@ public class MemoryGamePro extends MobileActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -675,6 +677,7 @@ public class MemoryGamePro extends MobileActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -712,6 +715,7 @@ public class MemoryGamePro extends MobileActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
@@ -745,6 +749,7 @@ public class MemoryGamePro extends MobileActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -1052,6 +1057,21 @@ public class MemoryGamePro extends MobileActivity {
         image102=R.drawable.memory102;
         image107=R.drawable.memory107;
         image106=R.drawable.memory106;
+    }
+
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
     }
 
     //固定要執行的方法

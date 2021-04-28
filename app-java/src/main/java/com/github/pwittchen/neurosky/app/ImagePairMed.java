@@ -1,10 +1,14 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,17 +21,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,7 +51,6 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 public class ImagePairMed extends MobileActivity {
-
     private final String MGTAG = MainActivity.class.getSimpleName();
 
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
@@ -278,7 +291,10 @@ public class ImagePairMed extends MobileActivity {
 
     private TextView FruitQuestion; // 題目的文字
 
-    private int apple, pear, orange, mango;
+    private int apple;
+    private int pear;
+    private int orange;
+    private int mango;
 
     private int optiona;
     private int optionb;
@@ -412,53 +428,37 @@ public class ImagePairMed extends MobileActivity {
     }
 
     //監聽事件的函式
-    private void setupViewsAndListeners() {
+    private void setupViewsAndListeners(){
         button1.get(0).setBackgroundResource(optiona_border);
-        btn_right.setOnClickListener(new View.OnClickListener() {
+        btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
-            public void onClick(View v) {
-                switch (clicked) {
-                    case (0):
+            public void onClick(View v){
+                setBtnStyle(v);
+                switch(clicked){
+                    case(0):
                         button1.get(0).setBackgroundResource(optiona);
                         button1.get(1).setBackgroundResource(optionb_border);
                         System.out.println();
                         clicked++;
                         break;
-                    case (1):
+                    case(1):
                         button1.get(1).setBackgroundResource(optionb);
                         button1.get(2).setBackgroundResource(optionc_border);
                         clicked++;
                         break;
-                    case (2):
+                    case(2):
                         button1.get(2).setBackgroundResource(optionc);
                         button1.get(3).setBackgroundResource(optiond_border);
                         clicked++;
                         break;
-                    case (3):
+                    case(3):
                         button1.get(3).setBackgroundResource(optiond);
                         button1.get(0).setBackgroundResource(optiona_border);
-                        clicked -= 3;
+                        clicked-=3;
                         break;
                 }
-            }
-        });
 
-        btn_ok.setOnClickListener(new View.OnClickListener(){
-            @Override
-            //設定點擊事件
-            public void onClick(View v) {
-                //回傳題目的文字底色的文字標籤
-                Integer Tag = (Integer) FruitQuestion.getTag();
-                System.out.println(Tag);//2131165271 apple
-                System.out.println(button.get(clicked).getTag());
-                //如果選項Ａ的文字意思等於標籤Ａ
-                if (Tag.equals(button.get(clicked).getTag())) {
-                    count++;
-                    getRandomColor();
-                    deter();
-                    checkEnd();
-                }
             }
         });
 
@@ -466,6 +466,7 @@ public class ImagePairMed extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -489,6 +490,7 @@ public class ImagePairMed extends MobileActivity {
                         clicked--;
                         break;
                 }
+
             }
         });
 
@@ -629,7 +631,20 @@ public class ImagePairMed extends MobileActivity {
         button1.add(ImageButtonC);
         button1.add(ImageButtonD);
     }
-
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
     //計時器的計時方法
     private Runnable updateTimer = new Runnable() {
         public void run() {
@@ -646,20 +661,4 @@ public class ImagePairMed extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
-
-    private void setBtnStyle(View view){
-        view.setBackgroundResource(R.drawable.buttonshadow);
-        Timer t = new Timer(false);
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        view.setBackgroundResource(0);
-                    }
-                });
-            }
-        }, 500);
-    }
 }
-

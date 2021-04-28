@@ -2,6 +2,7 @@ package com.github.pwittchen.neurosky.app;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
@@ -43,7 +44,7 @@ import com.madgaze.watchsdk.WatchGesture;
 
 public class ImagePairPro extends MobileActivity {
 
-    private final String MGTAG = MainActivity.class.getSimpleName();
+private final String MGTAG = MainActivity.class.getSimpleName();
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
             WatchGesture.FINGER_SNAP,
@@ -250,7 +251,6 @@ public class ImagePairPro extends MobileActivity {
             }
         });
     }
-
     private MediaPlayer music;
     private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime, hour, minutes, seconds, totalSeconds; //初始時間
     private Chronometer timer; //已經過時間
@@ -461,6 +461,7 @@ public class ImagePairPro extends MobileActivity {
                     deter();
                     checkEnd();
                 }
+
             }
         });
 

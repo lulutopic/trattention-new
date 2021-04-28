@@ -1,6 +1,7 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
@@ -8,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -20,9 +20,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.madgaze.watchsdk.MGWatch;
-import com.madgaze.watchsdk.WatchException;
-import com.madgaze.watchsdk.WatchGesture;
+import com.madgaze.watchsdk.MobileActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +38,6 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 public class ImagePairEasy extends MobileActivity {
-
     private final String MGTAG = MainActivity.class.getSimpleName();
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
@@ -249,7 +246,6 @@ public class ImagePairEasy extends MobileActivity {
             }
         });
     }
-    
     private MediaPlayer music;
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -287,6 +283,8 @@ public class ImagePairEasy extends MobileActivity {
 //    private int mango;
 
     int clicked = 0;
+
+
 
     private ImageView ImageButtonA;
     private ImageView ImageButtonB;
@@ -410,6 +408,12 @@ public class ImagePairEasy extends MobileActivity {
         });
     }
 
+
+
+
+
+
+
     //監聽事件的函式
     private void setupViewsAndListeners(){
         button1.get(0).setBackgroundResource(optiona_border);
@@ -417,6 +421,7 @@ public class ImagePairEasy extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -435,6 +440,7 @@ public class ImagePairEasy extends MobileActivity {
                         clicked-=2;
                         break;
                 }
+
             }
         });
 
@@ -442,6 +448,7 @@ public class ImagePairEasy extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -460,6 +467,7 @@ public class ImagePairEasy extends MobileActivity {
                         clicked--;
                         break;
                 }
+
             }
         });
 
@@ -467,6 +475,7 @@ public class ImagePairEasy extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 Integer Tag = (Integer) FruitQuestion.getTag();
                 System.out.println(Tag);//2131165271 apple
@@ -478,6 +487,7 @@ public class ImagePairEasy extends MobileActivity {
                     deter();
                     checkEnd();
                 }
+
             }
         });
 
@@ -592,6 +602,20 @@ public class ImagePairEasy extends MobileActivity {
         button1.add(ImageButtonC);
 
     }
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //計時器的計時方法
     private Runnable updateTimer = new Runnable() {
@@ -609,19 +633,4 @@ public class ImagePairEasy extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
-
-    private void setBtnStyle(View view){
-        view.setBackgroundResource(R.drawable.buttonshadow);
-        Timer t = new Timer(false);
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        view.setBackgroundResource(0);
-                    }
-                });
-            }
-        }, 500);
-    }
 }
