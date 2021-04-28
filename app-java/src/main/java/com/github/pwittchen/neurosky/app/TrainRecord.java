@@ -83,8 +83,109 @@ public class TrainRecord extends AppCompatActivity {
             }
         });
 
-        //image pair 圖表
         text_pair=(TextView)findViewById(R.id.text_pair);
+        text_schulte=(TextView)findViewById(R.id.text_schulte);
+        text_memory=(TextView)findViewById(R.id.text_memory);
+        
+        //初始圖表設定(圖型配對)
+        text_pair.setTextColor(BlueDark);
+        text_schulte.setTextColor(Yellow_light);
+        text_memory.setTextColor(Yellow_light);
+        count = 0;
+        //折線圖
+        lineChart =(LineChart)findViewById(R.id.chart_line);
+        ArrayList<Entry> values1=new ArrayList<>();
+        ArrayList imagePairRecordList = new ArrayList<>();
+        ArrayList maxList = new ArrayList<>();
+        ArrayList maxALLUserList = new ArrayList<>();
+        ArrayList<BarEntry> bar_others=new ArrayList<>();
+        ArrayList<BarEntry> bar_own=new ArrayList<>();
+
+        //firebase 資料 折線圖
+        fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                .orderBy("createdAt")
+                .limitToLast(10)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("secondRecord")!=null){
+                                    imagePairRecordList.add(document.get("secondRecord"));
+                                }
+                            }
+                            list_size = imagePairRecordList.size();
+                            for(int i = 1; i <= imagePairRecordList.size() ; i++){
+                                float f1 =Float.parseFloat(valueOf(imagePairRecordList.get(i-1)));
+                                values1.add(new Entry(i,f1));
+                            }
+                            //顯示
+                            text_all_line(values1);
+                            initX_line();
+                            initY_line();
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        //firebase 資料
+        fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                .whereEqualTo("user", "MELJmK6vYxeoKCrWhvJyy4Xfriq")
+                .orderBy("secondRecord", Query.Direction.DESCENDING)
+                .limitToLast(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.get("secondRecord")!=null){
+                                    maxList.add(document.get("secondRecord"));
+                                }
+                            }
+                            //柱狀圖
+                            barChart =(BarChart) findViewById(R.id.chart_bar);
+                            count = Integer.parseInt(maxList.get(0).toString());
+                            bar_others.add(new BarEntry(1,count));
+
+                            //firebase 資料
+                            fStore.collection("game_record").document("game_record_imagepair").collection("data")
+                                    .orderBy("secondRecord", Query.Direction.DESCENDING)
+                                    .limitToLast(1)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if(document.get("secondRecord")!=null){
+                                                        maxALLUserList.add(document.get("secondRecord"));
+                                                    }
+                                                }
+                                                //柱狀圖
+                                                countAll = Integer.parseInt(maxALLUserList.get(0).toString());
+                                                bar_own.add(new BarEntry(2,countAll));
+                                                text_all_bar(bar_others,bar_own);
+                                                initX_bar();
+                                                initY_bar();
+                                            } else {
+                                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
+        //圖型配對圖表
+
         text_pair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +285,6 @@ public class TrainRecord extends AppCompatActivity {
             }
         });
         //舒爾特方格圖表
-        text_schulte=(TextView)findViewById(R.id.text_schulte);
         text_schulte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,7 +385,6 @@ public class TrainRecord extends AppCompatActivity {
             }
         });
         //記憶力遊戲圖表
-        text_memory=(TextView)findViewById(R.id.text_memory);
         text_memory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
