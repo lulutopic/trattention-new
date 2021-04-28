@@ -751,9 +751,6 @@ public class SchulteGridMed extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
-
-
-
 }
 
 

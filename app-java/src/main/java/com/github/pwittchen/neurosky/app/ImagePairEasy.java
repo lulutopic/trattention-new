@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
@@ -76,6 +78,192 @@ public class ImagePairEasy extends MobileActivity {
             WatchGesture.MOVE_FOREARM_UP,
             WatchGesture.MOVE_FOREARM_RIGHT,
     };
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //手勢控制向右
+                if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                    setBtnStyle(btn_right);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            System.out.println();
+                            clicked++;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            clicked++;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked-=2;
+                            break;
+                    }
+                }
+                //手勢控制向左
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(btn_left);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            System.out.println();
+                            clicked+=2;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            clicked--;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked--;
+                            break;
+                    }
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP) {
+                    setBtnStyle(btn_ok);
+                    //回傳題目的文字底色的文字標籤
+                    Integer Tag = (Integer) FruitQuestion.getTag();
+                    System.out.println(Tag);//2131165271 apple
+                    System.out.println(button.get(clicked).getTag());
+                    //如果選項Ａ的文字意思等於標籤Ａ
+                    if(Tag.equals(button.get(clicked).getTag())){
+                        count++;
+                        getRandomColor();
+                        deter();
+                        checkEnd();
+                    }
+                }
+            }
+        });
+    }
+
+    public void setDefinedGestures(){
+        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
+    }
+
+
+    public void setListeners(){
+        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.setVisibility(View.GONE);
+                MGWatch.trainRequiredGestures(ImagePairEasy.this);
+            }
+        });
+    }
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
     
     private MediaPlayer music;
     private Long startTime; //初始時間
@@ -114,8 +302,6 @@ public class ImagePairEasy extends MobileActivity {
 //    private int mango;
 
     int clicked = 0;
-
-
 
     private ImageView ImageButtonA;
     private ImageView ImageButtonB;
@@ -239,12 +425,6 @@ public class ImagePairEasy extends MobileActivity {
         });
     }
 
-
-
-
-
-
-
     //監聽事件的函式
     private void setupViewsAndListeners(){
         button1.get(0).setBackgroundResource(optiona_border);
@@ -270,7 +450,6 @@ public class ImagePairEasy extends MobileActivity {
                         clicked-=2;
                         break;
                 }
-
             }
         });
 
@@ -296,7 +475,6 @@ public class ImagePairEasy extends MobileActivity {
                         clicked--;
                         break;
                 }
-
             }
         });
 
@@ -315,7 +493,6 @@ public class ImagePairEasy extends MobileActivity {
                     deter();
                     checkEnd();
                 }
-
             }
         });
 
@@ -447,208 +624,19 @@ public class ImagePairEasy extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
-    @Override
-    public void onWatchGestureReceived(WatchGesture gesture) {
-        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
-        setResultText(gesture);
-    }
 
-    @Override
-    public void onWatchGestureError(WatchException error) {
-        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
-        setStatusText(error.getMessage());
-    }
-
-    @Override
-    public void onWatchDetectionOn() {
-        Log.d(MGTAG, "onWatchDetectionOn: ");
-        setStatusText("Listening");
-    }
-
-    @Override
-    public void onWatchDetectionOff() {
-        Log.d(MGTAG, "onWatchDetectionOff: ");
-        setStatusText("Idle");
-    }
-
-    @Override
-    public void onMGWatchServiceReady() {
-        setStatusText("Service Connected");
-        tryStartDetection();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-
-        if (MGWatch.isWatchGestureDetecting(this))
-            MGWatch.stopGestureDetection(this);
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if (MGWatch.isMGWatchServiceReady(this))
-            tryStartDetection();
-    }
-
-    @Override
-    public void onWatchConnected() {
-        setStatusText("Watch Connected");
-    }
-
-    @Override
-    public void onWatchDisconnected() {
-        setStatusText("Watch Disconnected");
-        showConnectDialog();
-    }
-
-    @Override
-    protected WatchGesture[] getRequiredWatchGestures(){
-        return REQUIRED_WATCH_GESTURES;
-    }
-
-    private void tryStartDetection(){
-
-        if (!MGWatch.isWatchConnected(this)) {
-            setStatusText("Connecting");
-            showConnectDialog();
-            return;
-        }
-
-        if (!MGWatch.isGesturesTrained(this)) {
-            showTrainingDialog();
-            return;
-        }
-
-        if (!MGWatch.isWatchGestureDetecting(this)) {
-            MGWatch.startGestureDetection(this);
-        }
-    }
-
-
-    private void setStatusText(String text){
-        setText(R.id.status, "Status: " + text);
-    }
-
-    private void setResultText(final WatchGesture gesture){
-        setText(R.id.result, gesture.toString());
-
-
-        runOnUiThread(new Runnable() {
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
             @Override
             public void run() {
-
-                //手勢控制向右
-                if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
-                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
-                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
-                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
-                    switch(clicked){
-                        case(0):
-                            button1.get(0).setBackgroundResource(optiona);
-                            button1.get(1).setBackgroundResource(optionb_border);
-                            System.out.println();
-                            clicked++;
-                            break;
-                        case(1):
-                            button1.get(1).setBackgroundResource(optionb);
-                            button1.get(2).setBackgroundResource(optionc_border);
-                            clicked++;
-                            break;
-                        case(2):
-                            button1.get(2).setBackgroundResource(optionc);
-                            button1.get(0).setBackgroundResource(optiona_border);
-                            clicked-=2;
-                            break;
-                    }
-
-                }
-                //手勢控制確認選取
-                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
-                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
-                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
-                        || gesture == WatchGesture.FINGER_SNAP) {
-
-                    //回傳題目的文字底色的文字標籤
-                    Integer Tag = (Integer) FruitQuestion.getTag();
-                    System.out.println(Tag);//2131165271 apple
-                    System.out.println(button.get(clicked).getTag());
-                    //如果選項Ａ的文字意思等於標籤Ａ
-                    if(Tag.equals(button.get(clicked).getTag())){
-                        count++;
-                        getRandomColor();
-                        deter();
-                        checkEnd();
-                    }
-
-                }
-            }
-        });
-    }
-
-    public void setDefinedGestures(){
-        setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
-    }
-
-    public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(ImagePairEasy.this);
-                    }
-                })
-                .setCancelable(false);
-        dialog.show();
-    }
-    public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(ImagePairEasy.this);
-                    }
-                })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
-                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
-                        dialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
                     }
                 });
-        dialog.show();
-    }
-    public void setListeners(){
-        ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setVisibility(View.GONE);
-                MGWatch.trainRequiredGestures(ImagePairEasy.this);
             }
-        });
+        }, 500);
     }
-
-    public void setText(final int resId, final String text){
-        if (Looper.myLooper() == Looper.getMainLooper()) {
-            TextView textView = ((TextView) findViewById(resId));
-            if (textView != null)
-                textView.setText(text);
-        } else runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                TextView textView = ((TextView)findViewById(resId));
-                if (textView != null)
-                    textView.setText(text);
-            }
-        });
-    }
-
-
-    
 }

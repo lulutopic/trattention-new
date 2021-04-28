@@ -41,6 +41,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.madgaze.watchsdk.MGWatch;
 import com.madgaze.watchsdk.MobileActivity;
@@ -139,7 +141,6 @@ public class ImagePairMed extends MobileActivity {
     @Override
     public void onWatchDisconnected() {
         setStatusText("Watch Disconnected");
-        showConnectDialog();
     }
 
     @Override
@@ -151,12 +152,10 @@ public class ImagePairMed extends MobileActivity {
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
-            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
-            showTrainingDialog();
             return;
         }
 
@@ -173,37 +172,63 @@ public class ImagePairMed extends MobileActivity {
     private void setResultText(final WatchGesture gesture){
         setText(R.id.result, gesture.toString());
 
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 //手勢控制向右
                 if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
                         || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
                         ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
                         || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
-                    switch(clicked){
-                        case(0):
+                    setBtnStyle(btn_right);
+                    switch (clicked) {
+                        case (0):
                             button1.get(0).setBackgroundResource(optiona);
                             button1.get(1).setBackgroundResource(optionb_border);
                             System.out.println();
                             clicked++;
                             break;
-                        case(1):
+                        case (1):
                             button1.get(1).setBackgroundResource(optionb);
                             button1.get(2).setBackgroundResource(optionc_border);
                             clicked++;
                             break;
-                        case(2):
+                        case (2):
                             button1.get(2).setBackgroundResource(optionc);
                             button1.get(3).setBackgroundResource(optiond_border);
                             clicked++;
                             break;
-                        case(3):
+                        case (3):
                             button1.get(3).setBackgroundResource(optiond);
                             button1.get(0).setBackgroundResource(optiona_border);
-                            clicked-=3;
+                            clicked -= 3;
+                            break;
+                    }
+                }
+                //手勢控制向左
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(btn_left);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(3).setBackgroundResource(optiond_border);
+                            System.out.println();
+                            clicked+=3;
+                            break;
+                        case(3):
+                            button1.get(3).setBackgroundResource(optiond);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            clicked--;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            clicked--;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked--;
                             break;
                     }
                 }
@@ -212,12 +237,13 @@ public class ImagePairMed extends MobileActivity {
                         || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
                         ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
                         || gesture == WatchGesture.FINGER_SNAP) {
+                    setBtnStyle(btn_ok);
                     //回傳題目的文字底色的文字標籤
                     Integer Tag = (Integer) FruitQuestion.getTag();
                     System.out.println(Tag);//2131165271 apple
                     System.out.println(button.get(clicked).getTag());
                     //如果選項Ａ的文字意思等於標籤Ａ
-                    if(Tag.equals(button.get(clicked).getTag())){
+                    if (Tag.equals(button.get(clicked).getTag())) {
                         count++;
                         getRandomColor();
                         deter();
@@ -232,39 +258,7 @@ public class ImagePairMed extends MobileActivity {
         setText(R.id.definedGestures, TextUtils.join(", ", getRequiredWatchGestures()));
     }
 
-    public void showConnectDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未連線成功")
-                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
-                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.connect(ImagePairMed.this);
-                    }
-                })
-                .setCancelable(false);
-        dialog.show();
-    }
-    public void showTrainingDialog(){
-        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-        dialog.setTitle("尚未完成手勢訓練")
-                .setMessage("請配戴手錶並完成所有手勢訓練")
-                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MGWatch.trainRequiredGestures(ImagePairMed.this);
-                    }
-                })
-                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setStatusText("尚未完成手勢訓練");
-                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
-                        dialog.dismiss();
-                    }
-                });
-        dialog.show();
-    }
+
     public void setListeners(){
         ((Button)findViewById(R.id.trainButton)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -474,7 +468,6 @@ public class ImagePairMed extends MobileActivity {
                         clicked -= 3;
                         break;
                 }
-
             }
         });
 
@@ -523,7 +516,6 @@ public class ImagePairMed extends MobileActivity {
                         clicked--;
                         break;
                 }
-
             }
         });
 
@@ -681,5 +673,20 @@ public class ImagePairMed extends MobileActivity {
             handler.postDelayed(this, 1000);
         }
     };
+
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 }
 
