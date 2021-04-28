@@ -29,7 +29,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
         setContentView(R.layout.activity_schulte_game_start);
 
         VideoView video = (VideoView) findViewById(R.id.videoView);
-        String uriPath = "android.resource://"+  getPackageName() + "/raw/"+R.raw.test;
+        String uriPath = "android.resource://"+  getPackageName() + "/raw/"+R.raw.schutle;
         Uri uri = Uri.parse(uriPath);
         video.setVideoURI(uri);
         video.start();

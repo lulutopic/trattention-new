@@ -29,8 +29,9 @@ public class MemoryGameStart extends AppCompatActivity {
         setContentView(R.layout.activity_memory_game_start);
 
         VideoView video = (VideoView) findViewById(R.id.videoView);
-        video.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/trattention-f3daa.appspot.com/o/video.mp4?alt=media&token=e7832ebd-8eab-4dff-b17b-a51ca1b3d1d7"));
-        video.setMediaController(new MediaController(this));
+        String uriPath = "android.resource://"+  getPackageName() + "/raw/"+R.raw.memory;
+        Uri uri = Uri.parse(uriPath);
+        video.setVideoURI(uri);
         video.start();
 
         //header:頁面跳轉->回首頁
