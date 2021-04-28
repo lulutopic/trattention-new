@@ -38,29 +38,26 @@
         android:layout_height="450dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-
         android:paddingTop="30dp">
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:elevation="10dp" />
+            android:elevation="0dp" />
 
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-
        >
         <Button
             android:id="@+id/btn_practice"
             android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/button_shape_round"
+            android:background="@drawable/button_dark_blue_shape_round"
             android:text="進入練習"
             android:textColor="#FFFFFFFF" />
 
