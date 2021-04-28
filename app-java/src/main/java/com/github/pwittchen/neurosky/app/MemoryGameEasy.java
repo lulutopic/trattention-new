@@ -13,6 +13,7 @@ import android.os.Handler;
 
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
@@ -142,6 +143,7 @@ public class MemoryGameEasy extends AppCompatActivity {
                 }
                 else{
                     button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
                     music.start();
                 }
 
@@ -664,6 +666,9 @@ public class MemoryGameEasy extends AppCompatActivity {
             handler.postDelayed(this, 1000);
         }
     };
+
+
+
 
 
     public void btnClick(View view) {
