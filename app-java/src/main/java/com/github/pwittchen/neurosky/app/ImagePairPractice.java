@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ImagePairPractice extends AppCompatActivity {
     private MediaPlayer music;
@@ -91,7 +93,7 @@ public class ImagePairPractice extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_image_pair_practice);
+        setContentView(R.layout.activity_image_pair_easy);
 
 
 
@@ -131,32 +133,30 @@ public class ImagePairPractice extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
                 LayoutInflater inflater = ImagePairPractice.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(ImagePairPractice.this,GameHome.class);
-                                startActivity(intent);
-                                //音樂釋放
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
+                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        Intent intent = new Intent();
+                        intent.setClass(ImagePairPractice.this,GameHome.class);
+                        startActivity(intent);
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+                });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -170,6 +170,25 @@ public class ImagePairPractice extends AppCompatActivity {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+            }
+        });
+
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
             }
         });
     }
@@ -187,6 +206,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -213,6 +233,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -239,6 +260,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 Integer Tag = (Integer) FruitQuestion.getTag();
                 System.out.println(Tag);//2131165271 apple
@@ -279,14 +301,13 @@ public class ImagePairPractice extends AppCompatActivity {
         button.get(2).setImageResource(FruitIcon.get(2));
         button.get(2).setTag(FruitIcon.get(2));
     }
-
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
         if(count == 10){
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
             alertDialogBuilder
-                    .setMessage("恭喜 ! 練習完成 ~ ")
+                    .setMessage("恭 喜 ! 練 習 完 成 ~")
                     .setCancelable(false)
                     .setNegativeButton("離開",new DialogInterface.OnClickListener(){
                         @Override
@@ -304,6 +325,9 @@ public class ImagePairPractice extends AppCompatActivity {
             alertDialog.show();
         }
     }
+
+
+    
 
     //幫顏色設定標籤（判斷文字底色是否等於colorValues裡的顏色）
     private void deter(){
@@ -374,6 +398,20 @@ public class ImagePairPractice extends AppCompatActivity {
         button1.add(ImageButtonB);
         button1.add(ImageButtonC);
 
+    }
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
     }
 
     //計時器的計時方法

@@ -13,6 +13,7 @@ import android.os.Handler;
 
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +25,8 @@ import android.view.View;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MemoryGamePractice extends AppCompatActivity {
     protected Long startTime;
@@ -66,7 +69,6 @@ public class MemoryGamePractice extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-
         setContentView(R.layout.activity_memory_game_practice);
 
         //取得目前時間
@@ -118,8 +120,6 @@ public class MemoryGamePractice extends AppCompatActivity {
             }
         });
 
-
-
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +133,24 @@ public class MemoryGamePractice extends AppCompatActivity {
             }
         });
 
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
+            }
+        });
 
 
         //game
@@ -173,6 +191,9 @@ public class MemoryGamePractice extends AppCompatActivity {
         frontOfCardsResources();
 
         //第一題的顏色
+
+
+
         Collections.shuffle(Arrays.asList(cardsArray));
 
 
@@ -195,6 +216,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -237,6 +259,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -273,6 +296,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
@@ -308,6 +332,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -345,6 +370,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if (moved==1) {
+                    setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
                     //如果當前選取的不是已經選取過的
                     if (temp != collect) {
@@ -580,7 +606,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePractice.this);
             alertDialogBuilder
-                    .setMessage("恭喜 ! 練習完成 ~ ")
+                    .setMessage("恭 喜 ! 練 習 完 成 ~")
                     .setCancelable(false)
                     .setNegativeButton("離開",new DialogInterface.OnClickListener(){
                         @Override
@@ -618,6 +644,20 @@ public class MemoryGamePractice extends AppCompatActivity {
         image208=R.drawable.memory208;
     }
 
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {
@@ -637,6 +677,9 @@ public class MemoryGamePractice extends AppCompatActivity {
             handler.postDelayed(this, 1000);
         }
     };
+
+
+
 
 
     public void btnClick(View view) {
