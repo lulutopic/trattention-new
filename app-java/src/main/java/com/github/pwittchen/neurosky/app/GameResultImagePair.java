@@ -66,8 +66,8 @@ public class GameResultImagePair extends AppCompatActivity {
                                 compareList.add(document.get("secondRecord"));
                             }
                             if(recordList.size() == 2 && compareList.size() == 2){
-                                lastTimeRecord.setText(recordList.get(recordList.size()-1).toString());
-                                thisTimeRecord.setText(recordList.get(recordList.size()-2).toString());
+                                lastTimeRecord.setText(recordList.get(recordList.size()-2).toString());
+                                thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
                                 if(compareRecord < 0){
