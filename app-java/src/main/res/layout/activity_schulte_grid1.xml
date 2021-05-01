@@ -65,6 +65,16 @@
             android:letterSpacing="0.1">
         </Chronometer>
     </RelativeLayout>
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:text="Nil"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="10dp"/>
     <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
