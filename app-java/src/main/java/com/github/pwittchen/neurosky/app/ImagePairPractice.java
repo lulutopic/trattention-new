@@ -1,13 +1,13 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.madgaze.watchsdk.MobileActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,8 +28,223 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class ImagePairPractice extends AppCompatActivity {
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
+
+public class ImagePairPractice extends MobileActivity {
+    private final String MGTAG = MainActivity.class.getSimpleName();
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            WatchGesture.MOVE_FOREARM_DOWN,
+            WatchGesture.MOVE_FOREARM_LEFT,
+            WatchGesture.MOVE_FOREARM_UP,
+            WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //手勢控制向右
+                if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                    setBtnStyle(btn_right);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            System.out.println();
+                            clicked++;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            clicked++;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked-=2;
+                            break;
+                    }
+                }
+                //手勢控制向左
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(btn_left);
+                    switch(clicked){
+                        case(0):
+                            button1.get(0).setBackgroundResource(optiona);
+                            button1.get(2).setBackgroundResource(optionc_border);
+                            System.out.println();
+                            clicked+=2;
+                            break;
+                        case(2):
+                            button1.get(2).setBackgroundResource(optionc);
+                            button1.get(1).setBackgroundResource(optionb_border);
+                            clicked--;
+                            break;
+                        case(1):
+                            button1.get(1).setBackgroundResource(optionb);
+                            button1.get(0).setBackgroundResource(optiona_border);
+                            clicked--;
+                            break;
+                    }
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP) {
+                    setBtnStyle(btn_ok);
+                    //回傳題目的文字底色的文字標籤
+                    Integer Tag = (Integer) FruitQuestion.getTag();
+                    System.out.println(Tag);//2131165271 apple
+                    System.out.println(button.get(clicked).getTag());
+                    //如果選項Ａ的文字意思等於標籤Ａ
+                    if(Tag.equals(button.get(clicked).getTag())){
+                        count++;
+                        getRandomColor();
+                        deter();
+                        checkEnd();
+                    }
+                }
+            }
+        });
+    }
+
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
     private MediaPlayer music;
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -91,7 +307,7 @@ public class ImagePairPractice extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
-        setContentView(R.layout.activity_image_pair_practice);
+        setContentView(R.layout.activity_image_pair_easy);
 
 
 
@@ -131,32 +347,30 @@ public class ImagePairPractice extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
                 LayoutInflater inflater = ImagePairPractice.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(ImagePairPractice.this,GameHome.class);
-                                startActivity(intent);
-                                //音樂釋放
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
+                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        Intent intent = new Intent();
+                        intent.setClass(ImagePairPractice.this,ImagePairGameStart.class);
+                        startActivity(intent);
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+                });
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
             }
         });
 
@@ -170,6 +384,25 @@ public class ImagePairPractice extends AppCompatActivity {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+            }
+        });
+
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
             }
         });
     }
@@ -187,6 +420,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -213,6 +447,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 switch(clicked){
                     case(0):
                         button1.get(0).setBackgroundResource(optiona);
@@ -239,6 +474,7 @@ public class ImagePairPractice extends AppCompatActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 Integer Tag = (Integer) FruitQuestion.getTag();
                 System.out.println(Tag);//2131165271 apple
@@ -279,29 +515,19 @@ public class ImagePairPractice extends AppCompatActivity {
         button.get(2).setImageResource(FruitIcon.get(2));
         button.get(2).setTag(FruitIcon.get(2));
     }
-
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
         if(count == 10){
             //頁面跳轉
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
-            alertDialogBuilder
-                    .setMessage("恭喜 ! 練習完成 ~ ")
-                    .setCancelable(false)
-                    .setNegativeButton("離開",new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialogInterface,int i){
-                            Intent intent = new Intent();
-                            intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
-                            startActivity(intent);
-                            //音樂釋放
-                            music.release();
-                            music=null;
-                            finish();
-                        }
-                    });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            Intent intent = new Intent();
+            intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
+            intent.putExtra("time",startTime);
+            //音樂釋放
+            music.release();
+            music=null;
+            startActivity(intent);
+            finish();
+
         }
     }
 
@@ -374,6 +600,20 @@ public class ImagePairPractice extends AppCompatActivity {
         button1.add(ImageButtonB);
         button1.add(ImageButtonC);
 
+    }
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
     }
 
     //計時器的計時方法

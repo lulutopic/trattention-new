@@ -11,21 +11,355 @@ import android.os.Bundle;
 
 import android.os.Handler;
 
+import android.os.Looper;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.view.View;
 
+import com.madgaze.watchsdk.MobileActivity;
+
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MemoryGamePractice extends AppCompatActivity {
+import com.madgaze.watchsdk.MGWatch;
+import com.madgaze.watchsdk.MobileActivity;
+import com.madgaze.watchsdk.WatchException;
+import com.madgaze.watchsdk.WatchGesture;
+
+public class MemoryGamePractice extends MobileActivity {
+    //手錶
+    private final String MGTAG = MainActivity.class.getSimpleName();
+
+    public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
+            //彈指
+            WatchGesture.FINGER_SNAP,
+            WatchGesture.FINGER_SNAP_2,
+            //手臂
+            WatchGesture.FOREARM_LEFT,
+            WatchGesture.FOREARM_RIGHT,
+            //手背
+            WatchGesture.HANDBACK_UP,
+            WatchGesture.HANDBACK_DOWN,
+            WatchGesture.HANDBACK_LEFT,
+            WatchGesture.HANDBACK_RIGHT,
+            WatchGesture.MOVE_FOREARM_DOWN,
+            //拇指中指捏捏
+            WatchGesture.THUMBTAP_MIDDLE,
+            //三指捏捏
+            WatchGesture.THUMBTAP_INDEX_MIDDLE,
+            //拇指食指捏捏
+            WatchGesture.THUMBTAP_INDEX,
+            //指頭
+            WatchGesture.JOINTTAP_LOWER_THUMB,
+            WatchGesture.JOINTTAP_UPPER_THUMB,
+            WatchGesture.JOINTTAP_MIDDLE_INDEX,
+            WatchGesture.JOINTTAP_UPPER_INDEX,
+            WatchGesture.JOINTTAP_MIDDLE_MIDDLE,
+            WatchGesture.JOINTTAP_UPPER_MIDDLE,
+            WatchGesture.JOINTTAP_MIDDLE_RING,
+            WatchGesture.JOINTTAP_UPPER_RING,
+            WatchGesture.JOINTTAP_MIDDLE_LITTLE,
+            //手臂快速移動
+            //WatchGesture.MOVE_FOREARM_DOWN,
+            //WatchGesture.MOVE_FOREARM_LEFT,
+            //WatchGesture.MOVE_FOREARM_UP,
+            //WatchGesture.MOVE_FOREARM_RIGHT,
+    };
+
+
+    @Override
+    public void onWatchGestureReceived(WatchGesture gesture) {
+        Log.d(MGTAG, "onWatchGestureReceived: "+gesture.name());
+        setResultText(gesture);
+    }
+
+    @Override
+    public void onWatchGestureError(WatchException error) {
+        Log.d(MGTAG, "onWatchGestureError: "+error.getMessage());
+        setStatusText(error.getMessage());
+    }
+
+    @Override
+    public void onWatchDetectionOn() {
+        Log.d(MGTAG, "onWatchDetectionOn: ");
+        setStatusText("Listening");
+    }
+
+    @Override
+    public void onWatchDetectionOff() {
+        Log.d(MGTAG, "onWatchDetectionOff: ");
+        setStatusText("Idle");
+    }
+
+    @Override
+    public void onMGWatchServiceReady() {
+        setStatusText("Service Connected");
+        tryStartDetection();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (MGWatch.isWatchGestureDetecting(this))
+            MGWatch.stopGestureDetection(this);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (MGWatch.isMGWatchServiceReady(this))
+            tryStartDetection();
+    }
+
+    @Override
+    public void onWatchConnected() {
+        setStatusText("Watch Connected");
+    }
+
+    @Override
+    public void onWatchDisconnected() {
+        setStatusText("Watch Disconnected");
+    }
+
+    @Override
+    protected WatchGesture[] getRequiredWatchGestures(){
+        return REQUIRED_WATCH_GESTURES;
+    }
+
+    private void tryStartDetection(){
+
+        if (!MGWatch.isWatchConnected(this)) {
+            setStatusText("Connecting");
+            return;
+        }
+
+        if (!MGWatch.isGesturesTrained(this)) {
+            return;
+        }
+
+        if (!MGWatch.isWatchGestureDetecting(this)) {
+            MGWatch.startGestureDetection(this);
+        }
+    }
+
+
+    private void setStatusText(String text){
+        setText(R.id.status, "Status: " + text);
+    }
+
+    private void setResultText(final WatchGesture gesture){
+        setText(R.id.result, gesture.toString());
+
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageView ok = findViewById(R.id.ok);
+                ImageView right_arrow = findViewById(R.id.right_arrow);
+                ImageView  left_arrow= findViewById(R.id.left_arrow);
+                ImageView up_arrow = findViewById(R.id.up_arrow);
+                ImageView down_arrow = findViewById(R.id.down_arrow);
+
+                ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,
+                        iv_21,iv_22,iv_23,iv_24,
+                        iv_31,iv_32,iv_33,iv_34,
+                        iv_41,iv_42,iv_43,iv_44};
+                ok.setVisibility(View.VISIBLE);
+                //手勢控制方向向上
+                if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
+                    setBtnStyle(up_arrow);
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    if(i==0 ||i==1||i==2||i==3) {
+                        i = i+12;
+                    }
+                    else {
+                        i = i - 4;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==0 ||i==1||i==2||i==3) {
+                            i = i+12;
+                        }
+                        else {
+                            i = i - 4;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                }
+                //手勢控制方向向下
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                    setBtnStyle(down_arrow);
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+
+                    if(i==12 ||i==13||i==14||i==15) {
+                        i = i-12;
+                    }
+                    else {
+                        i = i + 4;
+                    }
+                    temp = imageArray[i];
+                    while (temp.getVisibility() == View.INVISIBLE) {
+
+                        if(i==12 ||i==13||i==14||i==15) {
+                            i = i-12;
+                        }
+                        else {
+                            i = i + 4;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+                }
+                //手勢控制方向向左
+                else if(gesture == WatchGesture.HANDBACK_LEFT || gesture == WatchGesture.FOREARM_RIGHT){
+                    setBtnStyle(left_arrow);
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==0) {
+                        i =15;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i -- ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==0){
+                            i=15;
+                        }
+                        else {
+                            i--;
+                        }
+                        temp = imageArray[i];
+                    }
+                    ImageView prev = imageArray[j];
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+                }
+                //手勢控制方向向右
+                else if(gesture == WatchGesture.HANDBACK_RIGHT || gesture == WatchGesture.JOINTTAP_MIDDLE_RING
+                        || gesture == WatchGesture.JOINTTAP_UPPER_RING || gesture == WatchGesture.JOINTTAP_MIDDLE_MIDDLE
+                        ||gesture == WatchGesture.JOINTTAP_UPPER_MIDDLE ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX
+                        || gesture == WatchGesture.JOINTTAP_UPPER_INDEX){
+                    setBtnStyle(right_arrow);
+                    moved=1;
+                    ok.setVisibility(View.VISIBLE);
+                    int j=i;
+                    //如果現在在最右邊的話，從最左邊開始
+                    if(i==15) {
+                        i =0;
+                    }
+                    //不是的話，往右移
+                    else {
+                        i ++ ;
+                    }
+                    //temp:現在新到的格子
+                    temp = imageArray[i];
+                    //當現在要前往的格子是消失的話，往右找沒有消失的
+                    while (temp.getVisibility() == View.INVISIBLE) {
+                        if (i==15){
+                            i=0;
+                        }
+                        else {
+                            i++;
+                        }
+                        temp = imageArray[i];
+                    }
+
+                    //消除動作：prev：到下一格後的上一格
+                    ImageView prev = imageArray[j];
+                    //若prev不是翻開過的，設為蓋起來的黑框背景
+                    if (prev != collect) {
+                        prev.setImageResource(R.drawable.memoryback);
+                    }
+                    //若現在新到的這格不是翻開過的，設為聚焦的藍框背景
+                    if (temp != collect){
+                        temp.setImageResource(R.drawable.memorybackground);
+                    }
+
+                }
+                //手勢控制確認選取
+                else if (gesture == WatchGesture.THUMBTAP_INDEX || gesture == WatchGesture.THUMBTAP_INDEX_2
+                        || gesture == WatchGesture.THUMBTAP_MIDDLE || gesture == WatchGesture.THUMBTAP_MIDDLE_2
+                        ||gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE || gesture == WatchGesture.THUMBTAP_INDEX_MIDDLE_2
+                        || gesture == WatchGesture.FINGER_SNAP
+                ){
+                    setBtnStyle(ok);
+                    if (moved==1) {
+                        int theCard = Integer.parseInt((String) temp.getTag());
+                        //如果當前選取的不是已經選取過的
+                        if (temp != collect) {
+                            temp.setImageResource(R.drawable.memorybackground);
+                            if (cardNumber == 1) {
+                                collect = temp;
+                            } else {
+                                collect = null;
+                            }
+                            doStuff(temp, theCard);
+                        }
+                        moved=0;
+                        ok.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+
+    public void setText(final int resId, final String text){
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            TextView textView = ((TextView) findViewById(resId));
+            if (textView != null)
+                textView.setText(text);
+        } else runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = ((TextView)findViewById(resId));
+                if (textView != null)
+                    textView.setText(text);
+            }
+        });
+    }
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
@@ -66,8 +400,7 @@ public class MemoryGamePractice extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-
-        setContentView(R.layout.activity_memory_game_practice);
+        setContentView(R.layout.activity_memory_game_easy);
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -95,7 +428,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){
                                 Intent intent = new Intent();
-                                intent.setClass(MemoryGamePractice.this,GameHome.class);
+                                intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
                                 startActivity(intent);
                                 music.release();
                                 music=null;
@@ -118,8 +451,6 @@ public class MemoryGamePractice extends AppCompatActivity {
             }
         });
 
-
-
         ImageView button5 = findViewById(R.id.imagetips);
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +464,24 @@ public class MemoryGamePractice extends AppCompatActivity {
             }
         });
 
+        ImageView button6 = findViewById(R.id.imagebgm);
+        button6.setTag("0");
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(button6.getTag().equals("0")){
+                    button6.setImageResource(R.drawable.bgm_off);
+                    button6.setTag("1");
+                    music.pause();
+                }
+                else{
+                    button6.setImageResource(R.drawable.bgm_on);
+                    button6.setTag("0");
+                    music.start();
+                }
+
+            }
+        });
 
 
         //game
@@ -173,6 +522,9 @@ public class MemoryGamePractice extends AppCompatActivity {
         frontOfCardsResources();
 
         //第一題的顏色
+
+
+
         Collections.shuffle(Arrays.asList(cardsArray));
 
 
@@ -195,6 +547,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -237,6 +590,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
@@ -273,6 +627,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 if(i==0 ||i==1||i==2||i==3) {
@@ -308,6 +663,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 moved=1;
+                setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
@@ -345,6 +701,7 @@ public class MemoryGamePractice extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if (moved==1) {
+                    setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
                     //如果當前選取的不是已經選取過的
                     if (temp != collect) {
@@ -578,24 +935,16 @@ public class MemoryGamePractice extends AppCompatActivity {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePractice.this);
-            alertDialogBuilder
-                    .setMessage("恭喜 ! 練習完成 ~ ")
-                    .setCancelable(false)
-                    .setNegativeButton("離開",new DialogInterface.OnClickListener(){
-                        @Override
-                        public void onClick(DialogInterface dialogInterface,int i){
-                            Intent intent = new Intent();
-                            intent.setClass(MemoryGamePractice.this, MemoryGameStart.class);
-                            startActivity(intent);
-                            //音樂釋放
-                            music.release();
-                            music=null;
-                            finish();
-                        }
-                    });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            Intent intent = new Intent();
+
+            intent.setClass(MemoryGamePractice.this, MemoryGameStart.class);
+            intent.putExtra("time",startTime);
+            intent.putExtra("pause",pauseTotal);
+            startActivity(intent);
+            //音樂釋放
+            music.release();
+            music=null;
+            finish();
         }
     }
 
@@ -618,6 +967,20 @@ public class MemoryGamePractice extends AppCompatActivity {
         image208=R.drawable.memory208;
     }
 
+    private void setBtnStyle(View view){
+        view.setBackgroundResource(R.drawable.buttonshadow);
+        Timer t = new Timer(false);
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setBackgroundResource(0);
+                    }
+                });
+            }
+        }, 500);
+    }
 
     //固定要執行的方法
     private Runnable updateTimer = new Runnable() {
@@ -637,6 +1000,9 @@ public class MemoryGamePractice extends AppCompatActivity {
             handler.postDelayed(this, 1000);
         }
     };
+
+
+
 
 
     public void btnClick(View view) {
