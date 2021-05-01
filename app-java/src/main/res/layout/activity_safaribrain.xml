@@ -56,7 +56,7 @@
             android:id="@+id/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="腦波儀專區"
+            android:text="腦波測驗專區"
             android:letterSpacing="0.2"
             android:textStyle="bold"
             android:textColor="@color/white"
