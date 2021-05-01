@@ -155,6 +155,7 @@ public class ImagePairEasy extends AppCompatActivity {
                         music.start();
                     }
                 });
+                alertDialogBuilder.setCancelable(false);
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }

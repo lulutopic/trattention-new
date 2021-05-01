@@ -105,6 +105,7 @@ public class SchulteGridPro extends AppCompatActivity {
                 LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
                 alertDialogBuilder
+                        .setCancelable(false)
                         .setNeutralButton("離開",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){
@@ -472,7 +473,7 @@ public class SchulteGridPro extends AppCompatActivity {
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
             alertDialogBuilder
-                    .setMessage("恭喜!遊戲結束~")
+                    .setTitle("恭喜 ! 遊戲結束 ~")
                     .setCancelable(false)
                     .setPositiveButton("查看結果",new DialogInterface.OnClickListener() {
                         @Override

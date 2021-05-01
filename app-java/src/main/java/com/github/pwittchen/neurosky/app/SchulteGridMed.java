@@ -91,6 +91,7 @@ public class SchulteGridMed extends AppCompatActivity {
                 LayoutInflater inflater = SchulteGridMed.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
                 alertDialogBuilder
+                        .setCancelable(false)
                         .setNeutralButton("離開",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){

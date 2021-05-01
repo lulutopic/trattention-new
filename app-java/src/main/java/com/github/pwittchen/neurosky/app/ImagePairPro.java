@@ -104,6 +104,7 @@ public class ImagePairPro extends AppCompatActivity {
                 LayoutInflater inflater = ImagePairPro.this.getLayoutInflater();
                 alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
                 alertDialogBuilder
+                        .setCancelable(false)
                         .setNeutralButton("離開",new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialogInterface,int i){
@@ -284,7 +285,7 @@ public class ImagePairPro extends AppCompatActivity {
             handler.removeCallbacks(updateTimer);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPro.this);
             alertDialogBuilder
-                    .setMessage("恭喜!遊戲結束~")
+                    .setTitle("恭喜 ! 遊戲結束 ~")
                     .setCancelable(false)
                     .setPositiveButton("查看結果",new DialogInterface.OnClickListener() {
                         @Override

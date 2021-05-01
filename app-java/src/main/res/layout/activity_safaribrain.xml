@@ -1,129 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/background"
     tools:context=".SafariBrain">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:background="@color/blue">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trattention"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"/>
         <ImageView
             android:id="@+id/imagehome"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginLeft="50dp"
-            app:srcCompat="@drawable/header_home"
+            android:layout_centerVertical="true"
+            android:src="@drawable/header_home"
             android:layout_marginRight="20dp"
-            />
+            android:layout_toLeftOf="@+id/imagesafari" />
         <ImageView
             android:id="@+id/imagesafari"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/header_safari"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"/>
-
-    </LinearLayout>
-    <LinearLayout
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/header_safari"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:background="@drawable/bg_main"
         android:paddingLeft="230dp"
         android:paddingRight="230dp"
-        android:paddingTop="70dp">
-
-        <LinearLayout
+        android:gravity="center">
+        <TextView
+            android:id="@+id/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="腦波儀專區"
+            android:letterSpacing="0.2"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true" />
+        <RelativeLayout
             android:id="@+id/Q1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/safariback"
->
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/title1">
             <ImageView
+                android:id="@+id/down1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/caret_down" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:text="Ｑ：為什麼我無法連上平板？"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:textColor="@color/blue"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@id/down1"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/Q2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/A1"
+            android:background="@drawable/safariback"
+            android:layout_marginTop="5dp">
+            <ImageView
+                android:id="@+id/down2"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/caret_down" />
-
+                app:srcCompat="@drawable/caret_down"
+                android:layout_centerVertical="true"/>
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="30dp"
-            android:text="Ｑ：為什麼我連結不了？"
-            android:textStyle="bold"
-            android:textSize="30sp"
-            android:textColor="@color/blue"
-            android:layout_marginRight="20dp"
-
-            />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/A1"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="85dp"
-            android:text="Ａ：麻煩您重新連結試試！"
-            android:textStyle="bold"
-
-            android:textSize="25sp"
-            android:textColor="@color/blue"
-            android:visibility="gone"
-            />
-
-
-
-        <LinearLayout
-            android:id="@+id/Q2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/safariback"
-            android:layout_marginTop="5dp"
-                >
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/caret_down" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="30dp"
-                    android:text="Ｑ：請問我一天可以測幾次！？(❍ᴥ❍ʋ)"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:textColor="@color/blue"
-                    android:layout_marginRight="20dp"
-
-                    />
-            </LinearLayout>
-            <TextView
-                android:id="@+id/A2"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="85dp"
-                android:text="Ａ：本系統不限次數唷！"
+                android:paddingLeft="30dp"
+                android:text="Ｑ：請問我一天可以測幾次！？(❍ᴥ❍ʋ)"
                 android:textStyle="bold"
-
-                android:textSize="25sp"
+                android:textSize="30sp"
                 android:textColor="@color/blue"
-                android:visibility="gone"
-                />
-
-
-    </LinearLayout>
-
-</LinearLayout>
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/down2"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/A1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ａ：請確認您的藍芽是否已連線！"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:layout_below="@+id/Q1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"/>
+        <TextView
+            android:id="@+id/A2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ａ：本系統不限次數唷！"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:layout_below="@+id/Q2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"/>
+    </RelativeLayout>
+</RelativeLayout>
