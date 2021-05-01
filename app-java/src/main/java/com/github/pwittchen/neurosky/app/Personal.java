@@ -91,6 +91,9 @@ public class Personal extends AppCompatActivity {
             }
         });
 
+        mEmail.setHorizontallyScrolling(true);
+        mEmail.setSelected(true);
+
 
     }
 }
