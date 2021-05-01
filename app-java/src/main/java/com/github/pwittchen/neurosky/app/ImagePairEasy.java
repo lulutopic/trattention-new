@@ -16,6 +16,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -130,12 +131,13 @@ public class ImagePairEasy extends AppCompatActivity {
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairEasy.this);
-                LayoutInflater inflater = ImagePairEasy.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ImagePairEasy.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairEasy.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairEasy.this,GameHome.class);
                         startActivity(intent);
@@ -144,20 +146,24 @@ public class ImagePairEasy extends AppCompatActivity {
                         music=null;
                         finish();
                     }
+
                 });
-                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairEasy.this, "繼續訓練",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
                         //音樂繼續
                         music.start();
                     }
+
                 });
-                alertDialogBuilder.setCancelable(false);
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 

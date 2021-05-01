@@ -2,29 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".GameStopButton">
 
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp">
+        android:background="@color/darkgray">
 
         <ImageView
             android:id="@+id/imageexit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/game_stop_exit"
-            android:layout_alignParentLeft="true"/>
+            app:srcCompat="@drawable/game_stop_exit" />
 
         <ImageView
             android:id="@+id/imageplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/game_stop_play"
-            android:layout_alignParentRight="true"/>
+            android:layout_toRightOf="@+id/imageexit"/>
     </RelativeLayout>
 
 
