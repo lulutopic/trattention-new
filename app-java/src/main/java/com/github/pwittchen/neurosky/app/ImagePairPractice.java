@@ -519,14 +519,25 @@ public class ImagePairPractice extends MobileActivity {
     private void checkEnd(){
         if(count == 10){
             //頁面跳轉
-            Intent intent = new Intent();
-            intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
-            intent.putExtra("time",startTime);
-            //音樂釋放
-            music.release();
-            music=null;
-            startActivity(intent);
-            finish();
+            //頁面跳轉
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
+            alertDialogBuilder
+                    .setMessage("恭 喜 ! 練 習 完 成 ~")
+                    .setCancelable(false)
+                    .setNegativeButton("離開",new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int i){
+                            Intent intent = new Intent();
+                            intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
+                            startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
+                            finish();
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
 
         }
     }

@@ -637,15 +637,25 @@ public class SchulteGridPractice extends MobileActivity {
             //設定計時器的執行緒結束
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
-            Intent intent = new Intent();
-            intent.setClass(SchulteGridPractice.this, SchulteGridGameStart.class);
-            intent.putExtra("time", startTime);
-            //音樂釋放
-            music.release();
-            music = null;
-            startActivity(intent);
-            finish();
-
+            //頁面跳轉
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPractice.this);
+            alertDialogBuilder
+                    .setMessage("恭 喜 ! 練 習 完 成 ~")
+                    .setCancelable(false)
+                    .setNegativeButton("離開",new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int i){
+                            Intent intent = new Intent();
+                            intent.setClass(SchulteGridPractice.this, SchulteGridGameStart.class);
+                            startActivity(intent);
+                            //音樂釋放
+                            music.release();
+                            music=null;
+                            finish();
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
 
