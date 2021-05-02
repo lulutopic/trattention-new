@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:rotationX="0"
-            android:layout_gravity="center"
+
             android:gravity="center_horizontal">
             <TextView
                 android:id="@+id/textView＿connect_intro"
@@ -111,7 +111,8 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/blue"
                 android:lineHeight="50dp"
-                android:padding="100dp"
+                android:paddingHorizontal="70dp"
+                android:paddingVertical="50dp"
                 android:letterSpacing="0.3"
                 android:text="專注力測驗文章讀取中"
                 android:textSize="25dp"
@@ -166,6 +167,7 @@
             android:id="@+id/editTextNumber"
             android:layout_width="200dp"
             android:layout_height="40dp"
+            android:textColor="@color/white"
             android:ems="10"
             android:inputType="number"
             android:layout_below="@id/question"

@@ -1,16 +1,23 @@
 package com.github.pwittchen.neurosky.app;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,6 +29,7 @@ public class Personal extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     TextView mEmail, mName, mAge, mGender;
+    Button mLogoutBtn;
     String userID;
 
     @Override
@@ -38,6 +46,7 @@ public class Personal extends AppCompatActivity {
         mName = findViewById(R.id.name);
         mAge = findViewById(R.id.age);
         mGender = findViewById(R.id.gender);
+        mLogoutBtn = findViewById(R.id.logout);
 //        userID = fAuth.getCurrentUser().getUid();
 
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
@@ -73,6 +82,17 @@ public class Personal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mLogoutBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View mLoginBtn) {
+                            startActivity(new Intent(getApplicationContext(),Login.class));//要再判斷是不是第一次進入該頁面，若為第一次則需進行初始測驗
+            }
+        });
+
+        mEmail.setHorizontallyScrolling(true);
+        mEmail.setSelected(true);
 
 
     }

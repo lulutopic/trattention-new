@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -389,40 +390,44 @@ public class SchulteGridPro extends MobileActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
-                LayoutInflater inflater = SchulteGridPro.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(SchulteGridPro.this,GameHome.class);
-                                startActivity(intent);
-                                //音樂釋放
-                                music.release();
-                                music=null;
-                                finish();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SchulteGridPro.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(SchulteGridPro.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(SchulteGridPro.this,GameHome.class);
+                        startActivity(intent);
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
 
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
+                });
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(SchulteGridPro.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+
+                });
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -763,7 +768,7 @@ public class SchulteGridPro extends MobileActivity {
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPro.this);
             alertDialogBuilder
-                    .setMessage("恭喜!遊戲結束~")
+                    .setTitle("恭喜 ! 遊戲結束 ~")
                     .setCancelable(false)
                     .setPositiveButton("查看結果",new DialogInterface.OnClickListener() {
                         @Override

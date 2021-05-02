@@ -13,20 +13,17 @@ import android.os.Handler;
 
 import android.os.Looper;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.view.View;
-
-import com.madgaze.watchsdk.MobileActivity;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,6 +36,7 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 public class MemoryGamePractice extends MobileActivity {
+
     //手錶
     private final String MGTAG = MainActivity.class.getSimpleName();
 
@@ -360,6 +358,7 @@ public class MemoryGamePractice extends MobileActivity {
             }
         });
     }
+
     protected Long startTime;
     private Chronometer timer;
     private Handler handler = new Handler();
@@ -415,39 +414,44 @@ public class MemoryGamePractice extends MobileActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //時間暫停
+                //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePractice.this);
-                LayoutInflater inflater = MemoryGamePractice.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
-                                startActivity(intent);
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MemoryGamePractice.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(MemoryGamePractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
+                        startActivity(intent);
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+
+                });
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(MemoryGamePractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+
+                });
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -935,7 +939,6 @@ public class MemoryGamePractice extends MobileActivity {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
-            //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePractice.this);
             alertDialogBuilder
                     .setMessage("恭 喜 ! 練 習 完 成 ~")
@@ -944,7 +947,7 @@ public class MemoryGamePractice extends MobileActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(MemoryGamePractice.this, MemoryGameStart.class);
+                            intent.setClass(MemoryGamePractice.this, SchulteGridGameStart.class);
                             startActivity(intent);
                             //音樂釋放
                             music.release();

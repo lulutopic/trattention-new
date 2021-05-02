@@ -1,6 +1,7 @@
 package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
@@ -16,10 +17,10 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.madgaze.watchsdk.MobileActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import com.madgaze.watchsdk.WatchException;
 import com.madgaze.watchsdk.WatchGesture;
 
 public class ImagePairPractice extends MobileActivity {
+
     private final String MGTAG = MainActivity.class.getSimpleName();
     public final WatchGesture[] REQUIRED_WATCH_GESTURES = {
             //彈指
@@ -245,6 +247,7 @@ public class ImagePairPractice extends MobileActivity {
             }
         });
     }
+
     private MediaPlayer music;
     private Long startTime; //初始時間
     private Chronometer timer; //已經過時間
@@ -344,33 +347,39 @@ public class ImagePairPractice extends MobileActivity {
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
-                LayoutInflater inflater = ImagePairPractice.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ImagePairPractice.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairPractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
-                        intent.setClass(ImagePairPractice.this,ImagePairGameStart.class);
+                        intent.setClass(ImagePairPractice.this,GameHome.class);
                         startActivity(intent);
                         //音樂釋放
                         music.release();
                         music=null;
                         finish();
                     }
+
                 });
-                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairPractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
                         //音樂繼續
                         music.start();
                     }
+
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -518,7 +527,6 @@ public class ImagePairPractice extends MobileActivity {
     //檢查是否遊戲完成並且題目跳轉
     private void checkEnd(){
         if(count == 10){
-            //頁面跳轉
             //頁面跳轉
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
             alertDialogBuilder
