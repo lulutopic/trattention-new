@@ -26,7 +26,7 @@ public class GameHome extends AppCompatActivity {
         //退出
         getWindow().setExitTransition(explode);
         //第一次進入
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(slide);
         //再次進入
         getWindow().setReenterTransition(slide);
         //隱藏title

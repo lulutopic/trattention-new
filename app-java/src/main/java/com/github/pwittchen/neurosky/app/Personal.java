@@ -46,7 +46,7 @@ public class Personal extends AppCompatActivity {
         //退出
         getWindow().setExitTransition(explode);
         //第一次進入
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(slide);
         //再次進入
         getWindow().setReenterTransition(slide);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
