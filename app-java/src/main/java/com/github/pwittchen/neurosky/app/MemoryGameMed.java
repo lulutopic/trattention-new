@@ -68,7 +68,7 @@ public class MemoryGameMed extends AppCompatActivity {
         setContentView(R.layout.activity_memory_game_med);
 
         //音樂
-        music = MediaPlayer.create(this, R.raw.popcorn);
+        music = MediaPlayer.create(this, R.raw.preview);
         music.setLooping(true);
         music.start();
         //點pause
