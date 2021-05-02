@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -112,7 +113,7 @@ public class GameResultSchulte extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(GameResultSchulte.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameResultSchulte.this).toBundle());
             }
         });
 
@@ -123,7 +124,7 @@ public class GameResultSchulte extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(GameResultSchulte.this , GameHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameResultSchulte.this).toBundle());
             }
         });
 
@@ -133,7 +134,7 @@ public class GameResultSchulte extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(GameResultSchulte.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameResultSchulte.this).toBundle());
             }
         });
     }

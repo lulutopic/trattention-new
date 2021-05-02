@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -29,9 +30,9 @@ public class SchulteGridGameStart extends AppCompatActivity {
         Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
         Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
         //退出
-        getWindow().setExitTransition(explode);
+        getWindow().setExitTransition(slide);
         //第一次進入
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(slide);
         //再次進入
         getWindow().setReenterTransition(slide);
         //隱藏title
@@ -62,7 +63,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(SchulteGridGameStart.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridGameStart.this).toBundle());
             }
         });
 
@@ -73,7 +74,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(SchulteGridGameStart.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridGameStart.this).toBundle());
             }
         });
 
@@ -83,7 +84,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(SchulteGridGameStart.this , SchulteGridPractice.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridGameStart.this).toBundle());
             }
         });
 
@@ -93,7 +94,7 @@ public class SchulteGridGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(SchulteGridGameStart.this , SchulteGridEasy.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridGameStart.this).toBundle());
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -108,10 +109,10 @@ public class SchulteGridPractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(SchulteGridPractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SchulteGridPractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(SchulteGridPractice.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPractice.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -123,7 +124,7 @@ public class SchulteGridPractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(SchulteGridPractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SchulteGridPractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
@@ -412,7 +413,7 @@ public class SchulteGridPractice extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(SchulteGridPractice.this, SchulteGridGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;

@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -42,7 +43,7 @@ public class SafariHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(SafariHome.this, Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SafariHome.this).toBundle());
             }
         });
 
@@ -53,7 +54,7 @@ public class SafariHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(SafariHome.this, SafariBrain.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SafariHome.this).toBundle());
             }
         });
 
@@ -64,7 +65,7 @@ public class SafariHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(SafariHome.this, SafariApp.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SafariHome.this).toBundle());
             }
         });
         //頁面跳轉  點選 watch問題->watch問題
@@ -74,7 +75,7 @@ public class SafariHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(SafariHome.this, SafariWatch.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SafariHome.this).toBundle());
             }
         });
 

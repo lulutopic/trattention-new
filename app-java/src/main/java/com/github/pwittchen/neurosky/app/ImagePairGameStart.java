@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,9 +26,9 @@ public class ImagePairGameStart extends AppCompatActivity {
         Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
         Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
         //退出
-        getWindow().setExitTransition(explode);
+        getWindow().setExitTransition(slide);
         //第一次進入
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(slide);
         //再次進入
         getWindow().setReenterTransition(slide);
         //隱藏title
@@ -51,7 +52,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
             }
         });
 
@@ -62,7 +63,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
             }
         });
 
@@ -72,7 +73,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , ImagePairPractice.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
             }
         });
 
@@ -82,7 +83,7 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , ImagePairEasy.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
             }
         });
     }

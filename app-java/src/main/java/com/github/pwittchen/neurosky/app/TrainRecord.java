@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -81,7 +82,7 @@ public class TrainRecord extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(TrainRecord.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TrainRecord.this).toBundle());
             }
         });
 
@@ -92,7 +93,7 @@ public class TrainRecord extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(TrainRecord.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TrainRecord.this).toBundle());
             }
         });
 

@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -152,7 +153,7 @@ public class ImagePairEasy extends AppCompatActivity {
                         Toast.makeText(ImagePairEasy.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairEasy.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairEasy.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -330,7 +331,7 @@ public class ImagePairEasy extends AppCompatActivity {
             //音樂釋放
             music.release();
             music=null;
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairEasy.this).toBundle());
             finish();
 
         }

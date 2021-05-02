@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -149,7 +150,7 @@ public class ImagePairMed extends AppCompatActivity {
                         Toast.makeText(ImagePairMed.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairMed.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairMed.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -337,7 +338,8 @@ public class ImagePairMed extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(ImagePairMed.this, ImagePairPro.class);
             intent.putExtra("time",startTime);
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairMed.this).toBundle());
+
             //音樂釋放
             music.release();
             music=null;

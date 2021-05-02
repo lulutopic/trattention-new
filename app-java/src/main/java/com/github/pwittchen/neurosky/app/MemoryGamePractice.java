@@ -4,6 +4,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -109,10 +110,10 @@ public class MemoryGamePractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(MemoryGamePractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MemoryGamePractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -124,7 +125,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(MemoryGamePractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MemoryGamePractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
@@ -632,7 +633,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePractice.this, SchulteGridGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;

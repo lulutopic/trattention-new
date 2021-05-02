@@ -4,6 +4,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -112,7 +113,7 @@ public class MemoryGameEasy extends AppCompatActivity {
                         Toast.makeText(MemoryGameEasy.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(MemoryGameEasy.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGameEasy.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -628,7 +629,7 @@ public class MemoryGameEasy extends AppCompatActivity {
             intent.setClass(MemoryGameEasy.this, MemoryGameMed.class);
             intent.putExtra("time",startTime);
             intent.putExtra("pause",pauseTotal);
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGameEasy.this).toBundle());
             //音樂釋放
             music.release();
             music=null;

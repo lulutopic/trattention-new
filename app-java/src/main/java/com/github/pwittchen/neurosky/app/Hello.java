@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -43,7 +44,7 @@ public class Hello extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(Hello.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(Hello.this).toBundle());
             }
         });
 
@@ -54,7 +55,7 @@ public class Hello extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(Hello.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(Hello.this).toBundle());
             }
         });
 
@@ -65,7 +66,7 @@ public class Hello extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(Hello.this, Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(Hello.this).toBundle());
             }
         });
     }

@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Transition;
@@ -45,7 +46,7 @@ public class GameHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(GameHome.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameHome.this).toBundle());
             }
         });
 
@@ -56,7 +57,7 @@ public class GameHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(GameHome.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameHome.this).toBundle());
             }
         });
 
@@ -67,7 +68,7 @@ public class GameHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(GameHome.this, ImagePairGameStart.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameHome.this).toBundle());
             }
         });
         //頁面跳轉  點選 舒方遊戲->進入遊戲
@@ -77,7 +78,7 @@ public class GameHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(GameHome.this, SchulteGridGameStart.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameHome.this).toBundle());
             }
         });
         //頁面跳轉  點選 記憶力遊戲->進入遊戲
@@ -87,7 +88,7 @@ public class GameHome extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent();
                 intent.setClass(GameHome.this, MemoryGameStart.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GameHome.this).toBundle());
             }
         });
     }

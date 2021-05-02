@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -124,7 +125,7 @@ public class SchulteGridPro extends AppCompatActivity {
                         Toast.makeText(SchulteGridPro.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(SchulteGridPro.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPro.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -496,7 +497,7 @@ public class SchulteGridPro extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i){
                             Intent intent = new Intent();
                             intent.setClass(SchulteGridPro.this,GameResultSchulte.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPro.this).toBundle());
                             finish();
                         }
                     })
@@ -505,7 +506,7 @@ public class SchulteGridPro extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface, int i){
                             Intent intent = new Intent();
                             intent.setClass(SchulteGridPro.this,GameHome.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPro.this).toBundle());
                             finish();
                         }
                     });

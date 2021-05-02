@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -145,7 +146,7 @@ int test;
                         Toast.makeText(MemoryGamePro.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(MemoryGamePro.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -643,7 +644,7 @@ int test;
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameResultMemory.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;
@@ -656,7 +657,7 @@ int test;
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameHome.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;

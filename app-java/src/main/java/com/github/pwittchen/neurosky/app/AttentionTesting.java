@@ -1,6 +1,7 @@
 package com.github.pwittchen.neurosky.app;
 
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,7 +98,7 @@ public class AttentionTesting extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTesting.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
             }
         });
 
@@ -108,7 +109,7 @@ public class AttentionTesting extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTesting.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
             }
         });
 
@@ -273,7 +274,7 @@ public class AttentionTesting extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("attention", test);
                     intent.setClass(AttentionTesting.this , AttentionTestResult.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
                 }
             });
             AlertDialog dialog = builder.create();
@@ -287,7 +288,7 @@ public class AttentionTesting extends AppCompatActivity {
                 public void onClick(DialogInterface dialogInterface, int id) {
                     Intent intent = new Intent();
                     intent.setClass(AttentionTesting.this , AttentionTestIntro.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
                 }
             });
 
@@ -297,7 +298,7 @@ public class AttentionTesting extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("attention", test);
                     intent.setClass(AttentionTesting.this , AttentionTestResult.class);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
                 }
             });
 

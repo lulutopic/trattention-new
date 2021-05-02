@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -80,7 +81,7 @@ public class AttentionTestHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTestHome.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTestHome.this).toBundle());
             }
         });
 
@@ -91,7 +92,7 @@ public class AttentionTestHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTestHome.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTestHome.this).toBundle());
             }
         });
 

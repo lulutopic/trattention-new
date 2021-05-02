@@ -3,6 +3,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -149,10 +150,10 @@ public class ImagePairPractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(ImagePairPractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImagePairPractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairPractice.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -164,7 +165,7 @@ public class ImagePairPractice extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(ImagePairPractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImagePairPractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
@@ -333,7 +334,7 @@ public class ImagePairPractice extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;
