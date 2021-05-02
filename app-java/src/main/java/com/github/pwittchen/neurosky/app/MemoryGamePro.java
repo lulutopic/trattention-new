@@ -90,9 +90,9 @@ int test;
         Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
         Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
         //退出
-        getWindow().setExitTransition(explode);
+        getWindow().setExitTransition(slide);
         //第一次進入
-        getWindow().setEnterTransition(fade);
+        getWindow().setEnterTransition(slide);
         //再次進入
         getWindow().setReenterTransition(slide);
         //隱藏title
