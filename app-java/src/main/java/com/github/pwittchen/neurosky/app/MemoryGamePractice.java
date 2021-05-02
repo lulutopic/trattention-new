@@ -4,6 +4,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -13,6 +14,8 @@ import android.os.Handler;
 
 import android.os.Looper;
 import android.os.SystemClock;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -394,6 +397,17 @@ public class MemoryGamePractice extends MobileActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(explode);
+        //第一次進入
+        getWindow().setEnterTransition(fade);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -425,10 +439,10 @@ public class MemoryGamePractice extends MobileActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(MemoryGamePractice.this, "離開訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MemoryGamePractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -440,7 +454,7 @@ public class MemoryGamePractice extends MobileActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(MemoryGamePractice.this, "繼續訓練",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MemoryGamePractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
@@ -948,7 +962,7 @@ public class MemoryGamePractice extends MobileActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePractice.this, SchulteGridGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;

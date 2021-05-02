@@ -5,13 +5,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.os.Looper;
+
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -322,7 +328,17 @@ public class ImagePairMed extends MobileActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(slide);
+        //第一次進入
+        getWindow().setEnterTransition(slide);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -344,7 +360,7 @@ public class ImagePairMed extends MobileActivity {
         Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
         //音樂
 
-        music = MediaPlayer.create(this, R.raw.preview);
+        music = MediaPlayer.create(this, R.raw.bit3);
         music.setLooping(true);
         music.start();
         //頁面跳轉  點選 pause
@@ -366,7 +382,7 @@ public class ImagePairMed extends MobileActivity {
                         Toast.makeText(ImagePairMed.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairMed.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairMed.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -554,7 +570,8 @@ public class ImagePairMed extends MobileActivity {
             Intent intent = new Intent();
             intent.setClass(ImagePairMed.this, ImagePairPro.class);
             intent.putExtra("time",startTime);
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairMed.this).toBundle());
+
             //音樂釋放
             music.release();
             music=null;

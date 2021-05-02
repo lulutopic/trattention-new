@@ -3,9 +3,12 @@ package com.github.pwittchen.neurosky.app;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -46,7 +49,17 @@ public class AttentionTestHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fStore = FirebaseFirestore.getInstance();
-
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(explode);
+        //第一次進入
+        getWindow().setEnterTransition(fade);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -68,7 +81,7 @@ public class AttentionTestHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTestHome.this , Home.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTestHome.this).toBundle());
             }
         });
 
@@ -79,7 +92,7 @@ public class AttentionTestHome extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(AttentionTestHome.this , SafariHome.class);
-                startActivity(intent);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTestHome.this).toBundle());
             }
         });
 

@@ -1,11 +1,19 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.os.Looper;
+
+import android.os.SystemClock;
+import android.text.Layout;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -313,8 +321,19 @@ public class SchulteGridEasy extends MobileActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Log.d("imageArray", ImageArray.toString());
 
+        Log.d("imageArray", ImageArray.toString());
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(slide);
+        //第一次進入
+        getWindow().setEnterTransition(slide);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -330,7 +349,7 @@ public class SchulteGridEasy extends MobileActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.bit2);
+        music = MediaPlayer.create(this, R.raw.bit1);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件
@@ -352,7 +371,7 @@ public class SchulteGridEasy extends MobileActivity {
                         Toast.makeText(SchulteGridEasy.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(SchulteGridEasy.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridEasy.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -651,7 +670,7 @@ public class SchulteGridEasy extends MobileActivity {
             //音樂釋放
             music.release();
             music=null;
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridEasy.this).toBundle());
             finish();
 
         }
