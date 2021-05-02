@@ -43,17 +43,13 @@ import java.util.TimerTask;
 
 public class ImagePairMed extends AppCompatActivity {
     private MediaPlayer music;
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal=0L;
-    private Long startTime; //初始時間
-    private Chronometer timer; //已經過時間
+    private Long spentTime, pauseTime=0L, pauseTotal=0L, startTime; //初始時間
     private Handler handler = new Handler(); //計時器的執行緒宣告
     private String formattedTime;
     public static final String TAG = "TAG";
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String createdAt;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private String createdAt;
 
 
     private ArrayList<String> FruitNames = new ArrayList<>(); //文字意思的顏色
@@ -63,25 +59,10 @@ public class ImagePairMed extends AppCompatActivity {
 
     private TextView FruitQuestion; // 題目的文字
 
-    private int apple;
-    private int pear;
-    private int orange;
-    private int mango;
-
-    private int optiona;
-    private int optionb;
-    private int optionc;
-    private int optiond;
-    private int optiona_border;
-    private int optionb_border;
-    private int optionc_border;
-    private int optiond_border;
+    private int apple, pear, orange, mango, optiona, optionb, optionc, optiond, optiona_border, optionb_border, optionc_border, optiond_border;
 
 
-    private ImageView ImageButtonA;
-    private ImageView ImageButtonB;
-    private ImageView ImageButtonC;
-    private ImageView ImageButtonD;
+    private ImageView ImageButtonA, ImageButtonB, ImageButtonC, ImageButtonD;
 
     ImageView btn_right,btn_ok,btn_left;
 

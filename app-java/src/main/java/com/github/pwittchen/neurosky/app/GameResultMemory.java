@@ -72,7 +72,7 @@ public class GameResultMemory extends AppCompatActivity {
                                 thisTimeRecord.setText(recordList.get(recordList.size()-1).toString());
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
-                                if(compareRecord < 0){
+                                if(compareRecord > 0){
                                     recordCompare.setText("比上次退步"+Math.abs(compareRecord));
                                 }
                                 else{
