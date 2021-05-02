@@ -4,6 +4,7 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import android.os.SystemClock;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,12 +68,23 @@ public class MemoryGamePractice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(explode);
+        //第一次進入
+        getWindow().setEnterTransition(fade);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
-        setContentView(R.layout.activity_memory_game_practice);
+        setContentView(R.layout.activity_memory_game_easy);
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -84,39 +99,44 @@ public class MemoryGamePractice extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //時間暫停
+                //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MemoryGamePractice.this);
-                LayoutInflater inflater = MemoryGamePractice.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(MemoryGamePractice.this,GameHome.class);
-                                startActivity(intent);
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MemoryGamePractice.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(MemoryGamePractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(MemoryGamePractice.this,MemoryGameStart.class);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+
+                });
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(MemoryGamePractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+
+                });
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -612,8 +632,8 @@ public class MemoryGamePractice extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
-                            intent.setClass(MemoryGamePractice.this, MemoryGameStart.class);
-                            startActivity(intent);
+                            intent.setClass(MemoryGamePractice.this, SchulteGridGameStart.class);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;
@@ -622,6 +642,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+
         }
     }
 

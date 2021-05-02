@@ -1,5 +1,6 @@
 package com.github.pwittchen.neurosky.app;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.Layout;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +64,17 @@ public class SchulteGridPractice extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("imageArray", ImageArray.toString());
-
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(explode);
+        //第一次進入
+        getWindow().setEnterTransition(fade);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -76,7 +90,7 @@ public class SchulteGridPractice extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.bit2);
+        music = MediaPlayer.create(this, R.raw.bit3);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件
@@ -84,40 +98,44 @@ public class SchulteGridPractice extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //時間暫停
+                //stop time
                 pauseTime=System.currentTimeMillis();
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SchulteGridPractice.this);
-                LayoutInflater inflater = SchulteGridPractice.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder
-                        .setNeutralButton("離開",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                Intent intent = new Intent();
-                                intent.setClass(SchulteGridPractice.this,GameHome.class);
-                                startActivity(intent);
-                                //音樂釋放
-                                music.release();
-                                music=null;
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("繼續",new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialogInterface,int i){
-                                pauseTotal+=System.currentTimeMillis()-pauseTime;
-                                handler.post(updateTimer);
-                                pauseTime=0L;
-                                //音樂繼續
-                                music.start();
-                            }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                alertDialog.getWindow().setLayout(340, 400);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(SchulteGridPractice.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(SchulteGridPractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.setClass(SchulteGridPractice.this,GameHome.class);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPractice.this).toBundle());
+                        //音樂釋放
+                        music.release();
+                        music=null;
+                        finish();
+                    }
+
+                });
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(SchulteGridPractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
+                        pauseTotal+=System.currentTimeMillis()-pauseTime;
+                        handler.post(updateTimer);
+                        pauseTime=0L;
+                        //音樂繼續
+                        music.start();
+                    }
+
+                });
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -395,7 +413,7 @@ public class SchulteGridPractice extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(SchulteGridPractice.this, SchulteGridGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(SchulteGridPractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;

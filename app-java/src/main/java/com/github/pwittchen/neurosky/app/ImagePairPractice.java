@@ -3,11 +3,14 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -16,6 +19,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -65,7 +69,17 @@ public class ImagePairPractice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(explode);
+        //第一次進入
+        getWindow().setEnterTransition(fade);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -107,33 +121,39 @@ public class ImagePairPractice extends AppCompatActivity {
                 handler.removeCallbacks(updateTimer);
                 //音樂暫停
                 music.pause();
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ImagePairPractice.this);
-                LayoutInflater inflater = ImagePairPractice.this.getLayoutInflater();
-                alertDialogBuilder.setView(inflater.inflate(R.layout.activity_game_stop_button, null));
-                alertDialogBuilder.setNeutralButton("離開",new DialogInterface.OnClickListener(){
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ImagePairPractice.this);
+                dialog.setTitle("請點擊以下按鈕，選擇離開 / 繼續？");
+                dialog.setNegativeButton("離開",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairPractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairPractice.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
                         finish();
                     }
+
                 });
-                alertDialogBuilder.setNegativeButton("繼續",new DialogInterface.OnClickListener(){
+                dialog.setPositiveButton("繼續",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ImagePairPractice.this, "繼續練習模式",Toast.LENGTH_SHORT).show();
                         pauseTotal+=System.currentTimeMillis()-pauseTime;
                         handler.post(updateTimer);
                         pauseTime=0L;
                         //音樂繼續
                         music.start();
                     }
+
                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                dialog.setCancelable(false);
+                dialog.create();
+                dialog.show();
             }
         });
 
@@ -285,7 +305,7 @@ public class ImagePairPractice extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
-                            startActivity(intent);
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
                             //音樂釋放
                             music.release();
                             music=null;
@@ -294,11 +314,9 @@ public class ImagePairPractice extends AppCompatActivity {
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+
         }
     }
-
-
-    
 
     //幫顏色設定標籤（判斷文字底色是否等於colorValues裡的顏色）
     private void deter(){

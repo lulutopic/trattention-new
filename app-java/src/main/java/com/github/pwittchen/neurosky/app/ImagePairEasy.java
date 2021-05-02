@@ -3,11 +3,14 @@ package com.github.pwittchen.neurosky.app;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.media.MediaPlayer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Window;
@@ -87,7 +90,17 @@ public class ImagePairEasy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
+        //轉場動畫
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
+        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
+        //退出
+        getWindow().setExitTransition(slide);
+        //第一次進入
+        getWindow().setEnterTransition(slide);
+        //再次進入
+        getWindow().setReenterTransition(slide);
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -140,7 +153,7 @@ public class ImagePairEasy extends AppCompatActivity {
                         Toast.makeText(ImagePairEasy.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairEasy.this,GameHome.class);
-                        startActivity(intent);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairEasy.this).toBundle());
                         //音樂釋放
                         music.release();
                         music=null;
@@ -318,7 +331,7 @@ public class ImagePairEasy extends AppCompatActivity {
             //音樂釋放
             music.release();
             music=null;
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairEasy.this).toBundle());
             finish();
 
         }
