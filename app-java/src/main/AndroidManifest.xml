@@ -69,12 +69,7 @@
         <activity
             android:name=".Login"
             android:screenOrientation="landscape" >
-            <!-- 初始畫面加上這段 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>"
+
         </activity>
         <activity
             android:name=".AttentionTestResult"
@@ -148,6 +143,12 @@
         <activity
             android:name=".Home"
             android:screenOrientation="landscape" >
+            <!-- 初始畫面加上這段 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SafariHome"
