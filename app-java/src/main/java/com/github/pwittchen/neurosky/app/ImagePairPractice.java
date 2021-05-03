@@ -255,11 +255,7 @@ public class ImagePairPractice extends MobileActivity {
     }
 
     private MediaPlayer music;
-    private Long startTime; //初始時間
-    private Chronometer timer; //已經過時間
-    private Long spentTime;
-    private Long pauseTime=0L;
-    private Long pauseTotal;
+    private Long startTime, spentTime, pauseTime=0L, pauseTotal;
     private Handler handler = new Handler(); //計時器的執行緒宣告
     private String formattedTime;
     public static final String TAG = "TAG";
@@ -275,28 +271,11 @@ public class ImagePairPractice extends MobileActivity {
 
     private TextView FruitQuestion; // 題目的文字
 
-    private int apple;
-    private int pear;
-    private int orange;
+    private int apple, pear, orange;
 
-    private int optiona;
-    private int optionb;
-    private int optionc;
-    private int optiona_border;
-    private int optionb_border;
-    private int optionc_border;
+    private int optiona, optionb, optionc, optiona_border, optionb_border, optionc_border, clicked = 0;
 
-
-//    private int kiwi;
-//    private int mango;
-
-    int clicked = 0;
-
-
-
-    private ImageView ImageButtonA;
-    private ImageView ImageButtonB;
-    private ImageView ImageButtonC;
+    private ImageView ImageButtonA, ImageButtonB, ImageButtonC;
 
     ImageView btn_right,btn_ok,btn_left;
 
@@ -327,8 +306,6 @@ public class ImagePairPractice extends MobileActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
         setContentView(R.layout.activity_image_pair_easy);
-
-
 
         //取得目前時間
         startTime = System.currentTimeMillis();
@@ -431,12 +408,6 @@ public class ImagePairPractice extends MobileActivity {
             }
         });
     }
-
-
-
-
-
-
 
     //監聽事件的函式
     private void setupViewsAndListeners(){

@@ -264,10 +264,9 @@ private final String MGTAG = MainActivity.class.getSimpleName();
     private Handler handler = new Handler(); //計時器的執行緒宣告
     private String formattedTime;
     public static final String TAG = "TAG";
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String createdAt;
-
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private String createdAt;
 
     private ArrayList<String> colorNames = new ArrayList<>(); //文字意思的顏色
     private ArrayList<Integer> colorValues = new ArrayList<>(); //文字真正的底色
@@ -276,16 +275,11 @@ private final String MGTAG = MainActivity.class.getSimpleName();
 
     private TextView colorTextView; // 題目的文字
 
-    private int red, blue, green;
-
-    private int optiona, optionb, optionc, optiona_border, optionb_border, optionc_border;
+    private int red, blue, green, optiona, optionb, optionc, optiona_border, optionb_border, optionc_border, clicked = 0, count = 0;
 
     ImageView btn_right,btn_ok,btn_left;
 
-
     private TextView ImageButtonA, ImageButtonB, ImageButtonC;
-
-    int clicked = 0, count = 0; //計算遊戲答對題數
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -310,8 +304,6 @@ private final String MGTAG = MainActivity.class.getSimpleName();
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
 
         setContentView(R.layout.activity_image_pair_pro);
-
-
 
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
