@@ -20,17 +20,7 @@ public class ImagePairGameStart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //轉場動畫
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
-        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
-        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
-        //退出
-        getWindow().setExitTransition(slide);
-        //第一次進入
-        getWindow().setEnterTransition(slide);
-        //再次進入
-        getWindow().setReenterTransition(slide);
+
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -52,8 +42,8 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , Home.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
-            }
+                startActivity(intent);
+                overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);            }
         });
 
         //header:頁面跳轉->指南
@@ -63,8 +53,8 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , SafariHome.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
-            }
+                startActivity(intent);
+                overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);            }
         });
 
         Button practiceBtn = (Button)findViewById(R.id.btn_practice);
@@ -73,8 +63,8 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , ImagePairPractice.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
-            }
+                startActivity(intent);
+                overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);            }
         });
 
         Button trainBtn = (Button)findViewById(R.id.btn_train);
@@ -83,8 +73,8 @@ public class ImagePairGameStart extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClass(ImagePairGameStart.this , ImagePairEasy.class);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairGameStart.this).toBundle());
-            }
+                startActivity(intent);
+                overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);            }
         });
     }
 }

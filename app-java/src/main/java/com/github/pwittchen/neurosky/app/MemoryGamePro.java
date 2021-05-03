@@ -410,17 +410,7 @@ public class MemoryGamePro extends MobileActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        //轉場動畫
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
-        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
-        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
-        //退出
-        getWindow().setExitTransition(slide);
-        //第一次進入
-        getWindow().setEnterTransition(slide);
-        //再次進入
-        getWindow().setReenterTransition(slide);
+
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -472,7 +462,8 @@ public class MemoryGamePro extends MobileActivity {
                         Toast.makeText(MemoryGamePro.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(MemoryGamePro.this,GameHome.class);
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                         //音樂釋放
                         music.release();
                         music=null;
@@ -970,7 +961,8 @@ public class MemoryGamePro extends MobileActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameResultMemory.class);
-                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                             //音樂釋放
                             music.release();
                             music=null;
@@ -983,7 +975,8 @@ public class MemoryGamePro extends MobileActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(MemoryGamePro.this, GameHome.class);
-                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MemoryGamePro.this).toBundle());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                             //音樂釋放
                             music.release();
                             music=null;

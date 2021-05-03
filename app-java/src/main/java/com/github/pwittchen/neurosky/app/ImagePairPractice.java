@@ -288,17 +288,7 @@ public class ImagePairPractice extends MobileActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        //轉場動畫
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
-        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
-        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
-        //退出
-        getWindow().setExitTransition(explode);
-        //第一次進入
-        getWindow().setEnterTransition(fade);
-        //再次進入
-        getWindow().setReenterTransition(slide);
+
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -349,7 +339,8 @@ public class ImagePairPractice extends MobileActivity {
                         Toast.makeText(ImagePairPractice.this, "離開練習模式",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairPractice.this,GameHome.class);
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                         //音樂釋放
                         music.release();
                         music=null;
@@ -524,7 +515,8 @@ public class ImagePairPractice extends MobileActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPractice.this, ImagePairGameStart.class);
-                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPractice.this).toBundle());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                             //音樂釋放
                             music.release();
                             music=null;
