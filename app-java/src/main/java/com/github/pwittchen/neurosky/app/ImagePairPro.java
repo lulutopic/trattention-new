@@ -69,17 +69,7 @@ public class ImagePairPro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        //轉場動畫
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        Transition explode = TransitionInflater.from(this).inflateTransition(R.transition.explode);
-        Transition slide= TransitionInflater.from(this).inflateTransition(R.transition.slide);
-        Transition fade = TransitionInflater.from(this).inflateTransition(R.transition.fade);
-        //退出
-        getWindow().setExitTransition(slide);
-        //第一次進入
-        getWindow().setEnterTransition(slide);
-        //再次進入
-        getWindow().setReenterTransition(slide);
+
         //隱藏title
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -115,7 +105,8 @@ public class ImagePairPro extends AppCompatActivity {
                         Toast.makeText(ImagePairPro.this, "離開訓練",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setClass(ImagePairPro.this,GameHome.class);
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPro.this).toBundle());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                         //音樂釋放
                         music.release();
                         music=null;
@@ -301,7 +292,8 @@ public class ImagePairPro extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameResultImagePair.class);
-                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPro.this).toBundle());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                             //音樂釋放
                             music.release();
                             music=null;
@@ -313,7 +305,8 @@ public class ImagePairPro extends AppCompatActivity {
                         public void onClick(DialogInterface dialogInterface,int i){
                             Intent intent = new Intent();
                             intent.setClass(ImagePairPro.this, GameHome.class);
-                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ImagePairPro.this).toBundle());
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                             //音樂釋放
                             music.release();
                             music=null;
