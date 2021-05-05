@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -144,16 +145,52 @@ public class MemoryGamePractice extends MobileActivity {
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
+            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
             return;
         }
 
         if (!MGWatch.isWatchGestureDetecting(this)) {
             MGWatch.startGestureDetection(this);
         }
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未連線成功")
+                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
+                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(MemoryGamePractice.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未完成手勢訓練")
+                .setMessage("請配戴手錶並完成所有手勢訓練")
+                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(MemoryGamePractice.this);
+                    }
+                })
+                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("尚未完成手勢訓練");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
     }
 
 
@@ -211,7 +248,7 @@ public class MemoryGamePractice extends MobileActivity {
                     }
                 }
                 //手勢控制方向向下
-                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
                     setBtnStyle(down_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);

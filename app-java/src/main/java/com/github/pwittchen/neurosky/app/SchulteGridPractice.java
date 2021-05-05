@@ -143,20 +143,56 @@ public class SchulteGridPractice extends MobileActivity {
         return REQUIRED_WATCH_GESTURES;
     }
 
-    private void tryStartDetection() {
+    private void tryStartDetection(){
 
         if (!MGWatch.isWatchConnected(this)) {
             setStatusText("Connecting");
+            showConnectDialog();
             return;
         }
 
         if (!MGWatch.isGesturesTrained(this)) {
+            showTrainingDialog();
             return;
         }
 
         if (!MGWatch.isWatchGestureDetecting(this)) {
             MGWatch.startGestureDetection(this);
         }
+    }
+
+    public void showConnectDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未連線成功")
+                .setMessage("請開啟藍芽，並將平板和手錶進行連線")
+                .setPositiveButton("前往連線", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.connect(SchulteGridPractice.this);
+                    }
+                })
+                .setCancelable(false);
+        dialog.show();
+    }
+    public void showTrainingDialog(){
+        android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+        dialog.setTitle("尚未完成手勢訓練")
+                .setMessage("請配戴手錶並完成所有手勢訓練")
+                .setPositiveButton("前往訓練手勢", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MGWatch.trainRequiredGestures(SchulteGridPractice.this);
+                    }
+                })
+                .setNegativeButton("稍後訓練", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setStatusText("尚未完成手勢訓練");
+                        ((Button)findViewById(R.id.trainButton)).setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
     }
 
 
@@ -190,7 +226,7 @@ public class SchulteGridPractice extends MobileActivity {
                     }
                 }
                 //手勢控制向下
-                else if (gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB || gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX) {
+                else if (gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
                     setBtnStyle(btn_down);
                     clearRow(focus_row);
                     focus_row += 1;

@@ -223,7 +223,7 @@ public class MemoryGamePro extends MobileActivity {
                     }
                 }
                 //手勢控制方向向下
-                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
                     setBtnStyle(down_arrow);
                     moved=1;
                     ok.setVisibility(View.VISIBLE);

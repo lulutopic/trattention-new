@@ -206,7 +206,7 @@ public class SchulteGridPro extends MobileActivity {
                     }
                 }
                 //手勢控制向下
-                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_MIDDLE_INDEX){
+                else if(gesture == WatchGesture.HANDBACK_DOWN || gesture == WatchGesture.JOINTTAP_LOWER_THUMB ||gesture == WatchGesture.JOINTTAP_UPPER_THUMB){
                     setBtnStyle(btn_down);
                     clearRow(focus_row);
                     focus_row+=1;
