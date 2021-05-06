@@ -14,10 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".entrance">
+            <!-- 初始畫面加上這段 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <uses-library
             android:name="com.google.android.wearable"
             android:required="false" />
-
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -26,32 +35,24 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
-
         <activity
             android:name=".MemoryGamePractice"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ImagePairPractice"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".SchulteGridPractice"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ImagePairGameStart"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".SchulteGridGameStart"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MemoryGameStart"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ImagePairPro"
             android:screenOrientation="landscape" />
@@ -60,17 +61,13 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".ImagePairMed"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".Registration"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Login"
-            android:screenOrientation="landscape" >
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".AttentionTestResult"
             android:screenOrientation="landscape" />
@@ -85,8 +82,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".GameHome"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".GameResultSchulte"
             android:screenOrientation="landscape" />
@@ -104,27 +100,19 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".MemoryGameMed"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".MemoryGamePro"
             android:screenOrientation="landscape" />
         <activity
             android:name=".SchulteGridEasy"
-            android:screenOrientation="landscape">
-
-
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".SchulteGridMed"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".SchulteGridPro"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".Personal"
             android:screenOrientation="landscape" />
@@ -142,13 +130,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Home"
-            android:screenOrientation="landscape" >
-            <!-- 初始畫面加上這段 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".SafariHome"
