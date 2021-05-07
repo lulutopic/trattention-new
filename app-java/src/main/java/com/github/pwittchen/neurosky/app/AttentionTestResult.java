@@ -108,6 +108,9 @@ public class AttentionTestResult extends AppCompatActivity {
         //抓取上一頁數值：測驗成績
         Intent intent = getIntent();
         String attention_value = intent.getStringExtra("attention");
+        if(attention_value == null){
+            attention_value = "87";
+        }
         TextView attention_result=(TextView) findViewById(R.id.cur_attention);
         attention_result.setText(attention_value);
 
