@@ -5,36 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".entrance"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:id="@+id/bg">
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:id="@+id/bus"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         app:srcCompat="@drawable/bus"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"/>
     <ImageView
+        android:id="@+id/title_bg"
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        app:srcCompat="@drawable/title_bg"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
         android:id="@+id/title"
         android:layout_width="500dp"
         android:layout_height="400dp"
         app:srcCompat="@drawable/title"
-        android:layout_marginTop="50dp"/>
-    <Button
-        android:id="@+id/enter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="進入首頁"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/button_yellow_shape_round"
-        android:letterSpacing="0.2"/>
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="請輕觸黃色按鈕來進入系統"
-        android:layout_below="@+id/enter"
+        android:text="請輕觸空白區域來進入系統"
+        android:layout_below="@+id/title_bg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:letterSpacing="0.2"
