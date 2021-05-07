@@ -58,6 +58,7 @@ public class AttentionTesting extends AppCompatActivity {
     public static String test ="87";
     private NeuroSky neuroSky;
     private String answer;
+    private int answerCount=3;
 
     @BindView(R.id.tv_state) TextView tvState;
     @BindView(R.id.tv_attention) TextView tvAttention;
@@ -257,15 +258,15 @@ public class AttentionTesting extends AppCompatActivity {
 //    }
 
     @OnClick(R.id.btn_stop_monitoring) void stopMonitoring() {
-        neuroSky.stop();
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AttentionTesting.this);
         EditText editText=(EditText)findViewById(R.id.editTextNumber);
         String text=editText.getText().toString().trim();
-        Log.d("text",text);
-        Log.d("text",answer);
-        Log.d("answer",(answer==text)+"");
-        if (text.equals(answer)){
+
+        answerCount--;
+        if (text.equals(answer)||answerCount<=0){
+            neuroSky.stop();
             builder.setMessage("本次專注力測驗結果："+test +"/100");
             builder.setPositiveButton("完成", new DialogInterface.OnClickListener() {
                 @Override
@@ -278,32 +279,24 @@ public class AttentionTesting extends AppCompatActivity {
                 }
             });
             AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
         else{
-            String temp="你可能沒有專心閱讀文章，是否要記錄這次測驗？";
-            builder.setMessage(temp);
-            builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int id) {
-                    Intent intent = new Intent();
-                    intent.setClass(AttentionTesting.this , AttentionTestIntro.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
-                }
-            });
 
-            builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int id) {
-                    Intent intent = new Intent();
-                    intent.putExtra("attention", test);
-                    intent.setClass(AttentionTesting.this , AttentionTestResult.class);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(AttentionTesting.this).toBundle());
-                }
-            });
+            String temp="答案錯誤，請重新輸入（還有 "+answerCount+" 次機會)";
+            Toast.makeText(AttentionTesting.this, temp,Toast.LENGTH_SHORT).show();
+//            builder.setMessage(temp);
+//            builder.setPositiveButton("了解", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int id) {
+//                    builder.create().dismiss();
+//                }
+//            });
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+
         }
 
 

@@ -3,17 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp"
+    android:background="@color/blue"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="25dp"
-        android:background="@color/blue"
-        android:paddingVertical="50dp"
+        android:paddingTop="30dp"
         android:letterSpacing="0.4"
         android:text="測驗開始"
-        android:textSize="30dp"
+        android:textSize="40dp"
+        android:textColor="@color/yellow"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:layout_marginBottom="20dp"
+        android:letterSpacing="0.4"
+        android:text="過程中請保持專注"
+        android:textSize="20dp"
         android:textColor="@color/yellow"/>
 
 
