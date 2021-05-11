@@ -154,7 +154,7 @@ public class AttentionTestHome extends AppCompatActivity {
                             }
                             else{
                                 float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                pre_text = "尚未有先前紀錄";
+                                pre_text = "無";
                                 show(PreChart,0,pre_text,"上次測驗");
                                 show(CurChart,cur,cur_text,"此次測驗");
                             }
