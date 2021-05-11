@@ -78,7 +78,7 @@ public class SchulteGridMed extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.bit3);
+        music = MediaPlayer.create(this, R.raw.preview);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件
@@ -444,6 +444,7 @@ public class SchulteGridMed extends AppCompatActivity {
 
         }
     }
+
 
 
 
