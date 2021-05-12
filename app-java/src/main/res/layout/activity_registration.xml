@@ -62,7 +62,7 @@
             android:layout_toRightOf="@+id/email"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="信箱"/>
+            android:hint="密碼"/>
         <EditText
             android:id="@+id/pConfirm"
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:layout_toRightOf="@+id/password"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="信箱"/>
+            android:hint="確認密碼"/>
         <EditText
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:layout_marginTop="@android:dimen/app_icon_size"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="信箱"/>
+            android:hint="名字"/>
         <Spinner
             android:id="@+id/gender"
             android:layout_width="210dp"
