@@ -331,7 +331,8 @@ public class ImagePairMed extends MobileActivity {
         Log.d("MainActivity", "Current Timestamp: " + sdf.format(new Date()));
         //音樂
 
-        music = MediaPlayer.create(this, R.raw.bit3);
+//        music = MediaPlayer.create(this, R.raw.bit3);
+        music = MediaPlayer.create(this, R.raw.preview);
         music.setLooping(true);
         music.start();
         //頁面跳轉  點選 pause
