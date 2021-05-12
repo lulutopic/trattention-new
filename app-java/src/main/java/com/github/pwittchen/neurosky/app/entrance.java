@@ -45,7 +45,6 @@ public class entrance extends AppCompatActivity {
         bus.startAnimation(AnimationUtils.loadAnimation(this, R.anim.transition));
 
         Animator animator = AnimatorInflater.loadAnimator(this,R.animator.alpha);
-        Animator animator1 = AnimatorInflater.loadAnimator(this,R.animator.transition);
         // 载入XML动画
         animator.setTarget(title_bg);
         // 设置动画对象
@@ -54,6 +53,8 @@ public class entrance extends AppCompatActivity {
 
         tips.startAnimation(AnimationUtils.loadAnimation(this,R.anim.alpha1));
         title.startAnimation(AnimationUtils.loadAnimation(this,R.anim.alpha));
+
+        Animator animator1 = AnimatorInflater.loadAnimator(this,R.animator.transition);
 
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,11 +71,7 @@ public class entrance extends AppCompatActivity {
                         overridePendingTransition(R.anim.ani_zoomin,R.anim.ani_zoomout);
                         finish();
                     }
-                }, 2000); //延遲1.5秒
-            }
-
-            private View.OnClickListener getOnClickListener() {
-                return this;
+                }, 1000); //延遲1.5秒
             }
         });
 

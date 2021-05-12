@@ -2,5 +2,4 @@
     android:duration="2000"
     android:propertyName="x"
     android:valueTo="1000"
-    android:valueType="floatType"
-    android:startOffset="500"/>
+    android:valueType="floatType" />
