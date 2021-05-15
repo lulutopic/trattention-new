@@ -380,6 +380,18 @@ public class MemoryGamePractice extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                ok.setImageResource(R.drawable.ok2);
+                Timer t = new Timer(false);
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                ok.setImageResource(R.drawable.ok1);
+                            }
+                        });
+                    }
+                }, 500);
                 if (moved==1) {
                     setBtnStyle(view);
                     int theCard = Integer.parseInt((String) temp.getTag());
@@ -394,7 +406,7 @@ public class MemoryGamePractice extends AppCompatActivity {
                         doStuff(temp, theCard);
                     }
                     moved=0;
-                    ok.setVisibility(View.INVISIBLE);
+                    ok.setImageResource(R.drawable.ok2);
                 }
 
             }
