@@ -609,7 +609,19 @@ public class SchulteGridEasy extends MobileActivity {
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                setBtnStyle(view);
+                btn_ok.setImageResource(R.drawable.ok2);
+                Timer t = new Timer(false);
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                btn_ok.setImageResource(R.drawable.ok1);
+                            }
+                        });
+                    }
+                }, 500);
+                //setBtnStyle(view);
                 focus_count=(focus_row-1)*3+focus_column-1;
                 int theCard = Integer.parseInt((String)UnShuffle[focus_count].getTag());
                 doStuff(UnShuffle[focus_count],theCard);

@@ -498,7 +498,19 @@ public class ImagePairPractice extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
-                setBtnStyle(v);
+                btn_ok.setImageResource(R.drawable.ok2);
+                Timer t = new Timer(false);
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                btn_ok.setImageResource(R.drawable.ok1);
+                            }
+                        });
+                    }
+                }, 500);
+//                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 Integer Tag = (Integer) FruitQuestion.getTag();
                 System.out.println(Tag);//2131165271 apple

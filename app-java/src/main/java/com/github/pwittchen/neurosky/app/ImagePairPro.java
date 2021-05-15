@@ -455,7 +455,19 @@ private final String MGTAG = MainActivity.class.getSimpleName();
             @Override
             //設定點擊事件
             public void onClick(View v){
-                setBtnStyle(v);
+                btn_ok.setImageResource(R.drawable.ok2);
+                Timer t = new Timer(false);
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                btn_ok.setImageResource(R.drawable.ok1);
+                            }
+                        });
+                    }
+                }, 500);
+//                setBtnStyle(v);
                 //回傳題目的文字底色的文字標籤
                 String Tag = (String) colorTextView.getTag();
                 //如果選項Ａ的文字意思等於標籤Ａ
