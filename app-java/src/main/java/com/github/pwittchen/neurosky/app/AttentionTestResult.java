@@ -155,7 +155,7 @@ public class AttentionTestResult extends AppCompatActivity {
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
         fStore.collection("mindwave_record").document("record").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq2")
                 .orderBy("createdAt")
-                .limitToLast(10)
+                .limitToLast(1)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -166,33 +166,22 @@ public class AttentionTestResult extends AppCompatActivity {
                             }
                             list_size = attentionList.size();
 
-                            String pre_text = attentionList.get(attentionList.size()-2).toString();
-                            String cur_text = attentionList.get(attentionList.size()-1).toString();
                             for(int i = 1; i <= attentionList.size() ; i++){
                                 float f1 =Float.parseFloat(attentionList.get(i-1).toString());
                                 values1.add(new Entry(i,f1));
                             }
 
-                            if(attentionList.size() >= 2){
-                                float pre = Float.parseFloat(attentionList.get(attentionList.size()-2).toString());
-                                float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                show(PreChart,pre,pre_text,"上次測驗");
-                                show(CurChart,cur,cur_text,"此次測驗");
-//                                pre_attention.setText(attentionList.get(attentionList.size()-2).toString());
-//                                cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
-                            }
-                            else{
-                                float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                pre_text = "無";
-                                show(PreChart,0,pre_text,"上次測驗");
-                                show(CurChart,cur,cur_text,"此次測驗");
-                            }
+                            String cur_text = attentionList.get(attentionList.size()-1).toString();
+                            String pre_text = "無";
+                            float cur = Float.parseFloat(cur_text);
+
+                            show(PreChart,0,pre_text,"上次測驗");
+                            show(CurChart,cur,cur_text,"此次測驗");
 
                             text_all(values1);
                             initChartFormat();
                             initX();
                             initY();
-
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -200,7 +189,6 @@ public class AttentionTestResult extends AppCompatActivity {
                     }
                 });
     }
-
 
     private void text_all(ArrayList<Entry> values1) {
         LineDataSet set1;//設定線數資料的方式
