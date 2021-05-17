@@ -234,92 +234,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/row2">
-            <ImageView
-                android:id="@+id/iv_31"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_32"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_31"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_33"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_32"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_34"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_33"
-                android:src="@drawable/memoryback" />
-        </RelativeLayout>
+            android:layout_below="@+id/row2"/>
         <RelativeLayout
             android:id="@+id/row4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/row3">
-            <ImageView
-                android:id="@+id/iv_41"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_42"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_41"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_43"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_42"
-                android:src="@drawable/memoryback" />
-            <ImageView
-                android:id="@+id/iv_44"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:scaleType="centerInside"
-                android:layout_toRightOf="@+id/iv_43"
-                android:src="@drawable/memoryback" />
-        </RelativeLayout>
+            android:layout_below="@+id/row3"/>
     </RelativeLayout>
 </RelativeLayout>
