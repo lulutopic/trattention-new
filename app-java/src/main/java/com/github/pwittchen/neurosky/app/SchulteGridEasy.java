@@ -50,6 +50,8 @@ public class SchulteGridEasy extends AppCompatActivity {
     ImageView btn_down,btn_up,btn_right,btn_left,btn_ok;
     RelativeLayout row1,row2,row3;
 
+
+
     int blue= Color.parseColor("#244f98");
     int focus_color=getColorWithAlpha(blue, 0.6f);
     int unfocus_color= getColorWithAlpha(blue, 0f);
@@ -81,7 +83,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         //設定Delay的時間
         handler.postDelayed(updateTimer, 10);
         //音樂
-        music = MediaPlayer.create(this, R.raw.bit1);
+        music = MediaPlayer.create(this, R.raw.preview);
         music.setLooping(true);
         music.start();
         //暫停按鈕的觸發事件
@@ -205,10 +207,12 @@ public class SchulteGridEasy extends AppCompatActivity {
         UnShuffle[3].setBackgroundColor(focus_color);
         UnShuffle[6].setBackgroundColor(focus_color);
 
+        TextView result = (TextView) findViewById(R.id.result);
         //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_UP");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row+=1;
@@ -231,6 +235,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_up.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_DOWN");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row-=1;
@@ -254,6 +259,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_RIGHT");
                 setBtnStyle(view);
                 clearColumn(focus_column);
                 focus_column+=1;
@@ -282,6 +288,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_left.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_LEFT");
                 setBtnStyle(view);
                 clearColumn(focus_column);
                 focus_column-=1;
@@ -314,6 +321,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("THUMBTAP_INDEX_MIDDLE");
                 btn_ok.setImageResource(R.drawable.ok2);
                 Timer t = new Timer(false);
                 t.schedule(new TimerTask() {
