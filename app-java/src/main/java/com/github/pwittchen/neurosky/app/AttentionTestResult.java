@@ -155,7 +155,7 @@ public class AttentionTestResult extends AppCompatActivity {
         //寫入個人資料資料 ps 先把 UID 寫死不然大家會不好測試
         fStore.collection("mindwave_record").document("record").collection("MELJmK6vYxeoKCrWhvJyy4Xfriq2")
                 .orderBy("createdAt")
-                .limitToLast(10)
+                .limitToLast(1)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -173,20 +173,10 @@ public class AttentionTestResult extends AppCompatActivity {
                                 values1.add(new Entry(i,f1));
                             }
 
-                            if(attentionList.size() >= 2){
-                                float pre = Float.parseFloat(attentionList.get(attentionList.size()-2).toString());
-                                float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                show(PreChart,pre,pre_text,"上次測驗");
-                                show(CurChart,cur,cur_text,"此次測驗");
-//                                pre_attention.setText(attentionList.get(attentionList.size()-2).toString());
-//                                cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
-                            }
-                            else{
-                                float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                pre_text = "無";
-                                show(PreChart,0,pre_text,"上次測驗");
-                                show(CurChart,cur,cur_text,"此次測驗");
-                            }
+                            float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
+                            pre_text = "無";
+                            show(PreChart,0,pre_text,"上次測驗");
+                            show(CurChart,cur,cur_text,"此次測驗");
 
                             text_all(values1);
                             initChartFormat();
