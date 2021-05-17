@@ -57,8 +57,8 @@ public class MemoryGameEasy extends AppCompatActivity {
     int questionCount = 0;
     int i=0;
 
-    int image101,image102,image103,image104,image105,image106,image107,image108,
-            image201,image202,image203,image204,image205,image206,image207,image208;
+    int image101,image102,image103,image104,
+            image201,image202,image203,image204;
     int firstCard,secondCard;
     int clickedFirst,clickedSecond;
     int cardNumber=1;
