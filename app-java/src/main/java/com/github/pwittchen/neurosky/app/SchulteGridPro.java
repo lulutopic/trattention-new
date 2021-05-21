@@ -528,10 +528,13 @@ public class SchulteGridPro extends MobileActivity {
         UnShuffle[10].setBackgroundColor(focus_color);
         UnShuffle[15].setBackgroundColor(focus_color);
 
+        TextView result = (TextView) findViewById(R.id.result);
+
         //向下的按鈕
         btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_UP");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row+=1;
@@ -557,6 +560,7 @@ public class SchulteGridPro extends MobileActivity {
         btn_up.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_DOWN");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row-=1;
@@ -582,6 +586,7 @@ public class SchulteGridPro extends MobileActivity {
         btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_RIGHT");
                 setBtnStyle(view);
                 clearColumn(focus_column);
                 focus_column+=1;
@@ -625,6 +630,7 @@ public class SchulteGridPro extends MobileActivity {
         btn_left.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_LEFT");
                 setBtnStyle(view);
                 clearColumn(focus_column);
                 focus_column-=1;
@@ -669,6 +675,7 @@ public class SchulteGridPro extends MobileActivity {
         btn_ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("THUMBTAP_INDEX_MIDDLE");
                 btn_ok.setImageResource(R.drawable.ok2);
                 Timer t = new Timer(false);
                 t.schedule(new TimerTask() {
@@ -838,6 +845,8 @@ public class SchulteGridPro extends MobileActivity {
             });
         }
     }
+
+
 
     //固定要執行的方法
     public Runnable updateTimer = new Runnable() {

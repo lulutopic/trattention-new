@@ -376,14 +376,12 @@ public class MemoryGameMed extends MobileActivity {
     private ImageView collect;
     private int moved=1;
 
-
-    ImageView iv_11,iv_12,iv_13,iv_14,iv_15,
-            iv_21,iv_22,iv_23,iv_24,iv_25,
-            iv_31,iv_32,iv_33,iv_34,iv_35,
-            iv_41,iv_42,iv_43,iv_44,iv_45;
+    ImageView iv_11,iv_12,iv_13,iv_14,
+            iv_21,iv_22,iv_23,iv_24,
+            iv_31,iv_32,iv_33,iv_34;
 
     //array for the images
-    Integer[] cardsArray = {101,102,103,104,105,106,107,108,109,110,201,202,203,204,205,206,207,208,209,210};
+    Integer[] cardsArray = {101,102,103,104,105,106,201,202,203,204,205,206};
 
     //actual images
     int questionCard;//題目
@@ -511,43 +509,30 @@ public class MemoryGameMed extends MobileActivity {
         iv_12=(ImageView)findViewById(R.id.iv_12);
         iv_13=(ImageView)findViewById(R.id.iv_13);
         iv_14=(ImageView)findViewById(R.id.iv_14);
-        iv_15=(ImageView)findViewById(R.id.iv_15);
         iv_21=(ImageView)findViewById(R.id.iv_21);
         iv_22=(ImageView)findViewById(R.id.iv_22);
         iv_23=(ImageView)findViewById(R.id.iv_23);
         iv_24=(ImageView)findViewById(R.id.iv_24);
-        iv_25=(ImageView)findViewById(R.id.iv_25);
         iv_31=(ImageView)findViewById(R.id.iv_31);
         iv_32=(ImageView)findViewById(R.id.iv_32);
         iv_33=(ImageView)findViewById(R.id.iv_33);
         iv_34=(ImageView)findViewById(R.id.iv_34);
-        iv_35=(ImageView)findViewById(R.id.iv_35);
-        iv_41=(ImageView)findViewById(R.id.iv_41);
-        iv_42=(ImageView)findViewById(R.id.iv_42);
-        iv_43=(ImageView)findViewById(R.id.iv_43);
-        iv_44=(ImageView)findViewById(R.id.iv_44);
-        iv_45=(ImageView)findViewById(R.id.iv_45);
+
+
 
         iv_11.setTag("0");
         iv_12.setTag("1");
         iv_13.setTag("2");
         iv_14.setTag("3");
-        iv_15.setTag("4");
-        iv_21.setTag("5");
-        iv_22.setTag("6");
-        iv_23.setTag("7");
-        iv_24.setTag("8");
-        iv_25.setTag("9");
-        iv_31.setTag("10");
-        iv_32.setTag("11");
-        iv_33.setTag("12");
-        iv_34.setTag("13");
-        iv_35.setTag("14");
-        iv_41.setTag("15");
-        iv_42.setTag("16");
-        iv_43.setTag("17");
-        iv_44.setTag("18");
-        iv_45.setTag("19");
+        iv_21.setTag("4");
+        iv_22.setTag("5");
+        iv_23.setTag("6");
+        iv_24.setTag("7");
+        iv_31.setTag("8");
+        iv_32.setTag("9");
+        iv_33.setTag("10");
+        iv_34.setTag("11");
+
 
 
         //load the card images
@@ -561,10 +546,9 @@ public class MemoryGameMed extends MobileActivity {
         ImageView up_arrow = findViewById(R.id.up_arrow);
         ImageView down_arrow = findViewById(R.id.down_arrow);
         ImageView ok = findViewById(R.id.ok);
-        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
-                iv_21,iv_22,iv_23,iv_24,iv_25,
-                iv_31,iv_32,iv_33,iv_34,iv_35,
-                iv_41,iv_42,iv_43,iv_44,iv_45};
+        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,
+                iv_21,iv_22,iv_23,iv_24,
+                iv_31,iv_32,iv_33,iv_34};
 
         temp = imageArray[i];
 
@@ -576,7 +560,7 @@ public class MemoryGameMed extends MobileActivity {
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
-                if(i==19) {
+                if(i==11) {
                     i =0;
                 }
                 //不是的話，往右移
@@ -587,7 +571,7 @@ public class MemoryGameMed extends MobileActivity {
                 temp = imageArray[i];
                 //當現在要前往的格子是消失的話，往右找沒有消失的
                 while (temp.getVisibility() == View.INVISIBLE) {
-                    if (i==19){
+                    if (i==11){
                         i=0;
                     }
                     else {
@@ -620,7 +604,7 @@ public class MemoryGameMed extends MobileActivity {
                 int j=i;
                 //如果現在在最右邊的話，從最左邊開始
                 if(i==0) {
-                    i =19;
+                    i =11;
                 }
                 //不是的話，往右移
                 else {
@@ -631,7 +615,7 @@ public class MemoryGameMed extends MobileActivity {
                 //當現在要前往的格子是消失的話，往右找沒有消失的
                 while (temp.getVisibility() == View.INVISIBLE) {
                     if (i==0){
-                        i=19;
+                        i=11;
                     }
                     else {
                         i--;
@@ -658,20 +642,20 @@ public class MemoryGameMed extends MobileActivity {
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
-                if(i==0 ||i==1||i==2||i==3||i==4) {
-                    i = i+15;
+                if(i==0 ||i==1||i==2||i==3) {
+                    i = i+8;
                 }
                 else {
-                    i = i - 5;
+                    i = i - 4;
                 }
                 temp = imageArray[i];
                 while (temp.getVisibility() == View.INVISIBLE) {
 
-                    if(i==0 ||i==1||i==2||i==3||i==4) {
-                        i = i+15;
+                    if(i==0 ||i==1||i==2||i==3) {
+                        i = i+8;
                     }
                     else {
-                        i = i - 5;
+                        i = i - 4;
                     }
                     temp = imageArray[i];
                 }
@@ -697,20 +681,20 @@ public class MemoryGameMed extends MobileActivity {
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
 
-                if(i==15 ||i==16||i==17 ||i==18||i==19) {
-                    i = i-15;
+                if(i==8 ||i==9||i==10 ||i==11) {
+                    i = i-8;
                 }
                 else {
-                    i = i + 5;
+                    i = i + 4;
                 }
                 temp = imageArray[i];
                 while (temp.getVisibility() == View.INVISIBLE) {
 
-                    if(i==15 ||i==16||i==17 ||i==18||i==19) {
-                        i = i-15;
+                    if(i==8 ||i==9||i==10 ||i==11||i==12) {
+                        i = i-8;
                     }
                     else {
-                        i = i + 5;
+                        i = i + 4;
                     }
                     temp = imageArray[i];
                 }
@@ -829,22 +813,14 @@ public class MemoryGameMed extends MobileActivity {
             iv_12.setEnabled(false);
             iv_13.setEnabled(false);
             iv_14.setEnabled(false);
-            iv_15.setEnabled(false);
             iv_21.setEnabled(false);
             iv_22.setEnabled(false);
             iv_23.setEnabled(false);
             iv_24.setEnabled(false);
-            iv_25.setEnabled(false);
             iv_31.setEnabled(false);
             iv_32.setEnabled(false);
             iv_33.setEnabled(false);
             iv_34.setEnabled(false);
-            iv_35.setEnabled(false);
-            iv_41.setEnabled(false);
-            iv_42.setEnabled(false);
-            iv_43.setEnabled(false);
-            iv_44.setEnabled(false);
-            iv_45.setEnabled(false);
 
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -870,38 +846,21 @@ public class MemoryGameMed extends MobileActivity {
             }else if(clickedFirst==3){
                 iv_14.setVisibility(View.INVISIBLE);
             }else if(clickedFirst==4){
-                iv_15.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==5){
                 iv_21.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==6){
+            }else if(clickedFirst==5){
                 iv_22.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==7){
+            }else if(clickedFirst==6){
                 iv_23.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==8){
+            }else if(clickedFirst==7){
                 iv_24.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==9){
-                iv_25.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==10){
+            }else if(clickedFirst==8){
                 iv_31.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==11){
+            }else if(clickedFirst==9){
                 iv_32.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==12){
+            }else if(clickedFirst==10){
                 iv_33.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==13){
+            }else if(clickedFirst==11){
                 iv_34.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==14){
-                iv_35.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==15){
-                iv_41.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==16){
-                iv_42.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==17){
-                iv_43.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==18){
-                iv_44.setVisibility(View.INVISIBLE);
-            }else if(clickedFirst==19){
-                iv_45.setVisibility(View.INVISIBLE);
-
             }
 
 
@@ -914,81 +873,48 @@ public class MemoryGameMed extends MobileActivity {
             }else if(clickedSecond==3){
                 iv_14.setVisibility(View.INVISIBLE);
             }else if(clickedSecond==4){
-                iv_15.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==5){
                 iv_21.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==6){
+            }else if(clickedSecond==5){
                 iv_22.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==7){
+            }else if(clickedSecond==6){
                 iv_23.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==8){
+            }else if(clickedSecond==7){
                 iv_24.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==9){
-                iv_25.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==10){
+            }else if(clickedSecond==8){
                 iv_31.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==11){
+            }else if(clickedSecond==9){
                 iv_32.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==12){
+            }else if(clickedSecond==10){
                 iv_33.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==13){
+            }else if(clickedSecond==11){
                 iv_34.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==14){
-                iv_35.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==15){
-                iv_41.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==16){
-                iv_42.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==17){
-                iv_43.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==18){
-                iv_44.setVisibility(View.INVISIBLE);
-            }else if(clickedSecond==19){
-                iv_45.setVisibility(View.INVISIBLE);
             }
         }else{
             iv_11.setImageResource(R.drawable.memoryback);
             iv_12.setImageResource(R.drawable.memoryback);
             iv_13.setImageResource(R.drawable.memoryback);
             iv_14.setImageResource(R.drawable.memoryback);
-            iv_15.setImageResource(R.drawable.memoryback);
             iv_21.setImageResource(R.drawable.memoryback);
             iv_22.setImageResource(R.drawable.memoryback);
             iv_23.setImageResource(R.drawable.memoryback);
             iv_24.setImageResource(R.drawable.memoryback);
-            iv_25.setImageResource(R.drawable.memoryback);
             iv_31.setImageResource(R.drawable.memoryback);
             iv_32.setImageResource(R.drawable.memoryback);
             iv_33.setImageResource(R.drawable.memoryback);
             iv_34.setImageResource(R.drawable.memoryback);
-            iv_35.setImageResource(R.drawable.memoryback);
-            iv_41.setImageResource(R.drawable.memoryback);
-            iv_42.setImageResource(R.drawable.memoryback);
-            iv_43.setImageResource(R.drawable.memoryback);
-            iv_44.setImageResource(R.drawable.memoryback);
-            iv_45.setImageResource(R.drawable.memoryback);
-
         }
         iv_11.setEnabled(true);
         iv_12.setEnabled(true);
         iv_13.setEnabled(true);
         iv_14.setEnabled(true);
-        iv_15.setEnabled(true);
         iv_21.setEnabled(true);
         iv_22.setEnabled(true);
         iv_23.setEnabled(true);
         iv_24.setEnabled(true);
-        iv_25.setEnabled(true);
         iv_31.setEnabled(true);
         iv_32.setEnabled(true);
         iv_33.setEnabled(true);
         iv_34.setEnabled(true);
-        iv_35.setEnabled(true);
-        iv_41.setEnabled(true);
-        iv_42.setEnabled(true);
-        iv_43.setEnabled(true);
-        iv_44.setEnabled(true);
-        iv_45.setEnabled(true);
         //檢查遊戲結束
         checkEnd();
     }
@@ -997,22 +923,15 @@ public class MemoryGameMed extends MobileActivity {
                 iv_12.getVisibility() == View.INVISIBLE &&
                 iv_13.getVisibility() == View.INVISIBLE &&
                 iv_14.getVisibility() == View.INVISIBLE &&
-                iv_15.getVisibility() == View.INVISIBLE &&
                 iv_21.getVisibility() == View.INVISIBLE &&
                 iv_22.getVisibility() == View.INVISIBLE &&
                 iv_23.getVisibility() == View.INVISIBLE &&
                 iv_24.getVisibility() == View.INVISIBLE &&
-                iv_25.getVisibility() == View.INVISIBLE &&
                 iv_31.getVisibility() == View.INVISIBLE &&
                 iv_32.getVisibility() == View.INVISIBLE &&
                 iv_33.getVisibility() == View.INVISIBLE &&
-                iv_34.getVisibility() == View.INVISIBLE &&
-                iv_35.getVisibility() == View.INVISIBLE &&
-                iv_41.getVisibility() == View.INVISIBLE &&
-                iv_42.getVisibility() == View.INVISIBLE &&
-                iv_43.getVisibility() == View.INVISIBLE &&
-                iv_44.getVisibility() == View.INVISIBLE &&
-                iv_45.getVisibility() == View.INVISIBLE ) {
+                iv_34.getVisibility() == View.INVISIBLE
+             ) {
             //停止計時器的執行緒
             handler.removeCallbacks(updateTimer);
             //頁面跳轉
