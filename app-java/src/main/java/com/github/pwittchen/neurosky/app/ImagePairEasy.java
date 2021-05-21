@@ -75,10 +75,10 @@ public class ImagePairEasy extends MobileActivity {
             WatchGesture.JOINTTAP_UPPER_RING,
             WatchGesture.JOINTTAP_MIDDLE_LITTLE,
             //手臂快速移動
-            WatchGesture.MOVE_FOREARM_DOWN,
-            WatchGesture.MOVE_FOREARM_LEFT,
-            WatchGesture.MOVE_FOREARM_UP,
-            WatchGesture.MOVE_FOREARM_RIGHT,
+//            WatchGesture.MOVE_FOREARM_DOWN,
+//            WatchGesture.MOVE_FOREARM_LEFT,
+//            WatchGesture.MOVE_FOREARM_UP,
+//            WatchGesture.MOVE_FOREARM_RIGHT,
     };
 
     @Override

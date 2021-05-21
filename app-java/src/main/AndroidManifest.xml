@@ -67,7 +67,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Login"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape" />
         <activity
             android:name=".AttentionTestResult"
             android:screenOrientation="landscape" />
