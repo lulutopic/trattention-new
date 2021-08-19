@@ -154,8 +154,8 @@ public class AttentionTesting extends AppCompatActivity {
     }
     //STATE_CHANGE: 1(正在連線) 2(練線成功) 0(停止連線)
     private void handleStateChange(final State state) {
-        if (neuroSky != null && state.equals(State.CONNECTED)) {
-            neuroSky.start();
+//        if (neuroSky != null && state.equals(State.CONNECTED)) {
+//            neuroSky.start();
             //連線成功後樣式設定：顯示閱讀完畢、隱藏開始測驗按鈕
             Button stop_btn=(Button) findViewById(R.id.btn_stop_monitoring);
             stop_btn.setVisibility(View.VISIBLE);
@@ -172,6 +172,9 @@ public class AttentionTesting extends AppCompatActivity {
 
             TextView connect_article_textView=(TextView) findViewById(R.id.textView＿article);
             connect_article_textView.setVisibility(View.VISIBLE);
+
+            TextView connect_article_question=(TextView) findViewById(R.id.question);
+            connect_article_question.setVisibility(View.VISIBLE);
 
             //測驗開始提醒彈跳視窗
             AlertDialog.Builder builder = new AlertDialog.Builder(AttentionTesting.this);
@@ -201,7 +204,7 @@ public class AttentionTesting extends AppCompatActivity {
 
             handler.postDelayed(runnable, 1500);
 
-        }
+//        }
 
         tvState.setText(state.toString());
     }
@@ -340,7 +343,7 @@ public class AttentionTesting extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 connect_article_textView.setText(documentSnapshot.getString("content").replaceAll("\\\\n","\n"));
-                question.setText("請問文章中有幾個「"+documentSnapshot.getString("question")+"」呢");
+                question.setText("請找出文章中有幾個「"+documentSnapshot.getString("question")+"」");
                 answer=documentSnapshot.getString("answer");
             }
         });
