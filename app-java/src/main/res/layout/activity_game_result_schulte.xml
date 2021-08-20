@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="上次訓練秒數"
+                    android:text="最佳訓練秒數"
                     android:textColor="@color/blue"
                     android:textSize="30dp"
                     android:typeface="monospace"
