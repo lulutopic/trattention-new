@@ -128,7 +128,7 @@
                     android:id="@+id/pre_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="上次測驗"
+                    android:text="最佳測驗"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_marginHorizontal="55dp"/>
