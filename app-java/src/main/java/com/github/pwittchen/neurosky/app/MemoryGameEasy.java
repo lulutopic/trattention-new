@@ -204,11 +204,13 @@ public class MemoryGameEasy extends AppCompatActivity {
                };
 
         temp = imageArray[i];
+        TextView result = (TextView) findViewById(R.id.result);
 
         iv_11.setImageResource(R.drawable.memorybackground);
         right_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_RIGHT");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -252,6 +254,7 @@ public class MemoryGameEasy extends AppCompatActivity {
         left_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_LEFT");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -289,6 +292,7 @@ public class MemoryGameEasy extends AppCompatActivity {
         up_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_UP");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -325,6 +329,7 @@ public class MemoryGameEasy extends AppCompatActivity {
 
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_DOWN");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -363,6 +368,7 @@ public class MemoryGameEasy extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("THUMBTAP_INDEX_MIDDLE");
                 ok.setImageResource(R.drawable.ok2);
                 Timer t = new Timer(false);
                 t.schedule(new TimerTask() {

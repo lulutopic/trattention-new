@@ -214,9 +214,12 @@ public class MemoryGameMed extends AppCompatActivity {
         temp = imageArray[i];
 
         iv_11.setImageResource(R.drawable.memorybackground);
+        TextView result = (TextView) findViewById(R.id.result);
+
         right_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_RIGHT");
                 moved=1;
                 ok.setVisibility(View.VISIBLE);
                 int j=i;
@@ -259,6 +262,7 @@ public class MemoryGameMed extends AppCompatActivity {
         left_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_LEFT");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -299,6 +303,7 @@ public class MemoryGameMed extends AppCompatActivity {
         up_arrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_UP");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -337,6 +342,7 @@ public class MemoryGameMed extends AppCompatActivity {
 
             @Override
             public void onClick(View view){
+                result.setText("HANDBACK_DOWN");
                 moved=1;
                 setBtnStyle(view);
                 ok.setVisibility(View.VISIBLE);
@@ -375,6 +381,7 @@ public class MemoryGameMed extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                result.setText("THUMBTAP_INDEX_MIDDLE");
                 ok.setImageResource(R.drawable.ok2);
                 Timer t = new Timer(false);
                 t.schedule(new TimerTask() {

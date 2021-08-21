@@ -212,7 +212,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_down.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                result.setText("HANDBACK_UP");
+                result.setText("HANDBACK_DOWN");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row+=1;
@@ -235,7 +235,7 @@ public class SchulteGridEasy extends AppCompatActivity {
         btn_up.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                result.setText("HANDBACK_DOWN");
+                result.setText("HANDBACK_UP");
                 setBtnStyle(view);
                 clearRow(focus_row);
                 focus_row-=1;
