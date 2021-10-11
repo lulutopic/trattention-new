@@ -423,11 +423,13 @@ public class ImagePairMed extends MobileActivity {
 
     //監聽事件的函式
     private void setupViewsAndListeners(){
+        TextView result = (TextView) findViewById(R.id.result);
         button1.get(0).setBackgroundResource(optiona_border);
         btn_right.setOnClickListener(new View.OnClickListener(){
             @Override
             //設定點擊事件
             public void onClick(View v){
+                result.setText("HANDBACK_RIGHT");
                 setBtnStyle(v);
                 switch(clicked){
                     case(0):
@@ -460,6 +462,7 @@ public class ImagePairMed extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                result.setText("HANDBACK_LEFT");
                 setBtnStyle(v);
                 switch(clicked){
                     case(0):
@@ -492,6 +495,7 @@ public class ImagePairMed extends MobileActivity {
             @Override
             //設定點擊事件
             public void onClick(View v){
+                result.setText("THUMBTAP_INDEX_MIDDLE");
                 btn_ok.setImageResource(R.drawable.ok2);
                 Timer t = new Timer(false);
                 t.schedule(new TimerTask() {

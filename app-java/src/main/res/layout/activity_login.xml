@@ -43,6 +43,7 @@
             android:textColor="@color/blue"
             android:textSize="40sp"
             android:letterSpacing="0.2"/>
+
         <EditText
             android:id="@+id/email"
             android:layout_width="wrap_content"
@@ -50,8 +51,10 @@
             android:layout_below="@+id/title"
             android:layout_marginTop="@android:dimen/app_icon_size"
             android:ems="10"
+            android:hint="信箱"
             android:inputType="textEmailAddress"
-            android:hint="信箱"/>
+            android:text="michellechen58@gmail.com" />
+
         <EditText
             android:id="@+id/password"
             android:layout_width="wrap_content"
@@ -59,8 +62,9 @@
             android:layout_below="@+id/email"
             android:layout_marginTop="@android:dimen/app_icon_size"
             android:ems="10"
+            android:hint="密碼"
             android:inputType="textPassword"
-            android:hint="密碼"/>
+            android:text="123456" />
         <TextView
             android:id="@+id/ForgetPassword"
             android:layout_width="wrap_content"

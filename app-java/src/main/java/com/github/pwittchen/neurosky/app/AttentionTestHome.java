@@ -147,7 +147,7 @@ public class AttentionTestHome extends AppCompatActivity {
                             if(attentionList.size() >= 2){
                                 float pre = Float.parseFloat(attentionList.get(attentionList.size()-2).toString());
                                 float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
-                                show(PreChart,pre,pre_text,"上次測驗");
+                                show(PreChart,pre,pre_text,"最佳測驗");
                                 show(CurChart,cur,cur_text,"此次測驗");
 //                                pre_attention.setText(attentionList.get(attentionList.size()-2).toString());
 //                                cur_attention.setText(attentionList.get(attentionList.size()-1).toString());
@@ -155,7 +155,7 @@ public class AttentionTestHome extends AppCompatActivity {
                             else{
                                 float cur = Float.parseFloat(attentionList.get(attentionList.size()-1).toString());
                                 pre_text = "無";
-                                show(PreChart,0,pre_text,"上次測驗");
+                                show(PreChart,0,pre_text,"最佳測驗");
                                 show(CurChart,cur,cur_text,"此次測驗");
                             }
 

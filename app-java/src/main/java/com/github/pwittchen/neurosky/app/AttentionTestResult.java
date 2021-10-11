@@ -175,7 +175,7 @@ public class AttentionTestResult extends AppCompatActivity {
                             String pre_text = "無";
                             float cur = Float.parseFloat(cur_text);
 
-                            show(PreChart,0,pre_text,"上次測驗");
+                            show(PreChart,0,pre_text,"最佳測驗");
                             show(CurChart,cur,cur_text,"此次測驗");
 
                             text_all(values1);

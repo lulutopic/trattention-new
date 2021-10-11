@@ -87,10 +87,10 @@ public class GameResultSchulte extends AppCompatActivity {
                                 int compareRecord = Integer.parseInt(compareList.get(compareList.size()-1).toString()) - Integer.parseInt(compareList.get(compareList.size()-2).toString());
                                 differSeconds.setText(valueOf(Math.abs(compareRecord)));
                                 if(compareRecord > 0){
-                                    recordCompare.setText("比上次退步"+Math.abs(compareRecord));
+                                    recordCompare.setText("比最佳秒數退步"+Math.abs(compareRecord));
                                 }
                                 else{
-                                    recordCompare.setText("比上次進步"+Math.abs(compareRecord));
+                                    recordCompare.setText("比最佳秒數進步"+Math.abs(compareRecord));
                                 }
                             }
                             else{
