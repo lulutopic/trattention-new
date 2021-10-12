@@ -775,7 +775,7 @@ public class MemoryGamePro extends MobileActivity {
                         doStuff(temp, theCard);
                     }
                     moved=0;
-                    ok.setImageResource(R.drawable.ok2);
+                    ok.setImageResource(R.drawable.ok1);
                 }
 
             }

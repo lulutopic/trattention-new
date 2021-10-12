@@ -170,10 +170,9 @@ public class MemoryGameMed extends MobileActivity {
         ImageView up_arrow = findViewById(R.id.up_arrow);
         ImageView down_arrow = findViewById(R.id.down_arrow);
 
-        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,iv_15,
-                iv_21,iv_22,iv_23,iv_24,iv_25,
-                iv_31,iv_32,iv_33,iv_34,iv_35,
-                iv_41,iv_42,iv_43,iv_44,iv_45};
+        ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,
+                iv_21,iv_22,iv_23,iv_24,
+                iv_31,iv_32,iv_33,iv_34};
 
         ok.setVisibility(View.VISIBLE);
 
@@ -747,7 +746,7 @@ public class MemoryGameMed extends MobileActivity {
                         doStuff(temp, theCard);
                     }
                     moved=0;
-                    ok.setImageResource(R.drawable.ok2);
+                    ok.setImageResource(R.drawable.ok1);
                 }
 
             }

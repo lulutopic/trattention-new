@@ -213,8 +213,7 @@ public class MemoryGamePractice extends MobileActivity {
 
                 ImageView[] imageArray = {iv_11,iv_12,iv_13,iv_14,
                         iv_21,iv_22,iv_23,iv_24,
-                        iv_31,iv_32,iv_33,iv_34,
-                        iv_41,iv_42,iv_43,iv_44};
+                        };
                 ok.setVisibility(View.VISIBLE);
                 //手勢控制方向向上
                 if(gesture == WatchGesture.HANDBACK_UP || gesture == WatchGesture.JOINTTAP_MIDDLE_LITTLE){
@@ -755,7 +754,7 @@ public class MemoryGamePractice extends MobileActivity {
                         doStuff(temp, theCard);
                     }
                     moved=0;
-                    ok.setImageResource(R.drawable.ok2);
+                    ok.setImageResource(R.drawable.ok1);
                 }
 
             }
